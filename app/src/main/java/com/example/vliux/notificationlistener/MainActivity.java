@@ -5,13 +5,17 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
-import android.support.annotation.StringDef;
-import android.support.v4.app.NotificationManagerCompat;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -19,18 +23,37 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mTv;
+    private RecyclerView mRecyclerView;
+    private FloatingActionButton mFab;
+    private Adapter mAdapter;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         EventBus.getDefault().register(this);
-        mTv = (TextView)findViewById(R.id.tv);
-        mTv.setMovementMethod(new ScrollingMovementMethod());
+        mRecyclerView = (RecyclerView)findViewById(R.id.rv);
+        mFab = (FloatingActionButton)findViewById(R.id.fab);
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAdapter.notifyDataSetChanged();
+                ensureListening();
+            }
+        });
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter = new Adapter();
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.notifyDataSetChanged();
+            }
+        }, 1000L);
     }
     
     @Override
@@ -39,7 +62,13 @@ public class MainActivity extends AppCompatActivity {
         EventBus.getDefault().unregister(this);
     }
     
-    public void onClick(final View view){
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    
+    private void ensureListening(){
         startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
     }
 
@@ -54,9 +83,56 @@ public class MainActivity extends AppCompatActivity {
     }
     
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onNotificationEvent(final Event event){
-        mTv.append(Html.fromHtml("\n" + String.format("<b>p=%s,g=%s,</b>", event.pkg, event.group, event.key)));
-        mTv.append(Html.fromHtml("\n" + String.format("<b>t=%s,k=%s</b>", new Date(event.time).toString(), event.key)));
-        mTv.append(event.text);
+    public void onNotificationEvent(final NotificationRecord notificationRecord){
+        mAdapter.add(notificationRecord);
+    }
+    
+    private class Adapter extends RecyclerView.Adapter<ViewHolder> {
+        private NotificationRecordStorage mStorage;
+    
+        public Adapter() {
+            super();
+            this.mStorage = new NotificationRecordStorage();
+        }
+        
+        public void add(final NotificationRecord record){
+            this.mStorage.add(record);
+            notifyDataSetChanged();
+        }
+    
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            Log.d("vliux", "onCreateViewHolder()");
+            final View cardView = LayoutInflater.from(MainActivity.this).inflate(R.layout.item_notif, parent, false);
+            return new ViewHolder(cardView);
+        }
+    
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            Log.d("vliux", "onBindViewHolder()");
+            final NotificationRecord record = mStorage.get().get(position);
+            holder.mTvTitle.setText(record.title);
+            holder.mTvContent.setText(record.text);
+            holder.mTvApp.setText(record.pkg);
+        }
+    
+        @Override
+        public int getItemCount() {
+            Log.d("vliux", "getItemCount()=" + mStorage.get().size());
+            return mStorage.get().size();
+        }
+    }
+    
+    private class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView mTvTitle;
+        private TextView mTvContent;
+        private TextView mTvApp;
+        
+        public ViewHolder(View itemView) {
+            super(itemView);
+            mTvTitle = (TextView)itemView.findViewById(R.id.tv_title);
+            mTvContent = (TextView)itemView.findViewById(R.id.tv_content);
+            mTvApp = (TextView)itemView.findViewById(R.id.tv_app);
+        }
     }
 }

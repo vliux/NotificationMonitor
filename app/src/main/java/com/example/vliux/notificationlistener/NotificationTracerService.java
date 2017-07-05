@@ -52,12 +52,13 @@ public class NotificationTracerService extends NotificationListenerService {
         final String key = sbn.getKey();
         
         final Notification notification = sbn.getNotification();
-        final String text = notification.extras.toString();
+        final String title = NotificationParser.getTitle(notification.extras);
+        final String text = NotificationParser.geText(notification.extras);
         
         Log.d(TAG, String.format("  Notification: pkg=%s, groupkey=%s, key=%s",
                 pkg, group, key));
         Log.d(TAG, "   \\_ " + text);
-        EventBus.getDefault().post(new Event(pkg, group, key, text, time));
+        EventBus.getDefault().post(new NotificationRecord(pkg, group, key, title, text, time));
     }
     
     private NotificationStats mNofiticationStats;

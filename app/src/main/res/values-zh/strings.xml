@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">通知监听器</string>
+    <string name="settings">设置</string>
+    <string name="post">提交一条通知</string>
+</resources>
