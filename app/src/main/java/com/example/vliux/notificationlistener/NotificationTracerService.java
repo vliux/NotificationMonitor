@@ -3,6 +3,7 @@ package com.example.vliux.notificationlistener;
 import android.app.Notification;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
+import android.text.TextUtils;
 import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
@@ -58,7 +59,8 @@ public class NotificationTracerService extends NotificationListenerService {
         Log.d(TAG, String.format("  Notification: pkg=%s, groupkey=%s, key=%s",
                 pkg, group, key));
         Log.d(TAG, "   \\_ " + text);
-        EventBus.getDefault().post(new NotificationRecord(pkg, group, key, title, text, time));
+        if(!TextUtils.isEmpty(title) && !TextUtils.isEmpty(text))
+            EventBus.getDefault().post(new NotificationRecord(pkg, group, key, title, text, time));
     }
     
     private NotificationStats mNofiticationStats;
