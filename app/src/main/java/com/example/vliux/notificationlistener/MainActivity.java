@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -111,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
             holder.mTvTitle.setText(record.title);
             holder.mTvContent.setText(record.text);
             holder.mTvApp.setText(record.pkg);
+            holder.mTvTime.setText(new Date(record.time).toString());
         }
     
         @Override
@@ -123,12 +125,14 @@ public class MainActivity extends AppCompatActivity {
         private TextView mTvTitle;
         private TextView mTvContent;
         private TextView mTvApp;
+        private TextView mTvTime;
         
         public ViewHolder(View itemView) {
             super(itemView);
             mTvTitle = (TextView)itemView.findViewById(R.id.tv_title);
             mTvContent = (TextView)itemView.findViewById(R.id.tv_content);
             mTvApp = (TextView)itemView.findViewById(R.id.tv_app);
+            mTvTime = (TextView)itemView.findViewById(R.id.tv_time);
         }
     }
 }

@@ -31,6 +31,15 @@
             tools:text="七号狗熊"/>
 
         <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/hint_text_light"
+            android:layout_marginBottom="@dimen/item_inter_margin"
+            tools:text="2017-9-3 12:34:01"/>
+
+        <TextView
             android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
