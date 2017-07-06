@@ -30,7 +30,7 @@ public class NotificationRecordStorage {
                 final String pkg = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_PKG));
                 final String title = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_TITLE));
                 final String text = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_TEXT));
-                final long time = cursor.getLong(cursor.getColumnIndex(NotificationRecord.COL_TITLE));
+                final long time = cursor.getLong(cursor.getColumnIndex(NotificationRecord.COL_TIME));
                 records.add(new NotificationRecord(pkg, title, text, time));
             }
             return records;

@@ -60,7 +60,7 @@ public class NotificationTracerService extends NotificationListenerService {
         final String title = NotificationParser.getTitle(notification.extras);
         final String text = NotificationParser.geText(notification.extras);
         
-        Log.d(TAG, String.format("  Notification: pkg=%s", pkg));
+        Log.d(TAG, String.format("  Notification: pkg=%s, t=%d", pkg, time));
         Log.d(TAG, "   \\_ " + text);
         if(!TextUtils.isEmpty(title) && !TextUtils.isEmpty(text)) {
             final Uri uri = mStorage.add(new NotificationRecord(pkg, title, text, time));
