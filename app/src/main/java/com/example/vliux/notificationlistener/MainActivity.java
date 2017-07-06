@@ -18,6 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.vliux.notificationlistener.data.NotificationRecord;
+import com.example.vliux.notificationlistener.data.NotificationRecordStorage;
+
 import java.util.Date;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.vliux.notificationlistener;
+package com.example.vliux.notificationlistener.service;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -9,7 +9,7 @@ import android.preference.PreferenceManager;
  * Package-wise notification state tracing.
  */
 
-public class NotificationStats {
+class NotificationStats {
     public NotificationStats(final Context context){
         mSp = context.getSharedPreferences("notif_stats", Context.MODE_PRIVATE);
     }

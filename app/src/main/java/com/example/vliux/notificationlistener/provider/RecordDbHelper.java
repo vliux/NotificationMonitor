@@ -6,9 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.vliux.notificationlistener.NotificationRecord;
-
-import static com.example.vliux.notificationlistener.NotificationRecord.*;
+import static com.example.vliux.notificationlistener.data.NotificationRecord.*;
 
 /**
  * Created by vliux on 17/7/6.

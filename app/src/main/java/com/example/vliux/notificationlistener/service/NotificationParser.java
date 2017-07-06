@@ -1,4 +1,4 @@
-package com.example.vliux.notificationlistener;
+package com.example.vliux.notificationlistener.service;
 
 import android.os.Bundle;
 

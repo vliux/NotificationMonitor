@@ -1,4 +1,4 @@
-package com.example.vliux.notificationlistener;
+package com.example.vliux.notificationlistener.data;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,8 +11,6 @@ import com.example.vliux.notificationlistener.provider.NotificationRecordProvide
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.vliux.notificationlistener.NotificationRecord.*;
 
 /**
  * Created by vliux on 17/7/5.
@@ -29,11 +27,11 @@ public class NotificationRecordStorage {
         if(null != cursor){
             final List<NotificationRecord> records = new ArrayList<>(cursor.getCount());
             for(cursor.moveToFirst(); cursor.moveToNext();){
-                final String pkg = cursor.getString(cursor.getColumnIndex(COL_PKG));
-                final String title = cursor.getString(cursor.getColumnIndex(COL_TITLE));
-                final String text = cursor.getString(cursor.getColumnIndex(COL_TEXT));
-                final long time = cursor.getLong(cursor.getColumnIndex(COL_TITLE));
-                records.add(new NotificationRecord(pkg, null, null, title, text, time));
+                final String pkg = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_PKG));
+                final String title = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_TITLE));
+                final String text = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_TEXT));
+                final long time = cursor.getLong(cursor.getColumnIndex(NotificationRecord.COL_TITLE));
+                records.add(new NotificationRecord(pkg, title, text, time));
             }
             return records;
         }
@@ -43,10 +41,10 @@ public class NotificationRecordStorage {
     public Uri add(@NonNull final NotificationRecord record){
         if(null != record) {
             final ContentValues cv = new ContentValues();
-            cv.put(COL_PKG, record.pkg);
-            cv.put(COL_TITLE, record.title);
-            cv.put(COL_TEXT, record.text);
-            cv.put(COL_TIME, record.time);
+            cv.put(NotificationRecord.COL_PKG, record.pkg);
+            cv.put(NotificationRecord.COL_TITLE, record.title);
+            cv.put(NotificationRecord.COL_TEXT, record.text);
+            cv.put(NotificationRecord.COL_TIME, record.time);
             return mContext.getContentResolver().insert(NotificationRecordProvider.RECORD_CONTENT_URI, cv);
         }
         return null;

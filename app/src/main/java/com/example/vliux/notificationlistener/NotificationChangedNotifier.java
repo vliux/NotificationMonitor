@@ -9,18 +9,18 @@ import android.content.IntentFilter;
  * Created by vliux on 17/7/6.
  */
 
-class NotificationChangedNotifier {
-    static void notify(final Context context){
+public class NotificationChangedNotifier {
+    public static void notify(final Context context){
         context.getApplicationContext()
                 .sendBroadcast(new Intent(ACTION_NOTIFICATION_CAHNGED).setPackage(context.getPackageName()));
     }
     
-    static void register(final Context context, final BroadcastReceiver receiver){
+    public static void register(final Context context, final BroadcastReceiver receiver){
         context.getApplicationContext()
                 .registerReceiver(receiver, new IntentFilter(ACTION_NOTIFICATION_CAHNGED));
     }
     
-    static void unregister(final Context context, final BroadcastReceiver receiver){
+    public static void unregister(final Context context, final BroadcastReceiver receiver){
         context.getApplicationContext()
                 .unregisterReceiver(receiver);
     }
