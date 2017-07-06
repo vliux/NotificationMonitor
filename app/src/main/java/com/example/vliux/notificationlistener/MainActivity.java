@@ -2,6 +2,7 @@ package com.example.vliux.notificationlistener;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
@@ -10,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,11 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,12 +25,13 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private FloatingActionButton mFab;
     private Adapter mAdapter;
+    private NotificationRecordStorage mStorage;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        EventBus.getDefault().register(this);
+        mStorage = new NotificationRecordStorage(MainActivity.this);
         mRecyclerView = (RecyclerView)findViewById(R.id.rv);
         mFab = (FloatingActionButton)findViewById(R.id.fab);
         mFab.setOnClickListener(new View.OnClickListener() {
@@ -46,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new Adapter();
+        mAdapter = new Adapter(mStorage.get());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.postDelayed(new Runnable() {
             @Override
@@ -59,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
     
     @Override
@@ -72,6 +67,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
     }
 
+    private BroadcastReceiver mNotifChangedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mAdapter.setRecords(mStorage.get());
+        }
+    };
+    
     public void onPostNotificationClick(final View view){
         final NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         final Notification notification = new Notification.Builder(this)
@@ -82,21 +84,16 @@ public class MainActivity extends AppCompatActivity {
         notificationManager.notify(100, notification);
     }
     
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onNotificationEvent(final NotificationRecord notificationRecord){
-        mAdapter.add(notificationRecord);
-    }
-    
     private class Adapter extends RecyclerView.Adapter<ViewHolder> {
-        private NotificationRecordStorage mStorage;
+        private List<NotificationRecord> mRecords;
     
-        public Adapter() {
+        public Adapter(final List<NotificationRecord> records) {
             super();
-            this.mStorage = new NotificationRecordStorage();
+            mRecords = records;
         }
         
-        public void add(final NotificationRecord record){
-            this.mStorage.add(record);
+        public void setRecords(final List<NotificationRecord> records){
+            mRecords = records;
             notifyDataSetChanged();
         }
     
@@ -110,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             Log.d("vliux", "onBindViewHolder()");
-            final NotificationRecord record = mStorage.get().get(position);
+            final NotificationRecord record = mRecords.get(position);
             holder.mTvTitle.setText(record.title);
             holder.mTvContent.setText(record.text);
             holder.mTvApp.setText(record.pkg);
@@ -118,8 +115,7 @@ public class MainActivity extends AppCompatActivity {
     
         @Override
         public int getItemCount() {
-            Log.d("vliux", "getItemCount()=" + mStorage.get().size());
-            return mStorage.get().size();
+            return null != mRecords ? mRecords.size() : 0;
         }
     }
     

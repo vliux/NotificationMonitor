@@ -5,6 +5,13 @@ package com.example.vliux.notificationlistener;
  */
 
 public class NotificationRecord {
+    public static final String DB_TABLE = "records";
+    public static final String COL_ID = "_ID";
+    public static final String COL_TIME = "time";
+    public static final String COL_TITLE = "title";
+    public static final String COL_TEXT = "text";
+    public static final String COL_PKG = "pkg";
+    
     public String pkg;
     public String group;
     public String key;
