@@ -41,7 +41,7 @@ public class RecordDbHelper extends SQLiteOpenHelper {
     public Cursor queryRecords(){
         return getReadableDatabase().query(DB_TABLE, COLOLUMS,
                 null, null,
-                COL_PKG,
+                null,
                 null,
                 COL_TIME + " desc");
     }

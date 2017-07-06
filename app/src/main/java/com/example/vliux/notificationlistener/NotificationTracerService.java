@@ -1,6 +1,7 @@
 package com.example.vliux.notificationlistener;
 
 import android.app.Notification;
+import android.net.Uri;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
@@ -58,7 +59,8 @@ public class NotificationTracerService extends NotificationListenerService {
         Log.d(TAG, String.format("  Notification: pkg=%s", pkg));
         Log.d(TAG, "   \\_ " + text);
         if(!TextUtils.isEmpty(title) && !TextUtils.isEmpty(text)) {
-            mStorage.add(new NotificationRecord(pkg, null, null, title, text, time));
+            final Uri uri = mStorage.add(new NotificationRecord(pkg, null, null, title, text, time));
+            Log.d(TAG, "   \\_ " + uri);
             NotificationChangedNotifier.notify(this);
         }
     }

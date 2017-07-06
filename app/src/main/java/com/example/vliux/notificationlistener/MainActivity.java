@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAdapter.notifyDataSetChanged();
                 ensureListening();
             }
         });
@@ -58,6 +57,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         NotificationChangedNotifier.unregister(this, mNotifChangedReceiver);
+    }
+    
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAdapter.setRecords(mStorage.get());
     }
     
     @Override
