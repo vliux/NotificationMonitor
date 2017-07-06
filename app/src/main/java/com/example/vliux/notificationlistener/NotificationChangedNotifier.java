@@ -20,5 +20,10 @@ class NotificationChangedNotifier {
                 .registerReceiver(receiver, new IntentFilter(ACTION_NOTIFICATION_CAHNGED));
     }
     
+    static void unregister(final Context context, final BroadcastReceiver receiver){
+        context.getApplicationContext()
+                .unregisterReceiver(receiver);
+    }
+    
     private static final String ACTION_NOTIFICATION_CAHNGED = "com.vliux.notification.NOTIF_CHANGED";
 }

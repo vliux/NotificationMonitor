@@ -51,11 +51,13 @@ public class MainActivity extends AppCompatActivity {
                 mAdapter.notifyDataSetChanged();
             }
         }, 1000L);
+        NotificationChangedNotifier.register(this, mNotifChangedReceiver);
     }
     
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        NotificationChangedNotifier.unregister(this, mNotifChangedReceiver);
     }
     
     @Override
