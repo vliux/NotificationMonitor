@@ -5,13 +5,12 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,14 +18,15 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.vliux.notificationlistener.data.NotificationRecord;
 import com.example.vliux.notificationlistener.data.NotificationRecordStorage;
-import com.example.vliux.notificationlistener.util.AppExecutors;
 import com.example.vliux.notificationlistener.util.Apps;
 
 import java.lang.ref.WeakReference;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ensureListening();
+                
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -83,8 +83,32 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
     
-    private void ensureListening(){
-        startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_bind:
+                showBindingDialog();
+                break;
+            case R.id.action_setting:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
+    private void showBindingDialog(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setMessage(R.string.goto_bind_msg)
+                .setCancelable(true)
+                .setPositiveButton(R.string.goto_bind, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
+                        Toast.makeText(MainActivity.this,
+                                getString(R.string.goto_bind_msg_2, getString(R.string.service_name)),
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+        builder.show();
     }
 
     private BroadcastReceiver mNotifChangedReceiver = new BroadcastReceiver() {
