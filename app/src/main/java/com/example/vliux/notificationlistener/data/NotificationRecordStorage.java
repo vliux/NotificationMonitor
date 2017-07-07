@@ -26,7 +26,7 @@ public class NotificationRecordStorage {
         final Cursor cursor = mContext.getContentResolver().query(NotificationRecordProvider.RECORD_CONTENT_URI, null, null, null, null);
         if(null != cursor){
             final List<NotificationRecord> records = new ArrayList<>(cursor.getCount());
-            for(cursor.moveToFirst(); cursor.moveToNext();){
+            for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
                 final String pkg = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_PKG));
                 final String title = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_TITLE));
                 final String text = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_TEXT));

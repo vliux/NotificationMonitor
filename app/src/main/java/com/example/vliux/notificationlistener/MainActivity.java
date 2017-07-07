@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
     
-    public void onPostNotificationClick(final View view){
+    /*public void onPostNotificationClick(final View view){
         final NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         final Notification notification = new Notification.Builder(this)
                 .setSmallIcon(android.R.drawable.ic_btn_speak_now)
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 .setContentText("CONTENT=" + System.currentTimeMillis())
                 .build();
         notificationManager.notify(100, notification);
-    }
+    }*/
     
     private class Adapter extends RecyclerView.Adapter<ViewHolder> {
         private List<NotificationRecord> mRecords;
