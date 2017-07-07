@@ -48,7 +48,7 @@ public class NotificationTracerService extends NotificationListenerService {
     private void processNotification(final StatusBarNotification sbn){
         final String pkg = sbn.getPackageName();
         final long time = sbn.getPostTime();
-        if(mNofiticationStats.getLastTime(pkg) > time){
+        if(mNofiticationStats.getLastTime(pkg) >= time){
             Log.w(TAG, "notification.time < recorded_time for " + pkg);
             return;
         }
@@ -65,6 +65,7 @@ public class NotificationTracerService extends NotificationListenerService {
         if(!TextUtils.isEmpty(title) && !TextUtils.isEmpty(text)) {
             final Uri uri = mStorage.add(new NotificationRecord(pkg, title, text, time));
             Log.d(TAG, "   \\_ " + uri);
+            mNofiticationStats.setLastTime(pkg, time);
             NotificationChangedNotifier.notify(this);
         }
     }

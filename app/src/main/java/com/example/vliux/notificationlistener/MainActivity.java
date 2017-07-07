@@ -1,10 +1,15 @@
 package com.example.vliux.notificationlistener;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -16,11 +21,15 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.example.vliux.notificationlistener.data.NotificationRecord;
 import com.example.vliux.notificationlistener.data.NotificationRecordStorage;
+import com.example.vliux.notificationlistener.util.AppExecutors;
+import com.example.vliux.notificationlistener.util.Apps;
 
+import java.lang.ref.WeakReference;
 import java.util.Date;
 import java.util.List;
 
@@ -121,13 +130,17 @@ public class MainActivity extends AppCompatActivity {
             final NotificationRecord record = mRecords.get(position);
             holder.mTvTitle.setText(record.title);
             holder.mTvContent.setText(record.text);
-            holder.mTvApp.setText(record.pkg);
             holder.mTvTime.setText(new Date(record.time).toString());
+            loadIconAsync(record.pkg, holder.mTvApp);
         }
     
         @Override
         public int getItemCount() {
             return null != mRecords ? mRecords.size() : 0;
+        }
+        
+        private void loadIconAsync(final String pkg, final TextView tv){
+            new AppInfoAsyncTask(MainActivity.this, tv, pkg).execute();
         }
     }
     
@@ -143,6 +156,48 @@ public class MainActivity extends AppCompatActivity {
             mTvContent = (TextView)itemView.findViewById(R.id.tv_content);
             mTvApp = (TextView)itemView.findViewById(R.id.tv_app);
             mTvTime = (TextView)itemView.findViewById(R.id.tv_time);
+        }
+    }
+    
+    private static class AppInfoAsyncTask extends AsyncTask<Void, Integer, Apps.AppDesc>{
+        private WeakReference<Activity> mActivity;
+        private WeakReference<TextView> mTv;
+        private String mPkg;
+        
+        AppInfoAsyncTask(final Activity activity, final TextView tv, final String pkg){
+            mActivity = new WeakReference<Activity>(activity);
+            mTv = new WeakReference<TextView>(tv);
+            mPkg = pkg;
+        }
+        
+        @Override
+        protected Apps.AppDesc doInBackground(Void... params) {
+            final Activity activity = mActivity.get();
+            if(null != activity) {
+                return Apps.of(activity, mPkg);
+            }
+            return null;
+        }
+    
+        @Override
+        protected void onPostExecute(final Apps.AppDesc appDesc) {
+            final TextView tv = mTv.get();
+            if(null != tv){
+                tv.setText(appDesc.label);
+                if(null != appDesc.icon){
+                    tv.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            tv.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            appDesc.icon.setBounds(0, 0,
+                                    tv.getMeasuredHeight(),
+                                    tv.getMeasuredHeight());
+                            tv.setCompoundDrawables(appDesc.icon, null, null, null);
+                        }
+                    });
+                    tv.requestLayout();
+                }
+            }
         }
     }
 }
