@@ -18,10 +18,4 @@ public class UserGuideManager {
         
     }
     
-    static SharedPreferences getSharedPreferences(final Context context){
-        return PreferenceManager.getDefaultSharedPreferences(context);
-    }
-    
-    public static final String KEY_WECHAT_ONLY = "wechat_only";
-    static final boolean DEFAULT_WECHAT_ONLY = true;
 }

@@ -10,6 +10,9 @@ import android.util.Log;
 import com.example.vliux.notificationlistener.NotificationChangedNotifier;
 import com.example.vliux.notificationlistener.data.NotificationRecord;
 import com.example.vliux.notificationlistener.data.NotificationRecordStorage;
+import com.example.vliux.notificationlistener.util.AppSettings;
+
+import static com.example.vliux.notificationlistener.Constants.Settings.*;
 
 /**
  * Created by vliux on 17/4/27.
@@ -21,6 +24,7 @@ public class NotificationTracerService extends NotificationListenerService {
         super.onListenerConnected();
         Log.d(TAG, "*** Current active notifications:");
         mNofiticationStats = new NotificationStats(this);
+        mAppSettings = new AppSettings(this);
         mStorage = new NotificationRecordStorage(this);
         for(final StatusBarNotification sbn : getActiveNotifications()){
             processNotification(sbn);
@@ -53,6 +57,10 @@ public class NotificationTracerService extends NotificationListenerService {
     
     private void processNotification(final StatusBarNotification sbn){
         final String pkg = sbn.getPackageName();
+        if(mAppSettings.get(KEY_WECHAT_ONLY, DEFAULT_WECHAT_ONLY) && !PKG_WECHAT.equals(pkg)){
+            Log.w(TAG, "WECHAT_ONLY mode, current pkg is not WeChat: " + pkg);
+            return;
+        }
         final long time = sbn.getPostTime();
         if(mNofiticationStats.getLastTime(pkg) >= time){
             Log.w(TAG, "notification.time < recorded_time for " + pkg);
@@ -78,6 +86,7 @@ public class NotificationTracerService extends NotificationListenerService {
     
     private NotificationRecordStorage mStorage;
     private NotificationStats mNofiticationStats;
+    private AppSettings mAppSettings;
     private static final String TAG = NotificationTracerService.class.getSimpleName();
     
 }

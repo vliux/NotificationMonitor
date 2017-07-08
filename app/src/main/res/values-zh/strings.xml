@@ -3,7 +3,7 @@
     <string name="settings">设置</string>
     <string name="monitoring">开启监听</string>
     <string name="service_name">数闻服务</string>
-    <string name="goto_bind">去赋予权限...</string>
+    <string name="goto_bind"><u>去赋予权限...</u></string>
     <string name="goto_bind_msg">要开始监听通知，您需要在系统设置中赋予通知使用权。</string>
     <string name="goto_bind_msg_2">请打开\"%1$s\"所对应的开关。</string>
 </resources>

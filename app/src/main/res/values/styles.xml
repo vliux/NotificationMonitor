@@ -26,4 +26,10 @@
         <item name="android:lineSpacingMultiplier">1.1</item>
     </style>
 
+    <style name="GuideActionButton" parent="Widget.AppCompat.Button.Borderless.Colored">
+        <item name="android:textSize">@dimen/txt_larger</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
 </resources>

@@ -30,28 +30,29 @@
             android:layout_height="wrap_content"
             android:showText="false"
             style="@style/GuideContentText"
+            android:textColor="@color/hint_text_light"
             android:layout_marginBottom="@dimen/item_margin_verti"/>
 
         <View android:layout_width="match_parent"
               android:layout_height="1px"
               android:background="@color/divider_light"
-              android:layout_marginBottom="@dimen/item_margin_verti"/>
+              android:layout_marginBottom="@dimen/guide_out_margin_verti"
+              android:layout_marginTop="@dimen/guide_out_margin_verti"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/guide_explain_2"
             style="@style/GuideContentText"
+            android:layout_marginTop="@dimen/item_margin_verti_small"
             android:layout_marginBottom="@dimen/item_margin_verti_small"/>
 
         <Button
             android:id="@+id/btn_bind"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/item_margin_verti"
             android:text="@string/goto_bind"
-            android:textSize="@dimen/txt_larger"
-            android:textColor="@color/colorPrimary"/>
+            style="@style/GuideActionButton"/>
     </LinearLayout>
 
 </com.android.setupwizardlib.SetupWizardLayout>
