@@ -2,7 +2,6 @@ package com.example.vliux.notificationlistener.guide;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 /**
@@ -10,12 +9,20 @@ import android.preference.PreferenceManager;
  */
 
 public class UserGuideManager {
-    public static void showUserGuideIfNeeded(final Context context){
-        context.startActivity(new Intent(context, UserGuideActivity.class));
+    public static boolean showUserGuideIfNeeded(final Context context){
+        if(!PreferenceManager.getDefaultSharedPreferences(context).getBoolean(KEY_GUIDE_SHOWN, false)) {
+            context.startActivity(new Intent(context, UserGuideActivity.class));
+            return true;
+        }
+        return false;
     }
     
     static void setUserGuideShown(final Context context){
-        
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putBoolean(KEY_GUIDE_SHOWN, true)
+                .apply();
     }
     
+    private static final String KEY_GUIDE_SHOWN = "guide_shown";
 }

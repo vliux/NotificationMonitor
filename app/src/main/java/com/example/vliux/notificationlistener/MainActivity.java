@@ -43,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(UserGuideManager.showUserGuideIfNeeded(this))
+            finish();
+        
         setContentView(R.layout.activity_main);
         mStorage = new NotificationRecordStorage(MainActivity.this);
         mRecyclerView = (RecyclerView)findViewById(R.id.rv);
@@ -63,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 1000L);
         NotificationChangedNotifier.register(this, mNotifChangedReceiver);
-        UserGuideManager.showUserGuideIfNeeded(this);
     }
     
     @Override

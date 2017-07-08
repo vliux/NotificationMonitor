@@ -21,4 +21,9 @@ public class UserGuideActivity extends Activity {
                 .replace(R.id.container, fragment, UserGuideFragment.class.getSimpleName())
                 .commit();
     }
+    
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }
