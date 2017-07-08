@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <Preference
+    <!--<Preference
         android:key="@string/pref_pkg_id"
         android:title="@string/pref_pkg"
         android:dialogTitle="@string/pref_pkg_summary"/>
@@ -8,5 +8,5 @@
         android:key="@string/pref_sys_notif_id"
         android:title="@string/pref_sys_notif_title"
         android:summary="@string/pref_sys_notif_summary"
-        android:defaultValue="false"/>
+        android:defaultValue="false"/>-->
 </PreferenceScreen>

@@ -2,8 +2,13 @@
     <string name="app_name">Giraffe</string>
     <string name="settings">设置</string>
     <string name="monitoring">开启监听</string>
-    <string name="service_name">数闻服务</string>
+    <string name="service_name">Giraffe服务</string>
     <string name="goto_bind"><u>去赋予权限...</u></string>
     <string name="goto_bind_msg">要开始监听通知，您需要在系统设置中赋予通知使用权。</string>
     <string name="goto_bind_msg_2">请打开\"%1$s\"所对应的开关。</string>
+    <string name="guide_explain_1">Giraffe是一个从系统通知同步数据的工具，仅在您的授权之下。</string>
+    <string name="guide_explain_2">要使Giraffe正常工作，需要在系统设置中赋予\"Giraffe服务\"通知使用权。</string>
+    <string name="guide_title">欢迎使用Giraffe</string>
+    <string name="switch_wechat_off">同步所有App</string>
+    <string name="switch_wechat_on">仅同步微信</string>
 </resources>
