@@ -20,26 +20,31 @@ import java.util.List;
  */
 
 public class SettingsActivity extends PreferenceActivity {
-    private ArrayMap<CharSequence, CharSequence> mPkgEntriesMap = new ArrayMap<>();
-    private ListPreference mPkgListPref;
     
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.settings);
         
-        mPkgListPref = (ListPreference)findPreference(getString(R.string.pref_pkg_id));
-        setAppsListPreference();
-        mPkgListPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        final Preference pkgPref = findPreference(getString(R.string.pref_pkg_id));
+        pkgPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                mPkgListPref.setSummary(mPkgEntriesMap.get(newValue.toString()));
+            public boolean onPreferenceClick(Preference preference) {
                 return true;
             }
         });
+        final Preference sysNotifPref = findPreference(getString(R.string.pref_sys_notif_id));
+        sysNotifPref.setOnPreferenceChangeListener(mPrefChangeedListener);
     }
     
-    private void setAppsListPreference(){
+    private final Preference.OnPreferenceChangeListener mPrefChangeedListener = new Preference.OnPreferenceChangeListener() {
+        @Override
+        public boolean onPreferenceChange(Preference preference, Object newValue) {
+            return false;
+        }
+    };
+    
+    /*private void setAppsListPreference(){
         final List<CharSequence> entries = new ArrayList<>();
         final List<CharSequence> values = new ArrayList<>();
         mPkgEntriesMap.clear();
@@ -57,6 +62,6 @@ public class SettingsActivity extends PreferenceActivity {
         }
         mPkgListPref.setEntries(entries.toArray(new CharSequence[entries.size()]));
         mPkgListPref.setEntryValues(values.toArray(new CharSequence[values.size()]));
-    }
+    }*/
     
 }

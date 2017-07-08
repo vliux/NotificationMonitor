@@ -1,14 +1,19 @@
 package com.example.vliux.notificationlistener.data;
 
+import android.content.ContentProviderClient;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
+import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.example.vliux.notificationlistener.provider.NotificationRecordProvider;
 
+import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +21,19 @@ import java.util.List;
  * Created by vliux on 17/7/5.
  */
 
-public class NotificationRecordStorage {
+public class NotificationRecordStorage implements Closeable {
     public NotificationRecordStorage(final Context context) {
         mContext = context.getApplicationContext();
+        mClient = mContext.getContentResolver().acquireContentProviderClient(NotificationRecordProvider.AUTHORITY);
+    }
+
+    @Override
+    public void close(){
+        if(null != mClient){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                mClient.close();
+            }else mClient.release();
+        }
     }
     
     @Nullable
@@ -45,10 +60,19 @@ public class NotificationRecordStorage {
             cv.put(NotificationRecord.COL_TITLE, record.title);
             cv.put(NotificationRecord.COL_TEXT, record.text);
             cv.put(NotificationRecord.COL_TIME, record.time);
-            return mContext.getContentResolver().insert(NotificationRecordProvider.RECORD_CONTENT_URI, cv);
+            if(null != mClient) {
+                try {
+                    mClient.insert(NotificationRecordProvider.RECORD_CONTENT_URI, cv);
+                } catch (RemoteException e) {
+                    Log.e(TAG, "unable to save through ContentProviderClient", e);
+                    return null;
+                }
+            } else return mContext.getContentResolver().insert(NotificationRecordProvider.RECORD_CONTENT_URI, cv);
         }
         return null;
     }
     
     private Context mContext;
+    private volatile ContentProviderClient mClient;
+    private static final String TAG = "NotificationStorage";
 }

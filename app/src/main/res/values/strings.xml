@@ -10,4 +10,8 @@
     <string name="pref_pkg_id" translatable="false">pref_pkg</string>
     <string name="pref_pkg">Monitor target</string>
     <string name="pref_pkg_summary">The app to be monitored</string>
+
+    <string name="pref_sys_notif_id" translatable="false">pref_sys_notif</string>
+    <string name="pref_sys_notif_title">System notifications</string>
+    <string name="pref_sys_notif_summary">Monitor system notifications</string>
 </resources>

@@ -15,7 +15,7 @@
             android:name=".provider.NotificationRecordProvider"
             android:process=":service"
             android:multiprocess="false"
-            android:exported="false"/>
+            android:exported="true"/>
 
         <activity android:name=".MainActivity">
             <intent-filter>

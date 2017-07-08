@@ -44,7 +44,13 @@ public class NotificationTracerService extends NotificationListenerService {
     public void onListenerHintsChanged(int hints) {
         super.onListenerHintsChanged(hints);
     }
-
+    
+    @Override
+    public void onListenerDisconnected() {
+        super.onListenerDisconnected();
+        mStorage.close();
+    }
+    
     private void processNotification(final StatusBarNotification sbn){
         final String pkg = sbn.getPackageName();
         final long time = sbn.getPostTime();
