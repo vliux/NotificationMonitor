@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
             finish();
         
         setContentView(R.layout.activity_main);
+        Toolbar toolBar= (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolBar);
         mStorage = new NotificationRecordStorage(MainActivity.this);
         mRecyclerView = (RecyclerView)findViewById(R.id.rv);
         mFab = (FloatingActionButton)findViewById(R.id.fab);
