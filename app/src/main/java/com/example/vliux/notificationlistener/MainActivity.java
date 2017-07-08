@@ -88,11 +88,13 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_bind:
                 showBindingDialog();
-                break;
+                return true;
             case R.id.action_setting:
-                break;
+                showSettings();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
     
     private void showBindingDialog(){
@@ -109,6 +111,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         builder.show();
+    }
+    
+    private void showSettings(){
+        startActivity(new Intent(this, SettingsActivity.class));
     }
 
     private BroadcastReceiver mNotifChangedReceiver = new BroadcastReceiver() {

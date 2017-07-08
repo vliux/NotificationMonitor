@@ -25,6 +25,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".SettingsActivity"/>
+
         <service
             android:name=".service.NotificationTracerService"
             android:label="@string/service_name"
