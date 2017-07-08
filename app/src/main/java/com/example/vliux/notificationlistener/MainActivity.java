@@ -1,8 +1,6 @@
 package com.example.vliux.notificationlistener;
 
 import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.vliux.notificationlistener.data.NotificationRecord;
 import com.example.vliux.notificationlistener.data.NotificationRecordStorage;
+import com.example.vliux.notificationlistener.guide.UserGuideManager;
 import com.example.vliux.notificationlistener.util.Apps;
 
 import java.lang.ref.WeakReference;
@@ -63,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 1000L);
         NotificationChangedNotifier.register(this, mNotifChangedReceiver);
+        UserGuideManager.showUserGuideIfNeeded(this);
     }
     
     @Override

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NotificationListener</string>
+    <string name="app_name">Giraffe</string>
     <string name="settings">Settings</string>
     <string name="monitoring">Start monitor</string>
     <string name="service_name">Shuwen service</string>
@@ -14,4 +14,7 @@
     <string name="pref_sys_notif_id" translatable="false">pref_sys_notif</string>
     <string name="pref_sys_notif_title">System notifications</string>
     <string name="pref_sys_notif_summary">Monitor system notifications</string>
+
+    <string name="guide_title">Welcome</string>
+    <string name="guide_explain">Giraffe explores the notifications for you. In order to have giraffe work properly, you need to grant \'Notification permission\' to giraffe in system preferences.</string>
 </resources>

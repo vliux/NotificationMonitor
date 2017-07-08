@@ -6,4 +6,7 @@
 
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="item_inter_margin">4dp</dimen>
+
+    <dimen name="txt_content">14sp</dimen>
+    <dimen name="txt_btn">16sp</dimen>
 </resources>

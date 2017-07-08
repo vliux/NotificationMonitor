@@ -25,6 +25,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".guide.UserGuideActivity" android:theme="@style/UserGuideActivity"/>
         <activity android:name=".SettingsActivity"/>
 
         <service

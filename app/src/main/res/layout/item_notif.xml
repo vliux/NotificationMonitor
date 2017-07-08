@@ -48,7 +48,7 @@
             android:maxHeight="120dp"
             android:maxLines="6"
             android:textColor="@color/hint_text_light"
-            android:textSize="14sp"
+            android:textSize="@dimen/txt_content"
             tools:text="Enim consequat enim pariatur id anim Ut Excepteur dolor in laborum incididunt veniam quis proident. in consequat aliquip in minim adipisicing exercitation sunt sed qui pariatur consequat commodo ea do."/>
 
         <!--<View
