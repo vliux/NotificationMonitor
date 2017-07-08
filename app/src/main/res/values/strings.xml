@@ -3,7 +3,7 @@
     <string name="settings">Settings</string>
     <string name="monitoring">Start monitor</string>
     <string name="service_name">Shuwen service</string>
-    <string name="goto_bind">Go to bind</string>
+    <string name="goto_bind">Grant permission ...</string>
     <string name="goto_bind_msg">In order to monitor notifications, you need to grant the notification permission to me in system preferences.</string>
     <string name="goto_bind_msg_2">Turn on the switch button next to \'%1$s\'.</string>
 
@@ -15,6 +15,10 @@
     <string name="pref_sys_notif_title">System notifications</string>
     <string name="pref_sys_notif_summary">Monitor system notifications</string>
 
-    <string name="guide_title">Welcome</string>
-    <string name="guide_explain">Giraffe explores the notifications for you. In order to have giraffe work properly, you need to grant \'Notification permission\' to giraffe in system preferences.</string>
+    <string name="guide_title">Welcome to Giraffe</string>
+    <string name="guide_explain_1">Giraffe synchronizes data from notifications with your permission.</string>
+    <string name="guide_explain_2">To have Giraffe work, \"Notification permission\" has to be explicitly granted in system preferences.</string>
+
+    <string name="switch_wechat_on">Track WeChat only</string>
+    <string name="switch_wechat_off">Track all apps</string>
 </resources>

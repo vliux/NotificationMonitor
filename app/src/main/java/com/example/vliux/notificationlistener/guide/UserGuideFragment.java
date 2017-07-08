@@ -6,38 +6,86 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import com.android.setupwizardlib.SetupWizardLayout;
 import com.android.setupwizardlib.view.NavigationBar;
 import com.example.vliux.notificationlistener.R;
+import com.example.vliux.notificationlistener.util.NotifPermission;
+
+import static com.example.vliux.notificationlistener.guide.UserGuideManager.*;
 
 /**
  * Created by vliux on 2017/7/8.
  */
 
 public class UserGuideFragment extends Fragment implements NavigationBar.NavigationBarListener {
+    private Switch mSwWechat;
+    private Button mBtnBind;
     
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.guide, container, false);
+        final View rootView = inflater.inflate(R.layout.frag_guide, container, false);
         mWizardLayout = (SetupWizardLayout)rootView;
         mNavBar = mWizardLayout.getNavigationBar();
         mNavBar.setNavigationBarListener(this);
         mNavBar.getBackButton().setVisibility(View.INVISIBLE);
+        mNavBar.getNextButton().setEnabled(false);
+        
+        mSwWechat = (Switch)rootView.findViewById(R.id.sw_wechat);
+        initWechatSwitch();
+        
+        mBtnBind = (Button)rootView.findViewById(R.id.btn_bind);
+        initBindButton();
         return rootView;
+    }
+   
+    private void initWechatSwitch(){
+        mSwWechat.setOnCheckedChangeListener(mOnWechatSwitchChanged);
+        updateWechatSwitch();
+    }
+    
+    private void initBindButton(){
+        mBtnBind.setOnClickListener(mOnBindBtnClicked);
+    }
+    
+    private void updateWechatSwitch(){
+        final boolean checked = getSharedPreferences(getActivity()).getBoolean(KEY_WECHAT_ONLY, DEFAULT_WECHAT_ONLY);
+        mSwWechat.setChecked(checked);
+        mSwWechat.setText(getString(checked ? R.string.switch_wechat_on : R.string.switch_wechat_off));
     }
     
     @Override
     public void onNavigateBack() {
-        
     }
     
     @Override
     public void onNavigateNext() {
-        UserGuideManager.setUserGuideShown(getActivity());
+        setUserGuideShown(getActivity());
         getActivity().finish();
     }
+    
+    private final CompoundButton.OnCheckedChangeListener mOnWechatSwitchChanged = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            getSharedPreferences(getActivity())
+                    .edit()
+                    .putBoolean(KEY_WECHAT_ONLY, isChecked)
+                    .apply();
+            updateWechatSwitch();
+        }
+    };
+    
+    private final View.OnClickListener mOnBindBtnClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            NotifPermission.request(getActivity());
+            mNavBar.getNextButton().setEnabled(true);
+        }
+    };
     
     private SetupWizardLayout mWizardLayout;
     private NavigationBar mNavBar;

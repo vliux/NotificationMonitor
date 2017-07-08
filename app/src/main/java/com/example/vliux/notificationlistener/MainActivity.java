@@ -27,6 +27,7 @@ import com.example.vliux.notificationlistener.data.NotificationRecord;
 import com.example.vliux.notificationlistener.data.NotificationRecordStorage;
 import com.example.vliux.notificationlistener.guide.UserGuideManager;
 import com.example.vliux.notificationlistener.util.Apps;
+import com.example.vliux.notificationlistener.util.NotifPermission;
 
 import java.lang.ref.WeakReference;
 import java.util.Date;
@@ -104,10 +105,7 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton(R.string.goto_bind, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
-                        Toast.makeText(MainActivity.this,
-                                getString(R.string.goto_bind_msg_2, getString(R.string.service_name)),
-                                Toast.LENGTH_LONG).show();
+                        NotifPermission.request(MainActivity.this);
                     }
                 });
         builder.show();
