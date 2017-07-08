@@ -1,6 +1,9 @@
 package com.example.vliux.notificationlistener.guide;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -12,6 +15,7 @@ import android.widget.Switch;
 
 import com.android.setupwizardlib.SetupWizardLayout;
 import com.android.setupwizardlib.view.NavigationBar;
+import com.example.vliux.notificationlistener.MainActivity;
 import com.example.vliux.notificationlistener.R;
 import com.example.vliux.notificationlistener.util.AppSettings;
 import com.example.vliux.notificationlistener.util.NotifPermission;
@@ -71,8 +75,10 @@ public class UserGuideFragment extends Fragment implements NavigationBar.Navigat
     
     @Override
     public void onNavigateNext() {
-        setUserGuideShown(getActivity());
-        getActivity().finish();
+        final Activity activity = getActivity();
+        setUserGuideShown(activity);
+        activity.startActivity(new Intent(activity, MainActivity.class));
+        activity.finish();
     }
     
     private final CompoundButton.OnCheckedChangeListener mOnWechatSwitchChanged = new CompoundButton.OnCheckedChangeListener() {
