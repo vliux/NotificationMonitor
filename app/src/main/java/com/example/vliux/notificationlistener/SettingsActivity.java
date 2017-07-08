@@ -1,27 +1,20 @@
 package com.example.vliux.notificationlistener;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.support.annotation.Nullable;
 
 /**
  * Created by vliux on 17/7/7.
  */
 
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends Activity {
     
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_settings);
     }
-    
-    private final Preference.OnPreferenceChangeListener mPrefChangeedListener = new Preference.OnPreferenceChangeListener() {
-        @Override
-        public boolean onPreferenceChange(Preference preference, Object newValue) {
-            return false;
-        }
-    };
     
     /*private void setAppsListPreference(){
         final List<CharSequence> entries = new ArrayList<>();

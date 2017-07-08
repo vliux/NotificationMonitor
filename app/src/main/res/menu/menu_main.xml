@@ -3,10 +3,9 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_bind"
-        android:icon="@drawable/ic_fab"
-        android:title="@string/monitoring"
-        app:showAsAction="always"/>
+        android:id="@+id/action_guide"
+        android:title="@string/show_guide"
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/action_setting"

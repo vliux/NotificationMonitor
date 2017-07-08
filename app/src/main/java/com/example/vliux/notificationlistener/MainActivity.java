@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(UserGuideManager.showUserGuideIfNeeded(this))
+        if(UserGuideManager.showUserGuideIfNeeded(this, false))
             finish();
         
         setContentView(R.layout.activity_main);
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                showBindingDialog();
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -92,8 +92,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.action_bind:
-                showBindingDialog();
+            case R.id.action_guide:
+                UserGuideManager.showUserGuideIfNeeded(this, true);
                 return true;
             case R.id.action_setting:
                 showSettings();
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     
     private void showBindingDialog(){
         final AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setMessage(R.string.goto_bind_msg)
+                .setMessage(R.string.guide_explain_2)
                 .setCancelable(true)
                 .setPositiveButton(R.string.goto_bind, new DialogInterface.OnClickListener() {
                     @Override
