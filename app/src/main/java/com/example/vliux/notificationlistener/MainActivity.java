@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton mFab;
     private Adapter mAdapter;
     private NotificationRecordStorage mStorage;
+    private Toolbar mToolbar;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
             finish();
         
         setContentView(R.layout.activity_main);
-        Toolbar toolBar= (Toolbar)findViewById(R.id.toolbar);
-        setSupportActionBar(toolBar);
+        mToolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
         mStorage = new NotificationRecordStorage(MainActivity.this);
         mRecyclerView = (RecyclerView)findViewById(R.id.rv);
         mFab = (FloatingActionButton)findViewById(R.id.fab);
@@ -127,15 +128,9 @@ public class MainActivity extends AppCompatActivity {
         }
     };
     
-    /*public void onPostNotificationClick(final View view){
-        final NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-        final Notification notification = new Notification.Builder(this)
-                .setSmallIcon(android.R.drawable.ic_btn_speak_now)
-                .setContentTitle("TITLE=" + System.currentTimeMillis())
-                .setContentText("CONTENT=" + System.currentTimeMillis())
-                .build();
-        notificationManager.notify(100, notification);
-    }*/
+    private void setSubTitle(final int recordNum){
+        mToolbar.setSubtitle(String.format(getString(R.string.main_subtitle), recordNum));
+    }
     
     private class Adapter extends RecyclerView.Adapter<ViewHolder> {
         private List<NotificationRecord> mRecords;
@@ -143,11 +138,13 @@ public class MainActivity extends AppCompatActivity {
         public Adapter(final List<NotificationRecord> records) {
             super();
             mRecords = records;
+            setSubTitle(null != records ? records.size() : 0);
         }
         
         public void setRecords(final List<NotificationRecord> records){
             mRecords = records;
             notifyDataSetChanged();
+            setSubTitle(null != records ? records.size() : 0);
         }
     
         @Override
