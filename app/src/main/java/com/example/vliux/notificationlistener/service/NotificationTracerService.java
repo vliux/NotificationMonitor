@@ -26,8 +26,10 @@ public class NotificationTracerService extends NotificationListenerService {
         mNofiticationStats = new NotificationStats(this);
         mAppSettings = new AppSettings(this);
         mStorage = new NotificationRecordStorage(this);
-        for(final StatusBarNotification sbn : getActiveNotifications()){
-            processNotification(sbn);
+        if(mNofiticationStats.setFirstRun(false)) {
+            for (final StatusBarNotification sbn : getActiveNotifications()) {
+                processNotification(sbn);
+            }
         }
     }
 
@@ -62,10 +64,6 @@ public class NotificationTracerService extends NotificationListenerService {
             return;
         }
         final long time = sbn.getPostTime();
-        if(mNofiticationStats.getLastTime(pkg) >= time){
-            Log.w(TAG, "notification.time < recorded_time for " + pkg);
-            return;
-        }
         //if(!"com.tencent.mm".equals(pkg)) return;
         //final String group = sbn.getGroupKey();
         //final String key = sbn.getKey();
@@ -79,7 +77,6 @@ public class NotificationTracerService extends NotificationListenerService {
         if(!TextUtils.isEmpty(title) && !TextUtils.isEmpty(text)) {
             final Uri uri = mStorage.add(new NotificationRecord(pkg, title, text, time));
             Log.d(TAG, "   \\_ " + uri);
-            mNofiticationStats.setLastTime(pkg, time);
             NotificationChangedNotifier.notify(this);
         }
     }

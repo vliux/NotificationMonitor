@@ -2,7 +2,8 @@ package com.example.vliux.notificationlistener.service;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+
+import java.util.Map;
 
 /**
  * Created by vliux on 17/7/5.
@@ -14,14 +15,12 @@ class NotificationStats {
         mSp = context.getSharedPreferences("notif_stats", Context.MODE_PRIVATE);
     }
     
-    public long getLastTime(final String pkg){
-        return mSp.getLong(pkg, INVALID_TIME);
-    }
-    
-    public void setLastTime(final String pkg, final long time){
-        mSp.edit().putLong(pkg, time).apply();
+    public boolean setFirstRun(final boolean firstRun){
+        final Map map = mSp.getAll();
+        final boolean result = (null == map || map.size() <= 0);
+        mSp.edit().putBoolean("first_run", false).apply();
+        return result;
     }
     
     private final SharedPreferences mSp;
-    public static final long INVALID_TIME = -1L;
 }
