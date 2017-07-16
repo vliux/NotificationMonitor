@@ -1,7 +1,10 @@
 package com.example.vliux.notificationlistener.service;
 
 import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
@@ -16,6 +19,7 @@ import static com.example.vliux.notificationlistener.Constants.Settings.*;
 
 /**
  * Created by vliux on 17/4/27.
+ * @author vliux
  */
 
 public class NotificationTracerService extends NotificationListenerService {
@@ -64,10 +68,6 @@ public class NotificationTracerService extends NotificationListenerService {
             return;
         }
         final long time = sbn.getPostTime();
-        //if(!"com.tencent.mm".equals(pkg)) return;
-        //final String group = sbn.getGroupKey();
-        //final String key = sbn.getKey();
-        
         final Notification notification = sbn.getNotification();
         final String title = NotificationParser.getTitle(notification.extras);
         final String text = NotificationParser.geText(notification.extras);
@@ -79,6 +79,12 @@ public class NotificationTracerService extends NotificationListenerService {
             Log.d(TAG, "   \\_ " + uri);
             NotificationChangedNotifier.notify(this);
         }
+        cancelNotification(sbn);
+    }
+    
+    private void cancelNotification(final StatusBarNotification sbn){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) cancelNotification(sbn.getKey());
+        else cancelNotification(sbn.getPackageName(), sbn.getTag(), sbn.getId());
     }
     
     private NotificationRecordStorage mStorage;

@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
@@ -33,6 +34,16 @@ import com.example.vliux.notificationlistener.util.NotifPermission;
 import java.lang.ref.WeakReference;
 import java.util.Date;
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -170,7 +181,49 @@ public class MainActivity extends AppCompatActivity {
         }
         
         private void loadIconAsync(final String pkg, final TextView tv){
-            new AppInfoAsyncTask(MainActivity.this, tv, pkg).execute();
+            //new AppInfoAsyncTask(MainActivity.this, tv, pkg).execute();
+            Observable.create(new ObservableOnSubscribe<Apps.AppDesc>() {
+                @Override
+                public void subscribe(@NonNull ObservableEmitter<Apps.AppDesc> e) throws Exception {
+                    final Apps.AppDesc desc = Apps.of(MainActivity.this, pkg);
+                    if(null != desc) {
+                        e.onNext(desc);
+                        e.onComplete();
+                    }else e.onError(null);
+                }
+            }).observeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Apps.AppDesc>() {
+                @Override
+                public void onSubscribe(@NonNull Disposable d) {
+                }
+    
+                @Override
+                public void onNext(@NonNull final Apps.AppDesc appDesc) {
+                    tv.setText(appDesc.label);
+                    if(null != appDesc.icon){
+                        tv.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                            @Override
+                            public void onGlobalLayout() {
+                                tv.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                                appDesc.icon.setBounds(0, 0,
+                                        tv.getMeasuredHeight(),
+                                        tv.getMeasuredHeight());
+                                tv.setCompoundDrawables(appDesc.icon, null, null, null);
+                            }
+                        });
+                        tv.requestLayout();
+                    }
+                }
+    
+                @Override
+                public void onError(@NonNull Throwable e) {
+                    tv.setText("");
+                    tv.setCompoundDrawables(null, null, null, null);
+                }
+    
+                @Override
+                public void onComplete() {
+                }
+            });
         }
     }
     
