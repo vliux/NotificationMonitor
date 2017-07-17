@@ -78,7 +78,7 @@ public class NotificationTracerService extends NotificationListenerService {
         if(!TextUtils.isEmpty(title) && !TextUtils.isEmpty(text)) {
             final Uri uri = mStorage.add(new NotificationRecord(pkg, title, text, time));
             Log.d(TAG, "   added to storage: " + uri);
-            NotificationChangedNotifier.notify(this);
+            NotificationChangedNotifier.notify(this, pkg);
         }
         cancelNotification(sbn);
     }

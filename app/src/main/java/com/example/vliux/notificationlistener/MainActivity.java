@@ -5,9 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +21,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.vliux.notificationlistener.data.NotificationRecord;
 import com.example.vliux.notificationlistener.data.NotificationRecordStorage;
@@ -39,7 +36,6 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -191,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
             Observable.create(new ObservableOnSubscribe<Apps.AppDesc>() {
                 @Override
                 public void subscribe(@NonNull ObservableEmitter<Apps.AppDesc> e) throws Exception {
-                    final Apps.AppDesc desc = Apps.of(MainActivity.this, pkg);
+                    final Apps.AppDesc desc = Apps.ofDesc(MainActivity.this, pkg);
                     if(null != desc) {
                         e.onNext(desc);
                         e.onComplete();
@@ -263,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
         protected Apps.AppDesc doInBackground(Void... params) {
             final Activity activity = mActivity.get();
             if(null != activity) {
-                return Apps.of(activity, mPkg);
+                return Apps.ofDesc(activity, mPkg);
             }
             return null;
         }

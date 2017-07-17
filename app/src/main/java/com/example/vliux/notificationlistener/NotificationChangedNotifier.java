@@ -5,14 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+import com.example.vliux.notificationlistener.service.NotificationDecroService;
+
 /**
  * Created by vliux on 17/7/6.
  */
 
 public class NotificationChangedNotifier {
-    public static void notify(final Context context){
+    public static void notify(final Context context, final String pkg){
         context.getApplicationContext()
                 .sendBroadcast(new Intent(ACTION_NOTIFICATION_CAHNGED).setPackage(context.getPackageName()));
+        NotificationDecroService.decro(context, pkg);
     }
     
     public static void register(final Context context, final BroadcastReceiver receiver){

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
 
 import static com.example.vliux.notificationlistener.data.NotificationRecord.*;
 
@@ -44,7 +45,15 @@ public class RecordDbHelper extends SQLiteOpenHelper {
                 COL_TIME + " desc");
     }
     
-    public long insertRecord(final ContentValues cv){
+    public Cursor queryRecord(@NonNull final String pkg){
+        return getReadableDatabase().query(DB_TABLE, COLOLUMS,
+                COL_PKG + "=?", new String[]{pkg},
+                null,
+                null,
+                COL_TIME + " desc");
+    }
+    
+    public long insertRecord(@NonNull final ContentValues cv){
         return getWritableDatabase().insert(DB_TABLE, null, cv);
     }
 }
