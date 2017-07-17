@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.vliux.notificationlistener.MainActivity">
+    tools:context="com.vliux.giraffe.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -35,6 +35,6 @@
         android:src="@drawable/ic_power_black_24dp"
         app:elevation="6dp"
         app:layout_anchorGravity="bottom|right|end"
-        app:layout_behavior="com.example.vliux.notificationlistener.util.ScrollAwareFabBehavior"/>
+        app:layout_behavior="com.vliux.giraffe.util.ScrollAwareFabBehavior"/>
 
 </android.support.design.widget.CoordinatorLayout>
