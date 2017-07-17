@@ -48,9 +48,9 @@ public class NotificationRecordStorage implements Closeable {
                 final String text = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_TEXT));
                 final long time = cursor.getLong(cursor.getColumnIndex(NotificationRecord.COL_TIME));
                 if(null != lastRecord
-                        && lastRecord.pkg.equals(pkg)
-                        && lastRecord.title.equals(title)) {
-                    lastRecord.text += ("\n" + text);
+                        && lastRecord.getPkg().equals(pkg)
+                        && lastRecord.getTitle().equals(title)) {
+                    lastRecord.insertTextAtHead(text);
                 }else {
                     lastRecord = new NotificationRecord(pkg, title, text, time);
                     records.add(lastRecord);
@@ -64,10 +64,10 @@ public class NotificationRecordStorage implements Closeable {
     public Uri add(@NonNull final NotificationRecord record){
         if(null != record) {
             final ContentValues cv = new ContentValues();
-            cv.put(NotificationRecord.COL_PKG, record.pkg);
-            cv.put(NotificationRecord.COL_TITLE, record.title);
-            cv.put(NotificationRecord.COL_TEXT, record.text);
-            cv.put(NotificationRecord.COL_TIME, record.time);
+            cv.put(NotificationRecord.COL_PKG, record.getPkg());
+            cv.put(NotificationRecord.COL_TITLE, record.getTitle());
+            cv.put(NotificationRecord.COL_TEXT, record.getText());
+            cv.put(NotificationRecord.COL_TIME, record.getTime());
             if(null != mClient) {
                 try {
                     mClient.insert(NotificationRecordProvider.RECORD_CONTENT_URI, cv);

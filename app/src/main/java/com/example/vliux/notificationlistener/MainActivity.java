@@ -175,10 +175,10 @@ public class MainActivity extends AppCompatActivity {
         public void onBindViewHolder(ViewHolder holder, int position) {
             Log.d("vliux", "onBindViewHolder()");
             final NotificationRecord record = mRecords.get(position);
-            holder.mTvTitle.setText(record.title);
-            holder.mTvContent.setText(record.text);
-            holder.mTvTime.setText(new Date(record.time).toString());
-            loadIconAsync(record.pkg, holder.mTvApp);
+            holder.mTvTitle.setText(record.getTitle());
+            holder.mTvContent.setText(record.getText());
+            holder.mTvTime.setText(new Date(record.getTime()).toString());
+            loadIconAsync(record.getPkg(), holder.mTvApp);
         }
     
         @Override
