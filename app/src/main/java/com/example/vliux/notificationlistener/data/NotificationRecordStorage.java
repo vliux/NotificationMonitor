@@ -41,12 +41,20 @@ public class NotificationRecordStorage implements Closeable {
         final Cursor cursor = mContext.getContentResolver().query(NotificationRecordProvider.RECORD_CONTENT_URI, null, null, null, null);
         if(null != cursor){
             final List<NotificationRecord> records = new ArrayList<>(cursor.getCount());
+            NotificationRecord lastRecord = null;
             for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
                 final String pkg = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_PKG));
                 final String title = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_TITLE));
                 final String text = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_TEXT));
                 final long time = cursor.getLong(cursor.getColumnIndex(NotificationRecord.COL_TIME));
-                records.add(new NotificationRecord(pkg, title, text, time));
+                if(null != lastRecord
+                        && lastRecord.pkg.equals(pkg)
+                        && lastRecord.title.equals(title)) {
+                    lastRecord.text += ("\n" + text);
+                }else {
+                    lastRecord = new NotificationRecord(pkg, title, text, time);
+                    records.add(lastRecord);
+                }
             }
             return records;
         }
