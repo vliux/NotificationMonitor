@@ -3,8 +3,8 @@
     <!--<Preference
         android:key="@string/pref_pkg_id"
         android:title="@string/pref_pkg"
-        android:dialogTitle="@string/pref_pkg_summary"/>
-    <SwitchPreference
+        android:dialogTitle="@string/pref_pkg_summary"/> -->
+    <!--<SwitchPreference
         android:key="@string/pref_sys_notif_id"
         android:title="@string/pref_sys_notif_title"
         android:summary="@string/pref_sys_notif_summary"

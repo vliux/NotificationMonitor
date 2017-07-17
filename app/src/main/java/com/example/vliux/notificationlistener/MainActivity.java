@@ -53,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
     private NotificationRecordStorage mStorage;
     private Toolbar mToolbar;
     
+    public static void start(final Context context, final boolean newTask){
+        final Intent intent = new Intent(context, MainActivity.class);
+        if(newTask) intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

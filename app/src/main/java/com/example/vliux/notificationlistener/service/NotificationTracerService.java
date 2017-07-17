@@ -10,6 +10,7 @@ import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.example.vliux.notificationlistener.MainActivity;
 import com.example.vliux.notificationlistener.NotificationChangedNotifier;
 import com.example.vliux.notificationlistener.data.NotificationRecord;
 import com.example.vliux.notificationlistener.data.NotificationRecordStorage;
@@ -35,6 +36,7 @@ public class NotificationTracerService extends NotificationListenerService {
                 processNotification(sbn);
             }
         }
+        MainActivity.start(getApplicationContext(), true);
     }
 
     @Override
@@ -43,8 +45,7 @@ public class NotificationTracerService extends NotificationListenerService {
         Log.d(TAG, "*** onNotificationPosted:");
         processNotification(sbn);
     }
-
-
+    
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
         super.onNotificationRemoved(sbn);
@@ -59,6 +60,7 @@ public class NotificationTracerService extends NotificationListenerService {
     public void onListenerDisconnected() {
         super.onListenerDisconnected();
         mStorage.close();
+        mAppSettings.close();
     }
     
     private void processNotification(final StatusBarNotification sbn){
@@ -72,11 +74,10 @@ public class NotificationTracerService extends NotificationListenerService {
         final String title = NotificationParser.getTitle(notification.extras);
         final String text = NotificationParser.geText(notification.extras);
         
-        Log.d(TAG, String.format("  Notification: pkg=%s, t=%d", pkg, time));
-        Log.d(TAG, "   \\_ " + text);
+        Log.d(TAG, String.format("  Notification: pkg=%s, t=%d, txt=%s", pkg, time, text));
         if(!TextUtils.isEmpty(title) && !TextUtils.isEmpty(text)) {
             final Uri uri = mStorage.add(new NotificationRecord(pkg, title, text, time));
-            Log.d(TAG, "   \\_ " + uri);
+            Log.d(TAG, "   added to storage: " + uri);
             NotificationChangedNotifier.notify(this);
         }
         cancelNotification(sbn);
