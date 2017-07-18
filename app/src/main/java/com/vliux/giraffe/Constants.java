@@ -11,6 +11,7 @@ public class Constants {
     
     public static class Settings {
         public static final boolean DEFAULT_WECHAT_ONLY = true;
+        public static final boolean DEFAULT_SYS_APPS = false;
     }
     
     public static class Pkgs {

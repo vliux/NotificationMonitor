@@ -27,6 +27,12 @@ public class SettingsActivity extends PreferenceActivity {
         mWechatPref.setOnPreferenceChangeListener(mOnPrefChangedListener);
     }
     
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mAppSettings.close();
+    }
+    
     private void loadPrefKeys(){
         pref_sync_sys_apps_k = getString(R.string.pref_sync_sys_apps_k);
         pref_wechat_only_k = getString(R.string.pref_wechat_only_k);
