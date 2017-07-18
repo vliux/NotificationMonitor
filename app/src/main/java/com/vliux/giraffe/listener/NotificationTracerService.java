@@ -1,8 +1,6 @@
-package com.vliux.giraffe.service;
+package com.vliux.giraffe.listener;
 
 import android.app.Notification;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 import android.service.notification.NotificationListenerService;

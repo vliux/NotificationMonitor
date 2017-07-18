@@ -1,4 +1,4 @@
-package com.vliux.giraffe.service;
+package com.vliux.giraffe.decro;
 
 import android.app.IntentService;
 import android.app.Notification;

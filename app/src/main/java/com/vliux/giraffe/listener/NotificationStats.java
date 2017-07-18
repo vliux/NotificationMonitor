@@ -1,4 +1,4 @@
-package com.vliux.giraffe.service;
+package com.vliux.giraffe.listener;
 
 import android.content.Context;
 import android.content.SharedPreferences;

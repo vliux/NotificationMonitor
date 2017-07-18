@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-import com.vliux.giraffe.service.NotificationDecroService;
+import com.vliux.giraffe.decro.NotificationDecroService;
 
 /**
  * Created by vliux on 17/7/6.
