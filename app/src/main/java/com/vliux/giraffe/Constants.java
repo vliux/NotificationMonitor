@@ -5,6 +5,10 @@ package com.vliux.giraffe;
  */
 
 public class Constants {
+    public static class Item {
+        public static final String DOT = "•";
+    }
+    
     public static class Settings {
         public static final String KEY_WECHAT_ONLY = "wechat_only";
         public static final boolean DEFAULT_WECHAT_ONLY = true;

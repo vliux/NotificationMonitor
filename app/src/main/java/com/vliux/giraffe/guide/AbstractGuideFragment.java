@@ -2,6 +2,7 @@ package com.vliux.giraffe.guide;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -45,6 +46,7 @@ public abstract class AbstractGuideFragment extends Fragment implements Navigati
         final Fragment next = getNextFragment();
         if(null != next) {
             getFragmentManager().beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .addToBackStack(getClass().getSimpleName())
                     .replace(R.id.container, next, next.getClass().getSimpleName())
                     .commit();

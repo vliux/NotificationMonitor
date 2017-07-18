@@ -37,7 +37,7 @@ public class NotificationRecordStorage implements Closeable {
     }
     
     @Nullable
-    public List<NotificationRecord> get(){
+    public List<NotificationRecord> getMerged(){
         final Cursor cursor = mContext.getContentResolver().query(NotificationRecordProvider.RECORD_CONTENT_URI, null, null, null, null);
         if(null != cursor){
             final List<NotificationRecord> records = new ArrayList<>(cursor.getCount());

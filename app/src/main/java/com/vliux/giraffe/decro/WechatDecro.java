@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.vliux.giraffe.Constants;
 import com.vliux.giraffe.R;
 import com.vliux.giraffe.data.NotificationRecord;
 import com.vliux.giraffe.util.Apps;
@@ -14,7 +15,7 @@ import java.util.List;
  * Created by vliux on 2017/7/18.
  */
 
-public class WechatDecro implements IDecro {
+class WechatDecro implements IDecro {
     
     @NonNull
     @Override
@@ -32,7 +33,7 @@ public class WechatDecro implements IDecro {
         final Notification.InboxStyle inboxStyle = new Notification.InboxStyle();
         int i = 0;
         for (final NotificationRecord record : records) {
-            inboxStyle.addLine("•" + record.getText());
+            inboxStyle.addLine(Constants.Item.DOT + record.getText());
             if (++i >= MAX_INBOX_ITEMS) break;
         }
         builder.setStyle(inboxStyle);

@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new Adapter(mStorage.get());
+        mAdapter = new Adapter(mStorage.getMerged());
         mRecyclerView.setAdapter(mAdapter);
         /*mRecyclerView.postDelayed(new Runnable() {
             @Override
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mAdapter.setRecords(mStorage.get());
+        mAdapter.setRecords(mStorage.getMerged());
     }
     
     @Override
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver mNotifChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            mAdapter.setRecords(mStorage.get());
+            mAdapter.setRecords(mStorage.getMerged());
         }
     };
     
