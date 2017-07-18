@@ -1,13 +1,11 @@
 package com.vliux.giraffe.decro;
 
 import android.app.IntentService;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 
-import com.vliux.giraffe.R;
 import com.vliux.giraffe.data.NotificationRecord;
 import com.vliux.giraffe.data.NotificationRecordStorage;
 import com.vliux.giraffe.util.Apps;
@@ -43,24 +41,11 @@ public class NotificationDecroService extends IntentService {
         final Integer uid = Apps.ofUid(this, pkg);
         if(null == appDesc || null == uid) return;
     
-        final Notification.Builder builder = new Notification.Builder(this)
-                .setContentTitle(appDesc.label)
-                .setContentText(getString(R.string.total_msg, String.valueOf(records.size())))
-                .setSmallIcon(R.mipmap.ic_launcher);
-    
-        final Notification.InboxStyle inboxStyle = new Notification.InboxStyle();
-        int i = 0;
-        for (final NotificationRecord record : records) {
-            inboxStyle.addLine(record.getTitle() + ": " + record.getText());
-            if (++i >= MAX_GROUP_ITEMS) break;
-        }
-        builder.setStyle(inboxStyle);
-        nm.notify(uid, builder.build());
+        nm.notify(uid, DecroDelegates.get().decro(this, pkg, appDesc, records));
     }
     
     private static String pkg(final Intent intent){
         return intent.getStringExtra(Intent.EXTRA_PACKAGE_NAME);
     }
     
-    private static final int MAX_GROUP_ITEMS = 5;
 }
