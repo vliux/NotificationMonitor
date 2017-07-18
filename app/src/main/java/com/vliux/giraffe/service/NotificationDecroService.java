@@ -44,14 +44,14 @@ public class NotificationDecroService extends IntentService {
         if(null == appDesc || null == uid) return;
     
         final Notification.Builder builder = new Notification.Builder(this)
-                .setContentTitle(appDesc.label + " " + records.get(0).getTitle())
-                .setContentText(String.format("have %d messages", records.size()))
+                .setContentTitle(appDesc.label)
+                .setContentText(getString(R.string.total_msg, String.valueOf(records.size())))
                 .setSmallIcon(R.mipmap.ic_launcher);
     
         final Notification.InboxStyle inboxStyle = new Notification.InboxStyle();
         int i = 0;
         for (final NotificationRecord record : records) {
-            inboxStyle.addLine(record.getText());
+            inboxStyle.addLine(record.getTitle() + ": " + record.getText());
             if (++i >= MAX_GROUP_ITEMS) break;
         }
         builder.setStyle(inboxStyle);

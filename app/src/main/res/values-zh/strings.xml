@@ -12,4 +12,5 @@
     <string name="switch_wechat_on">仅同步微信</string>
     <string name="show_guide">用户向导</string>
     <string name="coming_soon">设置页面即将在正式版本中呈现</string>
+    <string name="total_msg">共%1$s条消息</string>
 </resources>

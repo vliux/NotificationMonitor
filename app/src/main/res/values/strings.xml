@@ -14,4 +14,5 @@
     <string name="switch_wechat_off">Synchronize all apps</string>
     <string name="show_guide">User guide</string>
     <string name="coming_soon">Comming soon in release editions</string>
+    <string name="total_msg">%1$s messages total</string>
 </resources>
