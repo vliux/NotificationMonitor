@@ -1,11 +1,9 @@
 package com.vliux.giraffe;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +26,6 @@ import com.vliux.giraffe.guide.UserGuideManager;
 import com.vliux.giraffe.util.Apps;
 import com.vliux.giraffe.util.NotifPermission;
 
-import java.lang.ref.WeakReference;
 import java.util.Date;
 import java.util.List;
 
@@ -244,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     
-    private static class AppInfoAsyncTask extends AsyncTask<Void, Integer, Apps.AppDesc>{
+    /*private static class AppInfoAsyncTask extends AsyncTask<Void, Integer, Apps.AppDesc>{
         private WeakReference<Activity> mActivity;
         private WeakReference<TextView> mTv;
         private String mPkg;
@@ -284,5 +281,5 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-    }
+    }*/
 }

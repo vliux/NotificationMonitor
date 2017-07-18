@@ -72,24 +72,4 @@ public class SettingsActivity extends PreferenceActivity {
     private String pref_wechat_only_k;
     private SwitchPreference mWechatPref;
     
-    /*private void setAppsListPreference(){
-        final List<CharSequence> entries = new ArrayList<>();
-        final List<CharSequence> values = new ArrayList<>();
-        mPkgEntriesMap.clear();
-        final PackageManager packageManager = getPackageManager();
-        final List<ApplicationInfo> appInfos =
-                packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
-        int i = 0;
-        for(final ApplicationInfo appInfo : appInfos){
-            final CharSequence label = appInfo.loadLabel(packageManager);
-            if(null != label){
-                entries.add(label);
-                values.add(appInfo.packageName);
-                mPkgEntriesMap.put(appInfo.packageName, label);
-            }
-        }
-        mPkgListPref.setEntries(entries.toArray(new CharSequence[entries.size()]));
-        mPkgListPref.setEntryValues(values.toArray(new CharSequence[values.size()]));
-    }*/
-    
 }
