@@ -11,6 +11,12 @@
         android:defaultValue="false"/>-->
 
     <SwitchPreference
+        android:key="@string/pref_wechat_only_k"
+        android:title="@string/pref_wechat_only_title"
+        android:summary="@string/pref_wechat_only_sum"
+        android:defaultValue="true"/>
+
+    <SwitchPreference
         android:key="@string/pref_sync_sys_apps_k"
         android:title="@string/pref_sync_sys_apps_title"
         android:summary="@string/pref_sync_sys_apps_sum"

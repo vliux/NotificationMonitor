@@ -20,12 +20,16 @@ public class SettingsActivity extends PreferenceActivity {
         addPreferencesFromResource(R.xml.settings);
         mAppSettings = new AppSettings(this);
         loadPrefKeys();
+        
         mSysAppsPref = (SwitchPreference)findPreference(pref_sync_sys_apps_k);
         mSysAppsPref.setOnPreferenceChangeListener(mOnPrefChangedListener);
+        mWechatPref = (SwitchPreference)findPreference(pref_wechat_only_k);
+        mWechatPref.setOnPreferenceChangeListener(mOnPrefChangedListener);
     }
     
     private void loadPrefKeys(){
         pref_sync_sys_apps_k = getString(R.string.pref_sync_sys_apps_k);
+        pref_wechat_only_k = getString(R.string.pref_wechat_only_k);
     }
     
     private Preference.OnPreferenceChangeListener mOnPrefChangedListener = new Preference.OnPreferenceChangeListener() {
@@ -33,18 +37,34 @@ public class SettingsActivity extends PreferenceActivity {
         public boolean onPreferenceChange(final Preference preference, final Object newValue) {
             final String key = preference.getKey();
             if(pref_sync_sys_apps_k.equals(key)){
-                final boolean checked = (boolean)newValue;
-                mAppSettings.setBoolean(pref_sync_sys_apps_k, checked);
-                mSysAppsPref.setChecked(checked);
+                onSysAppsChanged(newValue);
+            } else if(pref_wechat_only_k.equals(key)){
+                onWechatOnlyChanged(newValue);
             }
             return false;
         }
     };
     
+    private void onWechatOnlyChanged(final Object newValue){
+        final boolean checked = (boolean)newValue;
+        mAppSettings.setBoolean(pref_wechat_only_k, checked);
+        mWechatPref.setChecked(checked);
+        mSysAppsPref.setEnabled(!checked);
+    }
+    
+    private void onSysAppsChanged(final Object newValue){
+        final boolean checked = (boolean)newValue;
+        mAppSettings.setBoolean(pref_sync_sys_apps_k, checked);
+        mSysAppsPref.setChecked(checked);
+    }
+    
     private AppSettings mAppSettings;
+    
     private String pref_sync_sys_apps_k;
     private SwitchPreference mSysAppsPref;
     
+    private String pref_wechat_only_k;
+    private SwitchPreference mWechatPref;
     
     /*private void setAppsListPreference(){
         final List<CharSequence> entries = new ArrayList<>();

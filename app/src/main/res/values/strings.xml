@@ -21,4 +21,8 @@
     <string name="pref_sync_sys_apps_k" translatable="false">pref_sync_sys_apps_k</string>
     <string name="pref_sync_sys_apps_title">System apps</string>
     <string name="pref_sync_sys_apps_sum">Sync notifications from system apps</string>
+
+    <string name="pref_wechat_only_k" translatable="false">pref_wechat_only_k</string>
+    <string name="pref_wechat_only_title">Wechat only</string>
+    <string name="pref_wechat_only_sum">Sync notifications from Wechat only</string>
 </resources>
