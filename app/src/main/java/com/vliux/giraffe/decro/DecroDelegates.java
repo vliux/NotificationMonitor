@@ -32,7 +32,7 @@ class DecroDelegates {
     @NonNull
     public Notification decro(@NonNull Context context, @NonNull String pkg, @NonNull Apps.AppDesc appDesc, @NonNull List<NotificationRecord> records) {
         IDecro decro = mDecros.get(pkg);
-        if(null != decro) decro = mDefault;
+        if(null == decro) decro = mDefault;
         return decro.decro(context, pkg, appDesc, records);
     }
     

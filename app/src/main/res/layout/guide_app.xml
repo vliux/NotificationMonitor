@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.setupwizardlib.SetupWizardLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+    app:suwHeaderText="@string/guide_title"
+    style="@style/GuideTheme">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/guide_out_margin_horiz"
+        android:paddingRight="@dimen/guide_out_margin_horiz"
+        android:paddingTop="@dimen/guide_out_margin_verti"
+        android:paddingBottom="@dimen/guide_out_margin_verti">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/guide_explain_app"
+            style="@style/GuideContentText"
+            android:layout_marginBottom="@dimen/item_margin_verti_small"/>
+        
+        <Switch
+            android:id="@+id/sw_wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:showText="false"
+            android:textSize="@dimen/txt_larger"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_marginBottom="@dimen/item_margin_verti"
+            tools:text="仅同步微信"/>
+    </LinearLayout>
+
+</com.android.setupwizardlib.SetupWizardLayout>

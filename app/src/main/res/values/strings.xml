@@ -7,7 +7,7 @@
     <string name="goto_bind_msg_2">Turn on the switch button next to \'%1$s\'.</string>
 
     <string name="guide_title">Welcome to Giraffe</string>
-    <string name="guide_explain_1">Giraffe is a tool to synchronize data from notifications, only with your permission.</string>
+    <string name="guide_explain_1">Many apps today still don\'t follow the notification standard on Android. Giraffe is a tool to synchronize from and make decroations to notifications.</string>
     <string name="guide_explain_2">To have Giraffe work, notification permission has to be explicitly granted to \"Giraffe Service\" in system preferences.</string>
 
     <string name="switch_wechat_on">Synchronize WeChat only</string>
@@ -15,4 +15,5 @@
     <string name="show_guide">User guide</string>
     <string name="coming_soon">Comming soon in release editions</string>
     <string name="total_msg">%1$s messages total</string>
+    <string name="guide_explain_app">You can sync and decrorate a single app, or all apps.</string>
 </resources>

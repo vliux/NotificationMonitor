@@ -5,7 +5,7 @@
     <string name="service_name">Giraffe服务</string>
     <string name="goto_bind">去赋予权限...</string>
     <string name="goto_bind_msg_2">请打开\"%1$s\"所对应的开关。</string>
-    <string name="guide_explain_1">Giraffe是一个从系统通知同步数据的工具，仅在您的授权之下。</string>
+    <string name="guide_explain_1">直至今日，仍旧有许多移动应用不遵守Android的通知标准。Giraffe是一个从系统同步通知并将其改造成标准模式的工具应用。</string>
     <string name="guide_explain_2">要使Giraffe正常工作，需要在系统设置中赋予\"Giraffe服务\"通知使用权。</string>
     <string name="guide_title">欢迎使用Giraffe</string>
     <string name="switch_wechat_off">同步所有App</string>
@@ -13,4 +13,5 @@
     <string name="show_guide">用户向导</string>
     <string name="coming_soon">设置页面即将在正式版本中呈现</string>
     <string name="total_msg">共%1$s条消息</string>
+    <string name="guide_explain_app">您可以同步并修饰全部应用，或仅指定应用的通知。</string>
 </resources>
