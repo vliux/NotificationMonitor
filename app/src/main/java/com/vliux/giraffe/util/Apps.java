@@ -1,6 +1,7 @@
 package com.vliux.giraffe.util;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -10,6 +11,7 @@ import android.util.Log;
 
 /**
  * Created by vliux on 17/7/6.
+ * @author vliux
  */
 
 public class Apps {
@@ -17,7 +19,7 @@ public class Apps {
         public final Drawable icon;
         public final String label;
     
-        public AppDesc(Drawable icon, String label) {
+        private AppDesc(Drawable icon, String label) {
             this.icon = icon;
             this.label = label;
         }
@@ -31,8 +33,7 @@ public class Apps {
             if(null != pkgInfo.applicationInfo) {
                 final Drawable icon = pkgInfo.applicationInfo.loadIcon(packageManager);
                 final String label = (String) pkgInfo.applicationInfo.loadLabel(packageManager);
-                final AppDesc appDesc = new AppDesc(icon, null != label ? label : pkg);
-                return appDesc;
+                return new AppDesc(icon, null != label ? label : pkg);
             }else return null;
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(TAG, "NameNotFoundExp " + pkg, e);
@@ -53,5 +54,17 @@ public class Apps {
         }
     }
     
+    public static boolean systemApp(@NonNull final Context context, @NonNull final String pkg){
+        final PackageManager packageManager = context.getPackageManager();
+        try {
+            final PackageInfo pkgInfo = packageManager.getPackageInfo(pkg, PackageManager.GET_META_DATA);
+            if (null != pkgInfo.applicationInfo) return (pkgInfo.applicationInfo.flags & FLAG_MASK_SYS_APP) != 0;
+        }catch (final PackageManager.NameNotFoundException e){
+            Log.e(TAG, "NameNotFoundExp " + pkg, e);
+        }
+        return false;
+    }
+    
     private static final String TAG = "Giraffe";
+    private static final int FLAG_MASK_SYS_APP = ApplicationInfo.FLAG_SYSTEM | ApplicationInfo.FLAG_UPDATED_SYSTEM_APP;
 }

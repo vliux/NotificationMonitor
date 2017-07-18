@@ -9,4 +9,10 @@
         android:title="@string/pref_sys_notif_title"
         android:summary="@string/pref_sys_notif_summary"
         android:defaultValue="false"/>-->
+
+    <SwitchPreference
+        android:key="@string/pref_sync_sys_apps_k"
+        android:title="@string/pref_sync_sys_apps_title"
+        android:summary="@string/pref_sync_sys_apps_sum"
+        android:defaultValue="false"/>
 </PreferenceScreen>

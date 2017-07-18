@@ -17,4 +17,8 @@
     <string name="total_msg">%1$s messages total</string>
     <string name="guide_explain_app">You can sync and decrorate a single app, or all apps.</string>
     <string name="finish">Finish</string>
+
+    <string name="pref_sync_sys_apps_k" translatable="false">pref_sync_sys_apps_k</string>
+    <string name="pref_sync_sys_apps_title">System apps</string>
+    <string name="pref_sync_sys_apps_sum">Sync notifications from system apps</string>
 </resources>
