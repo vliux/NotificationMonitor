@@ -33,6 +33,7 @@ public class BindServiceFragment extends AbstractGuideFragment {
         final View rootView = super.onCreateView(inflater, container, savedInstanceState);
         mBtnBind = (Button)rootView.findViewById(R.id.btn_bind);
         mBtnBind.setOnClickListener(mOnBindBtnClicked);
+        mNavBar.getNextButton().setText(R.string.finish);
         return rootView;
     }
     

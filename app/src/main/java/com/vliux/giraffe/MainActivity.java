@@ -76,12 +76,12 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new Adapter(mStorage.get());
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.postDelayed(new Runnable() {
+        /*mRecyclerView.postDelayed(new Runnable() {
             @Override
             public void run() {
                 mAdapter.notifyDataSetChanged();
             }
-        }, 1000L);
+        }, 1000L);*/
         NotificationChangedNotifier.register(this, mNotifChangedReceiver);
     }
     

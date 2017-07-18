@@ -14,4 +14,5 @@
     <string name="coming_soon">设置页面即将在正式版本中呈现</string>
     <string name="total_msg">共%1$s条消息</string>
     <string name="guide_explain_app">您可以同步并修饰全部应用，或仅指定应用的通知。</string>
+    <string name="finish">完成</string>
 </resources>

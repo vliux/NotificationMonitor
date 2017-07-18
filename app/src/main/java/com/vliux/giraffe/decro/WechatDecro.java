@@ -32,7 +32,7 @@ public class WechatDecro implements IDecro {
         final Notification.InboxStyle inboxStyle = new Notification.InboxStyle();
         int i = 0;
         for (final NotificationRecord record : records) {
-            inboxStyle.addLine(record.getText());
+            inboxStyle.addLine("•" + record.getText());
             if (++i >= MAX_INBOX_ITEMS) break;
         }
         builder.setStyle(inboxStyle);
