@@ -20,7 +20,7 @@ class WechatDecro implements IDecro {
     @NonNull
     @Override
     public String getPackage() {
-        return "com.tencent.mm";
+        return Constants.Pkgs.WECHAT;
     }
     
     @Override

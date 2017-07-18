@@ -8,8 +8,10 @@ import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.vliux.giraffe.Constants;
 import com.vliux.giraffe.MainActivity;
 import com.vliux.giraffe.NotificationChangedNotifier;
+import com.vliux.giraffe.R;
 import com.vliux.giraffe.data.NotificationRecord;
 import com.vliux.giraffe.data.NotificationRecordStorage;
 import com.vliux.giraffe.util.AppSettings;
@@ -63,7 +65,7 @@ public class NotificationTracerService extends NotificationListenerService {
     
     private void processNotification(final StatusBarNotification sbn){
         final String pkg = sbn.getPackageName();
-        if(mAppSettings.get(KEY_WECHAT_ONLY, DEFAULT_WECHAT_ONLY) && !PKG_WECHAT.equals(pkg)){
+        if(mAppSettings.get(getString(R.string.pref_wechat_only_k), DEFAULT_WECHAT_ONLY) && !Constants.Pkgs.WECHAT.equals(pkg)){
             Log.w(TAG, "WECHAT_ONLY mode, current pkg is not WeChat: " + pkg);
             return;
         }
