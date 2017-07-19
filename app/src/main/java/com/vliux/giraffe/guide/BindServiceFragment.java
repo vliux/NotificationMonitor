@@ -14,10 +14,10 @@ import android.widget.Button;
 
 import com.vliux.giraffe.MainActivity;
 import com.vliux.giraffe.R;
-import com.vliux.giraffe.listener.TraceServiceNotifier;
-import com.vliux.giraffe.util.NotifPermission;
 
 import static com.vliux.giraffe.guide.UserGuideManager.setUserGuideShown;
+import static com.vliux.giraffe.listener.TraceServiceNotifier.*;
+import static com.vliux.giraffe.util.NotifPermission.*;
 
 /**
  * Created by vliux on 2017/7/8.
@@ -53,16 +53,16 @@ public class BindServiceFragment extends AbstractGuideFragment {
     private final View.OnClickListener mOnBindBtnClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            TraceServiceNotifier.registerServiceBound(getActivity(), new BroadcastReceiver() {
+            registerServiceBound(getActivity(), new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    TraceServiceNotifier.unregister(context, this);
+                    unregister(context, this);
                     final Activity activity = getActivity();
                     if(null != activity) activity.finish();
                     MainActivity.start(context, false);
                 }
             });
-            NotifPermission.request(getActivity());
+            if(!request(getActivity())) showUnsupported(getActivity());
             setUserGuideShown(getActivity());
         }
     };

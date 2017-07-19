@@ -30,4 +30,7 @@
     <string name="blog_link"><a href="http://vliux.me">powered by vliux.me</a></string>
     <string name="merge_notif">Merge similar notifications</string>
     <string name="split_notif">Show original notifications</string>
+    <string name="got_it">Got it</string>
+    <string name="dev_not_support">We are sorry that your device doesn\'t allow to configure \'Notification access\', so Giraffe will not be able to work.</string>
+    <string name="quit">Quit</string>
 </resources>

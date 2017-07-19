@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Giraffe</string>
+    <string name="app_name">鲱鱼</string>
     <string name="main_subtitle">共%d条通知</string>
     <string name="settings">设置</string>
     <string name="service_name">Giraffe服务</string>
@@ -19,4 +19,7 @@
     <string name="blog_link"><a href="http://vliux.me">由vliux.me开发</a></string>
     <string name="merge_notif">合并相似通知</string>
     <string name="split_notif">逐条显示原始通知</string>
+    <string name="got_it">知道了</string>
+    <string name="dev_not_support">很抱歉，您的设备不允许设置\'通知访问\'，因此Giraffe无法正常工作。</string>
+    <string name="quit">退出</string>
 </resources>

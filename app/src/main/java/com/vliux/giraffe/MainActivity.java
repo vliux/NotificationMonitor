@@ -26,7 +26,6 @@ import com.vliux.giraffe.data.NotificationRecordStorage;
 import com.vliux.giraffe.guide.UserGuideManager;
 import com.vliux.giraffe.listener.TraceServiceNotifier;
 import com.vliux.giraffe.util.Apps;
-import com.vliux.giraffe.util.NotifPermission;
 import com.vliux.giraffe.view.AboutView;
 
 import java.util.ArrayList;
@@ -40,6 +39,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+
+import static com.vliux.giraffe.util.NotifPermission.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -135,11 +136,13 @@ public class MainActivity extends AppCompatActivity {
     }
     
     private boolean showBindingDialog(){
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setMessage(R.string.guide_explain_2)
-                .setCancelable(true)
-                .setPositiveButton(R.string.goto_bind, (dialog, which) -> NotifPermission.request(MainActivity.this));
-        builder.show();
+        if(null != intent(this)) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                    .setMessage(R.string.guide_explain_2)
+                    .setCancelable(true)
+                    .setPositiveButton(R.string.goto_bind, (dialog, which) -> request(MainActivity.this));
+            builder.show();
+        }else showUnsupported(this);
         return true;
     }
     
