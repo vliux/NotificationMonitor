@@ -3,6 +3,12 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_merge_split"
+        android:title="@string/split_notif"
+        android:icon="@drawable/ic_call_split_black_24dp"
+        app:showAsAction="always"/>
+
+    <item
         android:id="@+id/action_post_dbg"
         android:title="Post notification"
         app:showAsAction="never"

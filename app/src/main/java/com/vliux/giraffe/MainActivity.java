@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private NotificationRecordStorage mStorage;
     private Toolbar mToolbar;
     private List<NotificationRecord> mRecords = new ArrayList<>();
+    private boolean mShowAsMerged = true;
     
     public static void start(final Context context, final boolean newTask){
         final Intent intent = new Intent(context, MainActivity.class);
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new Adapter();
-        mAdapter.setRecords(mStorage.getMerged(mRecords), mRecords);
+        updateList();
         mRecyclerView.setAdapter(mAdapter);
         TraceServiceNotifier.registerNotificationUpdated(this, mNotifChangedReceiver);
     }
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mAdapter.setRecords(mStorage.getMerged(mRecords), mRecords);
+        updateList();
     }
     
     @Override
@@ -106,6 +107,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
+            case R.id.action_merge_split:
+                return toggleShowAsMerged(item);
             case R.id.action_guide:
                 UserGuideManager.showUserGuideIfNeeded(this, true);
                 return true;
@@ -118,6 +121,24 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    
+    private void updateList(){
+        if(mShowAsMerged){
+            mAdapter.setRecords(mStorage.getMerged(mRecords), mRecords);
+        }else {
+            final List<NotificationRecord> records = mStorage.getRaw();
+            mAdapter.setRecords(records.size(), records);
+        }
+    }
+    
+    private boolean toggleShowAsMerged(final MenuItem menuItem){
+        if(mShowAsMerged) mRecords.clear();
+        mShowAsMerged = !mShowAsMerged;
+        updateList();
+        menuItem.setIcon(mShowAsMerged ? R.drawable.ic_call_split_black_24dp : R.drawable.ic_call_merge_black_24dp);
+        menuItem.setTitle(mShowAsMerged ? R.string.split_notif : R.string.merge_notif);
+        return true;
     }
     
     private boolean showBindingDialog(){
@@ -161,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver mNotifChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            mAdapter.setRecords(mStorage.getMerged(mRecords), mRecords);
+            updateList();
         }
     };
     

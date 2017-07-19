@@ -17,8 +17,6 @@ import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Notification;
-
 /**
  * Created by vliux on 17/7/5.
  */
@@ -36,6 +34,22 @@ public class NotificationRecordStorage implements Closeable {
                 mClient.close();
             }else mClient.release();
         }
+    }
+    
+    public List<NotificationRecord> getRaw(){
+        List<NotificationRecord> records = null;
+        final Cursor cursor = mContext.getContentResolver().query(NotificationRecordProvider.RECORD_CONTENT_URI, null, null, null, null);
+        if(null != cursor){
+            records = new ArrayList<>();
+            for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
+                final String pkg = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_PKG));
+                final String title = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_TITLE));
+                final String text = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_TEXT));
+                final long time = cursor.getLong(cursor.getColumnIndex(NotificationRecord.COL_TIME));
+                records.add(new NotificationRecord(pkg, title, text, time));
+            }
+        }
+        return records;
     }
     
     /**
