@@ -53,7 +53,6 @@ public abstract class AbstractGuideFragment extends Fragment implements Navigati
         }else{
             final Activity activity = getActivity();
             setUserGuideShown(activity);
-            activity.startActivity(new Intent(activity, MainActivity.class));
             activity.finish();
         }
     }

@@ -59,8 +59,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(UserGuideManager.showUserGuideIfNeeded(this, false))
-            finish();
+        UserGuideManager.showUserGuideIfNeeded(this, false);
         
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
