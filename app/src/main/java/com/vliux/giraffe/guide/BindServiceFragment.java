@@ -11,6 +11,8 @@ import android.widget.Button;
 import com.vliux.giraffe.R;
 import com.vliux.giraffe.util.NotifPermission;
 
+import static com.vliux.giraffe.guide.UserGuideManager.setUserGuideShown;
+
 /**
  * Created by vliux on 2017/7/8.
  */
@@ -47,6 +49,7 @@ public class BindServiceFragment extends AbstractGuideFragment {
         public void onClick(View v) {
             NotifPermission.request(getActivity());
             //mNavBar.getNextButton().setEnabled(true);
+            setUserGuideShown(getActivity());
         }
     };
     
