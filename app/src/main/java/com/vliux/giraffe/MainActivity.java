@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
     
             final Intent intent = Apps.ofLauncher(MainActivity.this, record.getPkg());
             if(null != intent) {
-                holder.mTvContent.setOnClickListener(v -> {
+                holder.mContainer.setOnClickListener(v -> {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     MainActivity.this.startActivity(intent);
                 });
@@ -266,6 +266,7 @@ public class MainActivity extends AppCompatActivity {
     }
     
     private class ViewHolder extends RecyclerView.ViewHolder {
+        private View mContainer;
         private TextView mTvTitle;
         private TextView mTvContent;
         private TextView mTvApp;
@@ -273,6 +274,7 @@ public class MainActivity extends AppCompatActivity {
         
         public ViewHolder(View itemView) {
             super(itemView);
+            mContainer = itemView;
             mTvTitle = (TextView)itemView.findViewById(R.id.tv_title);
             mTvContent = (TextView)itemView.findViewById(R.id.tv_content);
             mTvApp = (TextView)itemView.findViewById(R.id.tv_app);
