@@ -21,10 +21,12 @@ public class SettingsActivity extends PreferenceActivity {
         mAppSettings = new AppSettings(this);
         loadPrefKeys();
         
-        mSysAppsPref = (SwitchPreference)findPreference(pref_sync_sys_apps_k);
-        mSysAppsPref.setOnPreferenceChangeListener(mOnPrefChangedListener);
         mWechatPref = (SwitchPreference)findPreference(pref_wechat_only_k);
-        mWechatPref.setOnPreferenceChangeListener(mOnPrefChangedListener);
+        initSwitchPref(mWechatPref, pref_wechat_only_k, Constants.Settings.DEFAULT_WECHAT_ONLY);
+    
+        mSysAppsPref = (SwitchPreference)findPreference(pref_sync_sys_apps_k);
+        initSwitchPref(mSysAppsPref, pref_sync_sys_apps_k, Constants.Settings.DEFAULT_SYS_APPS);
+        mSysAppsPref.setEnabled(!mWechatPref.isChecked());
     }
     
     @Override
@@ -36,6 +38,11 @@ public class SettingsActivity extends PreferenceActivity {
     private void loadPrefKeys(){
         pref_sync_sys_apps_k = getString(R.string.pref_sync_sys_apps_k);
         pref_wechat_only_k = getString(R.string.pref_wechat_only_k);
+    }
+    
+    private void initSwitchPref(final SwitchPreference preference, final String key, final boolean defaultValue){
+        preference.setOnPreferenceChangeListener(mOnPrefChangedListener);
+        preference.setChecked(mAppSettings.get(key, defaultValue));
     }
     
     private Preference.OnPreferenceChangeListener mOnPrefChangedListener = new Preference.OnPreferenceChangeListener() {
