@@ -36,8 +36,9 @@ public class UserGuideActivity extends Activity {
     }
     
     private AppSettings mAppSettings;
-    /*@Override
+    
+    @Override
     public void onBackPressed() {
-        finish();
-    }*/
+        if(getFragmentManager().getBackStackEntryCount() > 1) super.onBackPressed();
+    }
 }

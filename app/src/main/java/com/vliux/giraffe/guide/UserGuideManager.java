@@ -9,8 +9,12 @@ import android.preference.PreferenceManager;
  */
 
 public class UserGuideManager {
+    public static boolean hasShown(final Context context){
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(KEY_GUIDE_SHOWN, false);
+    }
+    
     public static boolean showUserGuideIfNeeded(final Context context, final boolean forceShow){
-        if(forceShow || !PreferenceManager.getDefaultSharedPreferences(context).getBoolean(KEY_GUIDE_SHOWN, false)) {
+        if(forceShow || !hasShown(context)) {
             context.startActivity(new Intent(context, UserGuideActivity.class));
             return true;
         }

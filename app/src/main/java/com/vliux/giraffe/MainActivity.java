@@ -76,12 +76,6 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new Adapter(mStorage.getMerged());
         mRecyclerView.setAdapter(mAdapter);
-        /*mRecyclerView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.notifyDataSetChanged();
-            }
-        }, 1000L);*/
         TraceServiceNotifier.registerNotificationUpdated(this, mNotifChangedReceiver);
     }
     
