@@ -27,7 +27,7 @@
     <string name="pref_wechat_only_sum">Sync notifications from Wechat only</string>
     <string name="about">About</string>
 
-    <string name="blog_link" translatable="false"><a href="http://vliux.me">by vliux.me</a></string>
+    <string name="blog_link"><a href="http://vliux.me">powered by vliux.me</a></string>
     <string name="merge_notif">Merge similar notifications</string>
     <string name="split_notif">Show original notifications</string>
 </resources>

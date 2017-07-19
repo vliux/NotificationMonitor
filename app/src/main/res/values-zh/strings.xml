@@ -16,6 +16,7 @@
     <string name="guide_explain_app">您可以同步并修饰全部应用，或仅指定应用的通知。</string>
     <string name="finish">完成</string>
     <string name="about">关于</string>
+    <string name="blog_link"><a href="http://vliux.me">由vliux.me开发</a></string>
     <string name="merge_notif">合并相似通知</string>
     <string name="split_notif">逐条显示原始通知</string>
 </resources>

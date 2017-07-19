@@ -1,6 +1,7 @@
 package com.vliux.giraffe.util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -63,6 +64,11 @@ public class Apps {
             Log.e(TAG, "NameNotFoundExp " + pkg, e);
         }
         return false;
+    }
+    
+    public static Intent ofLauncher(@NonNull final Context context, @NonNull final String pkg){
+        final PackageManager packageManager = context.getPackageManager();
+        return packageManager.getLaunchIntentForPackage(pkg);
     }
     
     private static final String TAG = "Giraffe";

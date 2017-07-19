@@ -4,7 +4,6 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -35,7 +34,6 @@ import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -70,12 +68,7 @@ public class MainActivity extends AppCompatActivity {
         mStorage = new NotificationRecordStorage(MainActivity.this);
         mRecyclerView = (RecyclerView)findViewById(R.id.rv);
         mFab = (FloatingActionButton)findViewById(R.id.fab);
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showBindingDialog();
-            }
-        });
+        mFab.setOnClickListener(v -> showBindingDialog());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new Adapter();
         updateList();
@@ -145,12 +138,7 @@ public class MainActivity extends AppCompatActivity {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setMessage(R.string.guide_explain_2)
                 .setCancelable(true)
-                .setPositiveButton(R.string.goto_bind, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        NotifPermission.request(MainActivity.this);
-                    }
-                });
+                .setPositiveButton(R.string.goto_bind, (dialog, which) -> NotifPermission.request(MainActivity.this));
         builder.show();
         return true;
     }
@@ -162,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean showAbout(){
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this)
-                .setTitle(R.string.about)
+                //.setTitle(R.string.about)
                 .setCancelable(true)
                 .setView(new AboutView(this));
         builder.create().show();
@@ -218,6 +206,14 @@ public class MainActivity extends AppCompatActivity {
             holder.mTvContent.setText(record.getText());
             holder.mTvTime.setText(new Date(record.getTime()).toString());
             loadIconAsync(record.getPkg(), holder.mTvApp);
+    
+            final Intent intent = Apps.ofLauncher(MainActivity.this, record.getPkg());
+            if(null != intent) {
+                holder.mTvContent.setOnClickListener(v -> {
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    MainActivity.this.startActivity(intent);
+                });
+            }
         }
     
         @Override
@@ -227,15 +223,12 @@ public class MainActivity extends AppCompatActivity {
         
         private void loadIconAsync(final String pkg, final TextView tv){
             //new AppInfoAsyncTask(MainActivity.this, tv, pkg).execute();
-            Observable.create(new ObservableOnSubscribe<Apps.AppDesc>() {
-                @Override
-                public void subscribe(@NonNull ObservableEmitter<Apps.AppDesc> e) throws Exception {
-                    final Apps.AppDesc desc = Apps.ofDesc(MainActivity.this, pkg);
-                    if(null != desc) {
-                        e.onNext(desc);
-                        e.onComplete();
-                    }else e.onError(null);
-                }
+            Observable.create((ObservableOnSubscribe<Apps.AppDesc>) e -> {
+                final Apps.AppDesc desc = Apps.ofDesc(MainActivity.this, pkg);
+                if(null != desc) {
+                    e.onNext(desc);
+                    e.onComplete();
+                }else e.onError(null);
             }).observeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Apps.AppDesc>() {
                 @Override
                 public void onSubscribe(@NonNull Disposable d) {
