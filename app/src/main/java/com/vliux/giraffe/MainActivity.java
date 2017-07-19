@@ -30,6 +30,7 @@ import com.vliux.giraffe.util.Apps;
 import com.vliux.giraffe.util.NotifPermission;
 import com.vliux.giraffe.view.AboutView;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private Adapter mAdapter;
     private NotificationRecordStorage mStorage;
     private Toolbar mToolbar;
+    private List<NotificationRecord> mRecords = new ArrayList<>();
     
     public static void start(final Context context, final boolean newTask){
         final Intent intent = new Intent(context, MainActivity.class);
@@ -74,7 +76,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new Adapter(mStorage.getMerged());
+        mAdapter = new Adapter();
+        mAdapter.setRecords(mStorage.getMerged(mRecords), mRecords);
         mRecyclerView.setAdapter(mAdapter);
         TraceServiceNotifier.registerNotificationUpdated(this, mNotifChangedReceiver);
     }
@@ -88,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mAdapter.setRecords(mStorage.getMerged());
+        mAdapter.setRecords(mStorage.getMerged(mRecords), mRecords);
     }
     
     @Override
@@ -158,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver mNotifChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            mAdapter.setRecords(mStorage.getMerged());
+            mAdapter.setRecords(mStorage.getMerged(mRecords), mRecords);
         }
     };
     
@@ -169,16 +172,14 @@ public class MainActivity extends AppCompatActivity {
     private class Adapter extends RecyclerView.Adapter<ViewHolder> {
         private List<NotificationRecord> mRecords;
     
-        public Adapter(final List<NotificationRecord> records) {
+        public Adapter() {
             super();
-            mRecords = records;
-            setSubTitle(null != records ? records.size() : 0);
         }
         
-        public void setRecords(final List<NotificationRecord> records){
+        public void setRecords(final int rawCount, final List<NotificationRecord> records){
             mRecords = records;
+            setSubTitle(rawCount);
             notifyDataSetChanged();
-            setSubTitle(null != records ? records.size() : 0);
         }
     
         @Override

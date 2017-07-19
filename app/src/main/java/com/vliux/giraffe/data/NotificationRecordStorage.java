@@ -17,6 +17,8 @@ import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Notification;
+
 /**
  * Created by vliux on 17/7/5.
  */
@@ -36,12 +38,17 @@ public class NotificationRecordStorage implements Closeable {
         }
     }
     
-    @Nullable
-    public List<NotificationRecord> getMerged(){
+    /**
+     * @param records the List to receive records.
+     * @return num of raw records (without merging).
+     */
+    public int getMerged(@NonNull final List<NotificationRecord> records){
+        records.clear();
+        int n = 0;
         final Cursor cursor = mContext.getContentResolver().query(NotificationRecordProvider.RECORD_CONTENT_URI, null, null, null, null);
         if(null != cursor){
-            final List<NotificationRecord> records = new ArrayList<>(cursor.getCount());
             NotificationRecord lastRecord = null;
+            n = cursor.getCount();
             for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
                 final String pkg = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_PKG));
                 final String title = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_TITLE));
@@ -56,9 +63,8 @@ public class NotificationRecordStorage implements Closeable {
                     records.add(lastRecord);
                 }
             }
-            return records;
         }
-        return null;
+        return n;
     }
     
     @Nullable
