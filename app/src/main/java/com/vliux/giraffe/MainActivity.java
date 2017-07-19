@@ -1,5 +1,7 @@
 package com.vliux.giraffe;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -98,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        if(BuildConfig.DEBUG){
+            menu.findItem(R.id.action_post_dbg).setEnabled(true);
+        }
         return super.onCreateOptionsMenu(menu);
     }
     
@@ -111,6 +116,8 @@ public class MainActivity extends AppCompatActivity {
                 return showSettings();
             case R.id.action_about:
                 return showAbout();
+            case R.id.action_post_dbg:
+                return postNotifDbg();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -141,6 +148,16 @@ public class MainActivity extends AppCompatActivity {
                 .setCancelable(true)
                 .setView(new AboutView(this));
         builder.create().show();
+        return true;
+    }
+    
+    private boolean postNotifDbg(){
+        final NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        final Notification.Builder builder = new Notification.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("Debug message")
+                .setContentText("Debug message from Giraffe");
+        nm.notify(0, builder.build());
         return true;
     }
     

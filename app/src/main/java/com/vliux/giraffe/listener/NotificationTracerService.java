@@ -84,6 +84,10 @@ public class NotificationTracerService extends NotificationListenerService {
     }
     
     private boolean intercept(final String pkg){
+        if(getPackageName().equals(pkg)){
+            Log.d(TAG, "ignore notification from myself");
+            return false;
+        }
         final boolean wechatOnly = mAppSettings.get(getString(R.string.pref_wechat_only_k), DEFAULT_WECHAT_ONLY);
         final boolean sysApps = mAppSettings.get(getString(R.string.pref_sync_sys_apps_k), DEFAULT_SYS_APPS);
         if(wechatOnly && !WECHAT.equals(pkg)){
@@ -92,7 +96,10 @@ public class NotificationTracerService extends NotificationListenerService {
         }else if((wechatOnly || !sysApps) && Apps.systemApp(this, pkg)){
             Log.w(TAG, "pkg is system app, ignored " + pkg);
             return false;
-        }else return true;
+        }else {
+            Log.d(TAG, "pkg will be processed: " + pkg);
+            return true;
+        }
     }
     
     private void cancelNotification(final StatusBarNotification sbn){

@@ -3,13 +3,18 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_post_dbg"
+        android:title="Post notification"
+        app:showAsAction="never"
+        android:enabled="false"/>
+
+    <item
         android:id="@+id/action_guide"
         android:title="@string/show_guide"
         app:showAsAction="never"/>
 
     <item
         android:id="@+id/action_setting"
-        android:icon="@drawable/ic_settings"
         android:title="@string/settings"
         app:showAsAction="never"/>
 
