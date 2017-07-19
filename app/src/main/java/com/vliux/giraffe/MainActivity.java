@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.vliux.giraffe.data.NotificationRecord;
 import com.vliux.giraffe.data.NotificationRecordStorage;
 import com.vliux.giraffe.guide.UserGuideManager;
+import com.vliux.giraffe.listener.TraceServiceNotifier;
 import com.vliux.giraffe.util.Apps;
 import com.vliux.giraffe.util.NotifPermission;
 import com.vliux.giraffe.view.AboutView;
@@ -82,13 +83,13 @@ public class MainActivity extends AppCompatActivity {
                 mAdapter.notifyDataSetChanged();
             }
         }, 1000L);*/
-        NotificationChangedNotifier.register(this, mNotifChangedReceiver);
+        TraceServiceNotifier.registerNotificationUpdated(this, mNotifChangedReceiver);
     }
     
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        NotificationChangedNotifier.unregister(this, mNotifChangedReceiver);
+        TraceServiceNotifier.unregister(this, mNotifChangedReceiver);
     }
     
     @Override

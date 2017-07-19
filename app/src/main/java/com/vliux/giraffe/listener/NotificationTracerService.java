@@ -8,9 +8,6 @@ import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.vliux.giraffe.Constants;
-import com.vliux.giraffe.MainActivity;
-import com.vliux.giraffe.NotificationChangedNotifier;
 import com.vliux.giraffe.R;
 import com.vliux.giraffe.data.NotificationRecord;
 import com.vliux.giraffe.data.NotificationRecordStorage;
@@ -38,7 +35,7 @@ public class NotificationTracerService extends NotificationListenerService {
                 processNotification(sbn);
             }
         }
-        MainActivity.start(getApplicationContext(), true);
+        TraceServiceNotifier.notifyServiceBound(this);
     }
 
     @Override
@@ -78,7 +75,7 @@ public class NotificationTracerService extends NotificationListenerService {
         if(!TextUtils.isEmpty(title) && !TextUtils.isEmpty(text)) {
             final Uri uri = mStorage.add(new NotificationRecord(pkg, title, text, time));
             Log.d(TAG, "   added to storage: " + uri);
-            NotificationChangedNotifier.notify(this, pkg);
+            TraceServiceNotifier.notifyNotificationUpdated(this, pkg);
         }
         cancelNotification(sbn);
     }
