@@ -25,4 +25,7 @@
     <string name="pref_wechat_only_k" translatable="false">pref_wechat_only_k</string>
     <string name="pref_wechat_only_title">Wechat only</string>
     <string name="pref_wechat_only_sum">Sync notifications from Wechat only</string>
+    <string name="about">About</string>
+
+    <string name="blog_link" translatable="false"><a href="http://vliux.me">by vliux.me</a></string>
 </resources>

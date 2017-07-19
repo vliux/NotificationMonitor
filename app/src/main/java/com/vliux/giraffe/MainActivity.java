@@ -25,6 +25,7 @@ import com.vliux.giraffe.data.NotificationRecordStorage;
 import com.vliux.giraffe.guide.UserGuideManager;
 import com.vliux.giraffe.util.Apps;
 import com.vliux.giraffe.util.NotifPermission;
+import com.vliux.giraffe.view.AboutView;
 
 import java.util.Date;
 import java.util.List;
@@ -107,14 +108,15 @@ public class MainActivity extends AppCompatActivity {
                 UserGuideManager.showUserGuideIfNeeded(this, true);
                 return true;
             case R.id.action_setting:
-                showSettings();
-                return true;
+                return showSettings();
+            case R.id.action_about:
+                return showAbout();
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
     
-    private void showBindingDialog(){
+    private boolean showBindingDialog(){
         final AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setMessage(R.string.guide_explain_2)
                 .setCancelable(true)
@@ -125,12 +127,23 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         builder.show();
+        return true;
     }
     
-    private void showSettings(){
+    private boolean showSettings(){
         startActivity(new Intent(this, SettingsActivity.class));
+        return true;
     }
 
+    private boolean showAbout(){
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this)
+                .setTitle(R.string.about)
+                .setCancelable(true)
+                .setView(new AboutView(this));
+        builder.create().show();
+        return true;
+    }
+    
     private BroadcastReceiver mNotifChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
