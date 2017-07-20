@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 
+import com.vliux.giraffe.util.Analytics;
+
 /**
  * Created by vliux on 2017/7/8.
  */
@@ -26,6 +28,7 @@ public class UserGuideManager {
                 .edit()
                 .putBoolean(KEY_GUIDE_SHOWN, true)
                 .apply();
+        Analytics.logWizardComplete();
     }
     
     private static final String KEY_GUIDE_SHOWN = "guide_shown";

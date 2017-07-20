@@ -7,6 +7,8 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 import static com.google.firebase.analytics.FirebaseAnalytics.Event.APP_OPEN;
 import static com.google.firebase.analytics.FirebaseAnalytics.Event.SELECT_CONTENT;
+import static com.google.firebase.analytics.FirebaseAnalytics.Event.TUTORIAL_BEGIN;
+import static com.google.firebase.analytics.FirebaseAnalytics.Event.TUTORIAL_COMPLETE;
 import static com.google.firebase.analytics.FirebaseAnalytics.Param.ITEM_CATEGORY;
 import static com.google.firebase.analytics.FirebaseAnalytics.Param.ITEM_ID;
 
@@ -24,7 +26,6 @@ public class Analytics {
     public static void logMenuEvent(final String action){
         final Bundle bundle = new Bundle();
         bundle.putString(ITEM_ID, action);
-        bundle.putString(ITEM_CATEGORY, ":main");
         sAnalytics.logEvent(SELECT_CONTENT, bundle);
     }
     
@@ -43,6 +44,20 @@ public class Analytics {
         final Bundle bundle = new Bundle();
         bundle.putString(ITEM_ID, "bind_srv");
         bundle.putString(ITEM_CATEGORY, ":service");
+        sAnalytics.logEvent(SELECT_CONTENT, bundle);
+    }
+    
+    public static void logWizardOpen(){
+        sAnalytics.logEvent(TUTORIAL_BEGIN, null);
+    }
+    
+    public static void logWizardComplete(){
+        sAnalytics.logEvent(TUTORIAL_COMPLETE, null);
+    }
+    
+    public static void logClickListItem(final String pkg){
+        final Bundle bundle = new Bundle();
+        bundle.putString("pkg", pkg);
         sAnalytics.logEvent(SELECT_CONTENT, bundle);
     }
 }

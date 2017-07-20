@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.vliux.giraffe.R;
+import com.vliux.giraffe.util.Analytics;
 import com.vliux.giraffe.util.AppSettings;
 
 /**
@@ -13,6 +14,7 @@ import com.vliux.giraffe.util.AppSettings;
  */
 
 public class UserGuideActivity extends Activity {
+    
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +25,7 @@ public class UserGuideActivity extends Activity {
                 .addToBackStack(BindServiceFragment.class.getSimpleName())
                 .replace(R.id.container, fragment, BindServiceFragment.class.getSimpleName())
                 .commit();
+        Analytics.logWizardOpen();
     }
     
     @Override

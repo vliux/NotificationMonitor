@@ -58,8 +58,10 @@ public class BindServiceFragment extends AbstractGuideFragment {
                 public void onReceive(Context context, Intent intent) {
                     unregister(context, this);
                     final Activity activity = getActivity();
-                    if(null != activity) activity.finish();
-                    MainActivity.start(context, false);
+                    if(null != activity) {
+                        activity.finish();
+                        MainActivity.start(activity, false);
+                    }else MainActivity.start(context, true);
                 }
             });
             if(!request(getActivity())) showUnsupported(getActivity());

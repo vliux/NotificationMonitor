@@ -220,6 +220,7 @@ public class MainActivity extends AppCompatActivity {
                 holder.mContainer.setOnClickListener(v -> {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     MainActivity.this.startActivity(intent);
+                    Analytics.logClickListItem(record.getPkg());
                 });
             }
         }
