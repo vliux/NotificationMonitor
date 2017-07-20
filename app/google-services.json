@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "141615603992",
+    "firebase_url": "https://giraffe-b3dc1.firebaseio.com",
+    "project_id": "giraffe-b3dc1",
+    "storage_bucket": "giraffe-b3dc1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:141615603992:android:fa9b58c2ed2a46c6",
+        "android_client_info": {
+          "package_name": "com.vliux.giraffe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "141615603992-tuhloeoa6b0u3rhuruq8t5tdbmvp7esb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vliux.giraffe",
+            "certificate_hash": "cdbc93d17d857384dad94cceeccd380dcb394e99"
+          }
+        },
+        {
+          "client_id": "141615603992-p20hi2cr5aacbif9s2316vfpckaacjea.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvpcUWjxs-FIkxyMN6pzNxjW-x7PpiKIw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "141615603992-p20hi2cr5aacbif9s2316vfpckaacjea.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

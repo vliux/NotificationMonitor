@@ -28,6 +28,7 @@ public class NotifPermission {
     }
     
     public static boolean request(@NonNull final Activity activity){
+        Analytics.logBindServiceOnUi();
         final Intent intent = intent(activity);
         if(null != intent){
             activity.startActivity(intent);

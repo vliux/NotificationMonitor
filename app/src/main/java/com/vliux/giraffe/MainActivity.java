@@ -25,6 +25,7 @@ import com.vliux.giraffe.data.NotificationRecord;
 import com.vliux.giraffe.data.NotificationRecordStorage;
 import com.vliux.giraffe.guide.UserGuideManager;
 import com.vliux.giraffe.listener.TraceServiceNotifier;
+import com.vliux.giraffe.util.Analytics;
 import com.vliux.giraffe.util.Apps;
 import com.vliux.giraffe.view.AboutView;
 
@@ -43,7 +44,6 @@ import io.reactivex.schedulers.Schedulers;
 import static com.vliux.giraffe.util.NotifPermission.*;
 
 public class MainActivity extends AppCompatActivity {
-
     private RecyclerView mRecyclerView;
     private FloatingActionButton mFab;
     private Adapter mAdapter;
@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Analytics.logAppOpen();
         UserGuideManager.showUserGuideIfNeeded(this, false);
         
         setContentView(R.layout.activity_main);
@@ -102,13 +103,17 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_merge_split:
+                Analytics.logMenuEvent("action_merge_split");
                 return toggleShowAsMerged(item);
             case R.id.action_guide:
                 UserGuideManager.showUserGuideIfNeeded(this, true);
+                Analytics.logMenuEvent("action_guide");
                 return true;
             case R.id.action_setting:
+                Analytics.logMenuEvent("action_setting");
                 return showSettings();
             case R.id.action_about:
+                Analytics.logMenuEvent("action_about");
                 return showAbout();
             case R.id.action_post_dbg:
                 return postNotifDbg();

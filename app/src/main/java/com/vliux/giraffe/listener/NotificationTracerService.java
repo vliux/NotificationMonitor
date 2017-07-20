@@ -11,6 +11,7 @@ import android.util.Log;
 import com.vliux.giraffe.R;
 import com.vliux.giraffe.data.NotificationRecord;
 import com.vliux.giraffe.data.NotificationRecordStorage;
+import com.vliux.giraffe.util.Analytics;
 import com.vliux.giraffe.util.AppSettings;
 import com.vliux.giraffe.util.Apps;
 
@@ -27,6 +28,7 @@ public class NotificationTracerService extends NotificationListenerService {
     public void onListenerConnected() {
         super.onListenerConnected();
         Log.d(TAG, "*** Current active notifications:");
+        Analytics.logBindServiceOnListener();
         mNofiticationStats = new NotificationStats(this);
         mAppSettings = new AppSettings(this);
         mStorage = new NotificationRecordStorage(this);
