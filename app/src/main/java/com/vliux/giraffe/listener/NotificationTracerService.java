@@ -65,9 +65,8 @@ public class NotificationTracerService extends NotificationListenerService {
     }
     
     private void processNotification(final StatusBarNotification sbn){
+        if(!intercept(sbn)) return;
         final String pkg = sbn.getPackageName();
-        if(!intercept(pkg)) return;
-        
         final long time = sbn.getPostTime();
         final Notification notification = sbn.getNotification();
         final String title = NotificationParser.getTitle(notification.extras);
@@ -82,7 +81,8 @@ public class NotificationTracerService extends NotificationListenerService {
         cancelNotification(sbn);
     }
     
-    private boolean intercept(final String pkg){
+    private boolean intercept(final StatusBarNotification sbn){
+        final String pkg = sbn.getPackageName();
         if(getPackageName().equals(pkg)){
             Log.d(TAG, "ignore notification from myself");
             return false;
@@ -94,6 +94,9 @@ public class NotificationTracerService extends NotificationListenerService {
             return false;
         }else if((wechatOnly || !sysApps) && Apps.systemApp(this, pkg)){
             Log.w(TAG, "pkg is system app, ignored " + pkg);
+            return false;
+        }else if(sbn.isOngoing()) {
+            Log.d(TAG, "notification is ongoing, ignored: " + pkg);
             return false;
         }else {
             Log.d(TAG, "pkg will be processed: " + pkg);
