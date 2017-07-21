@@ -1,7 +1,9 @@
 package com.vliux.giraffe.util;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -33,6 +35,20 @@ public class Analytics {
         sAnalytics.logEvent(APP_OPEN, null);
     }
     
+    public static void logSettingsUnsupported(@NonNull final Context context){
+        final Bundle bundle = new Bundle();
+        bundle.putString(ITEM_ID, "settingUnsupport");
+        putIfNotEmpty(bundle, "androidId", DeviceUtil.getAndroidId(context));
+        putIfNotEmpty(bundle, "devBrand", DeviceUtil.getDeviceBrand());
+        putIfNotEmpty(bundle, "devModel", DeviceUtil.getDeviceModel());
+        putIfNotEmpty(bundle, "devName", DeviceUtil.getDeviceName());
+        putIfNotEmpty(bundle, "manufacture", DeviceUtil.getManufacture());
+        putIfNotEmpty(bundle, "sysVer", DeviceUtil.getSystemVersion());
+        putIfNotEmpty(bundle, "bldSerial", DeviceUtil.getBuildSerial());
+        putIfNotEmpty(bundle, "sysLang", DeviceUtil.getSystemLanguage());
+        sAnalytics.logEvent(SELECT_CONTENT, bundle);
+    }
+    
     public static void logBindServiceOnUi(){
         final Bundle bundle = new Bundle();
         bundle.putString(ITEM_ID, "bind_srv");
@@ -59,5 +75,11 @@ public class Analytics {
         final Bundle bundle = new Bundle();
         bundle.putString("pkg", pkg);
         sAnalytics.logEvent(SELECT_CONTENT, bundle);
+    }
+    
+    private static void putIfNotEmpty(final Bundle bundle, final String key, final String value){
+        if(null != key && key.length() > 0
+                && null != value && value.length() > 0)
+            bundle.putString(key, value);
     }
 }

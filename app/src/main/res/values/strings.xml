@@ -1,14 +1,14 @@
 <resources>
-    <string name="app_name">Giraffe</string>
+    <string name="app_name">Flyfish</string>
     <string name="main_subtitle">totally %d notifications</string>
     <string name="settings">Settings</string>
-    <string name="service_name">Giraffe service</string>
+    <string name="service_name">Flyfish</string>
     <string name="goto_bind">Grant permission ...</string>
     <string name="goto_bind_msg_2">Turn on the switch button next to \'%1$s\'.</string>
 
-    <string name="guide_title">Welcome to Giraffe</string>
-    <string name="guide_explain_1">Many apps today still don\'t follow the notification standard on Android. Giraffe is a tool to synchronize from and make decroations to notifications.</string>
-    <string name="guide_explain_2">To have Giraffe work, notification permission has to be explicitly granted to \"Giraffe Service\" in system preferences.</string>
+    <string name="guide_title">Welcome to Flyfish</string>
+    <string name="guide_explain_1">Flyfish can effectively make the system notification bar tidy and out of chaos.</string>
+    <string name="guide_explain_2">To have Flyfish work, notification permission has to be explicitly granted to \"Flyfish\" in system preferences.</string>
 
     <string name="switch_wechat_on">Synchronize WeChat only</string>
     <string name="switch_wechat_off">Synchronize all apps</string>
@@ -31,6 +31,6 @@
     <string name="merge_notif">Merge similar notifications</string>
     <string name="split_notif">Show original notifications</string>
     <string name="got_it">Got it</string>
-    <string name="dev_not_support">We are sorry that your device doesn\'t allow to configure \'Notification access\', so Giraffe will not be able to work.</string>
+    <string name="dev_not_support">We are sorry but it\'s unable to configure \'Notification access\' on your device, so Flyfish will not work. We will make our best to make it more compatible.</string>
     <string name="quit">Quit</string>
 </resources>

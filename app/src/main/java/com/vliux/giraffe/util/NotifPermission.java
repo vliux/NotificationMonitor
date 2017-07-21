@@ -40,6 +40,7 @@ public class NotifPermission {
     }
     
     public static void showUnsupported(@NonNull final Activity activity){
+        Analytics.logSettingsUnsupported(activity);
         new AlertDialog.Builder(activity)
                 .setMessage(R.string.dev_not_support)
                 .setCancelable(false)

@@ -1,13 +1,13 @@
 <resources>
-    <string name="app_name">鲱鱼</string>
+    <string name="app_name">飞鱼</string>
     <string name="main_subtitle">共%d条通知</string>
     <string name="settings">设置</string>
-    <string name="service_name">Giraffe服务</string>
+    <string name="service_name">飞鱼</string>
     <string name="goto_bind">去赋予权限...</string>
     <string name="goto_bind_msg_2">请打开\"%1$s\"所对应的开关。</string>
-    <string name="guide_explain_1">直至今日，仍旧有许多移动应用不遵守Android的通知标准。Giraffe是一个从系统同步通知并将其改造成标准模式的工具应用。</string>
-    <string name="guide_explain_2">要使Giraffe正常工作，需要在系统设置中赋予\"Giraffe服务\"通知使用权。</string>
-    <string name="guide_title">欢迎使用Giraffe</string>
+    <string name="guide_explain_1">飞鱼能够帮助您有效地整理通知，让系统通知栏不再混乱。</string>
+    <string name="guide_explain_2">要使飞鱼正常工作，需要在系统设置中赋予\"飞鱼\"通知使用权。</string>
+    <string name="guide_title">欢迎使用飞鱼</string>
     <string name="switch_wechat_off">同步所有App</string>
     <string name="switch_wechat_on">仅同步微信</string>
     <string name="show_guide">用户向导</string>
@@ -20,6 +20,6 @@
     <string name="merge_notif">合并相似通知</string>
     <string name="split_notif">逐条显示原始通知</string>
     <string name="got_it">知道了</string>
-    <string name="dev_not_support">很抱歉，您的设备不允许设置\'通知访问\'，因此Giraffe无法正常工作。</string>
+    <string name="dev_not_support">很抱歉，您的设备似乎无法设置\'通知访问\'，因此飞鱼无法正常工作。我们会让飞鱼尽快兼容更多的设备。</string>
     <string name="quit">退出</string>
 </resources>

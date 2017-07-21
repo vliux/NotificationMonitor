@@ -26,7 +26,7 @@ public class AppSettings implements Closeable{
     }
     
     public void setBoolean(final String key, final boolean b){
-        mSp.edit().putBoolean(key, b).apply();
+        mSp.edit().putBoolean(key, b).commit();
         mContext.sendBroadcast(new Intent(ACTION_UPDATED).putExtra(EXTRA_PID, android.os.Process.myPid()));
     }
     
