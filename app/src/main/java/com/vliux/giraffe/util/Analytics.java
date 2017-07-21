@@ -13,6 +13,7 @@ import static com.google.firebase.analytics.FirebaseAnalytics.Event.TUTORIAL_BEG
 import static com.google.firebase.analytics.FirebaseAnalytics.Event.TUTORIAL_COMPLETE;
 import static com.google.firebase.analytics.FirebaseAnalytics.Param.ITEM_CATEGORY;
 import static com.google.firebase.analytics.FirebaseAnalytics.Param.ITEM_ID;
+import static com.google.firebase.analytics.FirebaseAnalytics.Param.ITEM_NAME;
 
 /**
  * Created by vliux on 2017/7/20.
@@ -56,9 +57,16 @@ public class Analytics {
         sAnalytics.logEvent(SELECT_CONTENT, bundle);
     }
     
-    public static void logBindServiceOnListener(){
+    public static void logBindService(){
         final Bundle bundle = new Bundle();
         bundle.putString(ITEM_ID, "bind_srv");
+        bundle.putString(ITEM_CATEGORY, ":service");
+        sAnalytics.logEvent(SELECT_CONTENT, bundle);
+    }
+    
+    public static void logUnbindService(){
+        final Bundle bundle = new Bundle();
+        bundle.putString(ITEM_ID, "unbind_srv");
         bundle.putString(ITEM_CATEGORY, ":service");
         sAnalytics.logEvent(SELECT_CONTENT, bundle);
     }
@@ -77,6 +85,13 @@ public class Analytics {
         sAnalytics.logEvent(SELECT_CONTENT, bundle);
     }
     
+    public static void logError(@NonNull final Throwable e){
+        final Bundle bundle = new Bundle();
+        bundle.putString(ITEM_ID, "err");
+        bundle.putString(ITEM_NAME, "reqBind");
+        sAnalytics.logEvent(SELECT_CONTENT, bundle);
+        
+    }
     private static void putIfNotEmpty(final Bundle bundle, final String key, final String value){
         if(null != key && key.length() > 0
                 && null != value && value.length() > 0)

@@ -15,6 +15,7 @@ import com.vliux.giraffe.util.Analytics;
 import com.vliux.giraffe.util.AppSettings;
 import com.vliux.giraffe.util.Apps;
 
+import static com.vliux.giraffe.Constants.*;
 import static com.vliux.giraffe.Constants.Pkgs.*;
 import static com.vliux.giraffe.Constants.Settings.*;
 
@@ -24,18 +25,18 @@ import static com.vliux.giraffe.Constants.Settings.*;
  */
 
 public class NotificationTracerService extends NotificationListenerService {
+    
     @Override
     public void onListenerConnected() {
         super.onListenerConnected();
         Log.d(TAG, "*** Current active notifications:");
-        Analytics.logBindServiceOnListener();
-        mNofiticationStats = new NotificationStats(this);
+        Analytics.logBindService();
         mAppSettings = new AppSettings(this);
         mStorage = new NotificationRecordStorage(this);
-        if(mNofiticationStats.setFirstRun(false)) {
-            for (final StatusBarNotification sbn : getActiveNotifications()) {
-                processNotification(sbn);
-            }
+        final String keySrvBound = getString(R.string.pref_notif_srv_bound);
+        if(mAppSettings.get(keySrvBound, Settings.NOTIF_SRV_BOUND)) {
+            mAppSettings.setBoolean(keySrvBound, true);
+            for (final StatusBarNotification sbn : getActiveNotifications()) processNotification(sbn);
         }
         TraceServiceNotifier.notifyServiceBound(this);
     }
@@ -62,6 +63,7 @@ public class NotificationTracerService extends NotificationListenerService {
         super.onListenerDisconnected();
         mStorage.close();
         mAppSettings.close();
+        Analytics.logUnbindService();
     }
     
     private void processNotification(final StatusBarNotification sbn){
@@ -106,11 +108,11 @@ public class NotificationTracerService extends NotificationListenerService {
     
     private void cancelNotification(final StatusBarNotification sbn){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) cancelNotification(sbn.getKey());
-        else cancelNotification(sbn.getPackageName(), sbn.getTag(), sbn.getId());
+        else //noinspection deprecation
+            cancelNotification(sbn.getPackageName(), sbn.getTag(), sbn.getId());
     }
     
     private NotificationRecordStorage mStorage;
-    private NotificationStats mNofiticationStats;
     private AppSettings mAppSettings;
     private static final String TAG = NotificationTracerService.class.getSimpleName();
     

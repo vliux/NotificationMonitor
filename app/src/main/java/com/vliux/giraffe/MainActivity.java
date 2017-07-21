@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         updateList();
         mRecyclerView.setAdapter(mAdapter);
         TraceServiceNotifier.registerNotificationUpdated(this, mNotifChangedReceiver);
+        TracerEnsurer.ensure(this);
     }
     
     @Override
