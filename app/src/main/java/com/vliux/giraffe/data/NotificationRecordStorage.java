@@ -17,6 +17,8 @@ import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.vliux.giraffe.provider.NotificationRecordProvider.RECORD_CONTENT_URI;
+
 /**
  * Created by vliux on 17/7/5.
  */
@@ -38,7 +40,7 @@ public class NotificationRecordStorage implements Closeable {
     
     public List<NotificationRecord> getRaw(){
         List<NotificationRecord> records = null;
-        final Cursor cursor = mContext.getContentResolver().query(NotificationRecordProvider.RECORD_CONTENT_URI, null, null, null, null);
+        final Cursor cursor = mContext.getContentResolver().query(RECORD_CONTENT_URI, null, null, null, null);
         if(null != cursor){
             records = new ArrayList<>();
             for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
@@ -59,7 +61,7 @@ public class NotificationRecordStorage implements Closeable {
     public int getMerged(@NonNull final List<NotificationRecord> records){
         records.clear();
         int n = 0;
-        final Cursor cursor = mContext.getContentResolver().query(NotificationRecordProvider.RECORD_CONTENT_URI, null, null, null, null);
+        final Cursor cursor = mContext.getContentResolver().query(RECORD_CONTENT_URI, null, null, null, null);
         if(null != cursor){
             NotificationRecord lastRecord = null;
             n = cursor.getCount();
@@ -84,7 +86,7 @@ public class NotificationRecordStorage implements Closeable {
     @Nullable
     public List<NotificationRecord> get(final String pkg){
         final Cursor cursor = mContext.getContentResolver()
-                .query(Uri.withAppendedPath(NotificationRecordProvider.RECORD_CONTENT_URI, pkg),
+                .query(Uri.withAppendedPath(RECORD_CONTENT_URI, pkg),
                 null, null, null, null);
         if(null != cursor){
             final List<NotificationRecord> records = new ArrayList<>(cursor.getCount());
@@ -109,16 +111,16 @@ public class NotificationRecordStorage implements Closeable {
             cv.put(NotificationRecord.COL_TIME, record.getTime());
             if(null != mClient) {
                 try {
-                    mClient.insert(NotificationRecordProvider.RECORD_CONTENT_URI, cv);
+                    return mClient.insert(RECORD_CONTENT_URI, cv);
                 } catch (RemoteException e) {
                     Log.e(TAG, "unable to save through ContentProviderClient", e);
                     return null;
                 }
-            } else return mContext.getContentResolver().insert(NotificationRecordProvider.RECORD_CONTENT_URI, cv);
+            } else return mContext.getContentResolver().insert(RECORD_CONTENT_URI, cv);
         }
         return null;
     }
-    
+
     private Context mContext;
     private volatile ContentProviderClient mClient;
     private static final String TAG = "NotificationStorage";

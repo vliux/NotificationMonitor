@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * Created by vliux on 2017/7/18.
+ * @author vliux
  */
 
 class WechatDecro implements IDecro {
@@ -24,7 +25,7 @@ class WechatDecro implements IDecro {
     }
     
     @Override
-    public Notification decro(final Context context, @NonNull String pkg, @NonNull Apps.AppDesc appDesc, @NonNull List<NotificationRecord> records) {
+    public Notification decro(@NonNull final Context context, @NonNull String pkg, @NonNull Apps.AppDesc appDesc, @NonNull List<NotificationRecord> records) {
         final Notification.Builder builder = new Notification.Builder(context)
                 .setContentTitle(appDesc.label)
                 .setContentText(context.getString(R.string.total_msg, String.valueOf(records.size())))

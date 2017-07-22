@@ -25,12 +25,14 @@ class DefaultDecro implements IDecro {
     
     @Nullable
     @Override
-    public Notification decro(@NonNull final Context context, @NonNull String pkg, @NonNull Apps.AppDesc appDesc, @NonNull List<NotificationRecord> records) {
+    public Notification decro(@NonNull final Context context, @NonNull String pkg,
+                              @NonNull Apps.AppDesc appDesc,
+                              @NonNull List<NotificationRecord> records) {
         final Notification.Builder builder = new Notification.Builder(context)
                 .setContentTitle(appDesc.label)
                 .setContentText(context.getString(R.string.total_msg, String.valueOf(records.size())))
                 .setSmallIcon(R.mipmap.ic_launcher);
-    
+
         final Notification.InboxStyle inboxStyle = new Notification.InboxStyle();
         int i = 0;
         for (final NotificationRecord record : records) {

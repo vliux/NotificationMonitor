@@ -65,7 +65,8 @@ public class Apps {
         }
         return false;
     }
-    
+
+    @Nullable
     public static Intent ofLauncher(@NonNull final Context context, @NonNull final String pkg){
         final PackageManager packageManager = context.getPackageManager();
         return packageManager.getLaunchIntentForPackage(pkg);

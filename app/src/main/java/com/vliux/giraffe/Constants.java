@@ -6,6 +6,9 @@ package com.vliux.giraffe;
  */
 
 public class Constants {
+    public static String TAG = "giraffe";
+    public static final int INTENT_CACHE_SIZE = 30;
+
     public static class Item {
         public static final String DOT = "•";
     }
