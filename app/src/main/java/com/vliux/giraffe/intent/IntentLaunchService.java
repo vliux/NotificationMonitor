@@ -22,9 +22,9 @@ public class IntentLaunchService extends IntentService {
     private static final IntentCaches sCache = new IntentCaches();
 
     @Nullable
-    public PendingIntent getForNotification(@NonNull final Context context, @NonNull final String pkg, @NonNull final Uri uri){
+    public static PendingIntent getForNotification(@NonNull final Context context, @NonNull final String pkg, @NonNull final Uri uri){
         return PendingIntent.getService(context, 0,
-                new Intent(context, IntentLaunchService.class).setData(uri).putExtra(Intent.EXTRA_PACKAGE_NAME, pkg),
+                new Intent("com.vliux.giraffe.INTENT_LAUNCH").setData(uri).putExtra(Intent.EXTRA_PACKAGE_NAME, pkg),
                 FLAG_UPDATE_CURRENT);
     }
 

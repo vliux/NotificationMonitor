@@ -78,7 +78,7 @@ public class NotificationTracerService extends NotificationListenerService {
         
         Log.d(TAG, String.format("  Notification: pkg=%s, t=%d, txt=%s", pkg, time, text));
         if(!TextUtils.isEmpty(title) && !TextUtils.isEmpty(text)) {
-            final Uri uri = mStorage.add(new NotificationRecord(pkg, title, text, time));
+            final Uri uri = mStorage.add(NotificationRecord.fromListener(pkg, title, text, time));
             Log.d(TAG, "   added to storage: " + uri);
             cachePendingIntent(uri, notification);
             TraceServiceNotifier.notifyNotificationUpdated(this, pkg);

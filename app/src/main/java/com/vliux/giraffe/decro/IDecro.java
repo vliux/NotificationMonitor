@@ -21,4 +21,6 @@ interface IDecro {
                        @NonNull final Apps.AppDesc appDesc, @NonNull final List<NotificationRecord> records);
     
     int MAX_INBOX_ITEMS = 5;
+
+    static final String TAG = "NotifDecro";
 }

@@ -1,5 +1,8 @@
 package com.vliux.giraffe.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by vliux on 17/7/5.
  */
@@ -11,23 +14,33 @@ public class NotificationRecord {
     public static final String COL_TITLE = "title";
     public static final String COL_TEXT = "text";
     public static final String COL_PKG = "pkg";
-    
+
+    private int id;
     private final String pkg;
     private final String title;
     private String text;
-    private StringBuilder mTextSb;
     private final long time;
-    
-    public NotificationRecord(String pkg, String title, String text, long time) {
+    private List<NotificationRecord> mMerged;
+
+    private NotificationRecord(final int id, final String pkg, final String title, final String text, final long time) {
+        this.id = id;
         this.pkg = pkg;
         this.title = title;
         this.text = text;
         this.time = time;
     }
+
+    public static NotificationRecord fromListener(final String pkg, final String title, final String text, final long time){
+        return new NotificationRecord(-1, pkg, title, text, time);
+    }
+
+    public static NotificationRecord fromStorage(final int id, final String pkg, final String title, final String text, final long time){
+        return new NotificationRecord(id, pkg, title, text, time);
+    }
     
-    public void insertTextAtHead(final String text){
-        if(null == mTextSb) mTextSb = new StringBuilder();
-        mTextSb.insert(0, '\n').insert(0, text);
+    public void mergeWith(final NotificationRecord record){
+        if(null == mMerged) mMerged = new ArrayList<>();
+        mMerged.add(record);
     }
     
     public String getPkg() {
@@ -35,11 +48,6 @@ public class NotificationRecord {
     }
     
     public String getText() {
-        if(null != mTextSb) {
-            if(null != text) text = mTextSb.insert(0, '\n').insert(0, text).toString();
-            else text = mTextSb.toString();
-            mTextSb = null;
-        }
         return text;
     }
     
@@ -49,5 +57,9 @@ public class NotificationRecord {
     
     public long getTime() {
         return time;
+    }
+
+    public int getId() {
+        return id;
     }
 }

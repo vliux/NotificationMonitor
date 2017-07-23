@@ -16,7 +16,7 @@ import static com.vliux.giraffe.data.NotificationRecord.*;
 public class RecordDbHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "notif_records";
     private static final int VERSION = 1;
-    private static final String[] COLOLUMS = new String[]{COL_PKG, COL_TITLE, COL_TEXT, COL_TIME};
+    private static final String[] COLOLUMS = new String[]{COL_ID, COL_PKG, COL_TITLE, COL_TEXT, COL_TIME};
     
     public RecordDbHelper(final Context context){
         super(context, DB_NAME, null, VERSION);

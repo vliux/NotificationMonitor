@@ -44,11 +44,12 @@ public class NotificationRecordStorage implements Closeable {
         if(null != cursor){
             records = new ArrayList<>();
             for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
+                final int id = cursor.getInt(cursor.getColumnIndex(NotificationRecord.COL_ID));
                 final String pkg = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_PKG));
                 final String title = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_TITLE));
                 final String text = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_TEXT));
                 final long time = cursor.getLong(cursor.getColumnIndex(NotificationRecord.COL_TIME));
-                records.add(new NotificationRecord(pkg, title, text, time));
+                records.add(NotificationRecord.fromStorage(id, pkg, title, text, time));
             }
         }
         return records;
@@ -66,6 +67,7 @@ public class NotificationRecordStorage implements Closeable {
             NotificationRecord lastRecord = null;
             n = cursor.getCount();
             for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
+                final int id = cursor.getInt(cursor.getColumnIndex(NotificationRecord.COL_ID));
                 final String pkg = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_PKG));
                 final String title = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_TITLE));
                 final String text = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_TEXT));
@@ -73,9 +75,9 @@ public class NotificationRecordStorage implements Closeable {
                 if(null != lastRecord
                         && lastRecord.getPkg().equals(pkg)
                         && lastRecord.getTitle().equals(title)) {
-                    lastRecord.insertTextAtHead(text);
+                    lastRecord.mergeWith(NotificationRecord.fromStorage(id, pkg, title, text, time));
                 }else {
-                    lastRecord = new NotificationRecord(pkg, title, text, time);
+                    lastRecord = NotificationRecord.fromStorage(id, pkg, title, text, time);
                     records.add(lastRecord);
                 }
             }
@@ -91,11 +93,12 @@ public class NotificationRecordStorage implements Closeable {
         if(null != cursor){
             final List<NotificationRecord> records = new ArrayList<>(cursor.getCount());
             for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
+                final int id = cursor.getInt(cursor.getColumnIndex(NotificationRecord.COL_ID));
                 //final String pkg = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_PKG));
                 final String title = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_TITLE));
                 final String text = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_TEXT));
                 final long time = cursor.getLong(cursor.getColumnIndex(NotificationRecord.COL_TIME));
-                records.add(new NotificationRecord(pkg, title, text, time));
+                records.add(NotificationRecord.fromStorage(id, pkg, title, text, time));
             }
             return records;
         }
@@ -119,6 +122,10 @@ public class NotificationRecordStorage implements Closeable {
             } else return mContext.getContentResolver().insert(RECORD_CONTENT_URI, cv);
         }
         return null;
+    }
+
+    public static Uri get(final int id){
+        return Uri.withAppendedPath(RECORD_CONTENT_URI, String.valueOf(id));
     }
 
     private Context mContext;

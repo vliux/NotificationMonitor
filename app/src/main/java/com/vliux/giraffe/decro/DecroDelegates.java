@@ -25,8 +25,8 @@ class DecroDelegates {
     }
     
     private DecroDelegates() {
-        final IDecro wechatDecro = new WechatDecro();
-        mDecros.put(wechatDecro.getPackage(), wechatDecro);
+        /*final IDecro wechatDecro = new WechatDecro();
+        mDecros.put(wechatDecro.getPackage(), wechatDecro);*/
     }
     
     @NonNull
