@@ -6,7 +6,7 @@ package com.vliux.giraffe;
  */
 
 public class Constants {
-    public static String TAG = "giraffe";
+    public static final String TAG = "giraffe";
     public static final int INTENT_CACHE_SIZE = 30;
 
     public static class Item {
@@ -21,5 +21,9 @@ public class Constants {
     
     public static class Pkgs {
         public static final String WECHAT = "com.tencent.mm";
+    }
+    
+    public static class IntentExtras {
+        public static final String PKG = "pkg";
     }
 }

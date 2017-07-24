@@ -44,11 +44,7 @@
                  android:process=":service" />
 
         <service android:name=".intent.IntentLaunchService"
-            android:process=":service">
-            <intent-filter>
-                <action android:name="com.vliux.giraffe.INTENT_LAUNCH" />
-            </intent-filter>
-        </service>
+            android:process=":service" />
     </application>
 
 </manifest>

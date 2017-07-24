@@ -12,6 +12,8 @@ import com.vliux.giraffe.util.Apps;
 
 import java.util.List;
 
+import static com.vliux.giraffe.Constants.IntentExtras.*;
+
 /**
  * Created by vliux on 2017/7/17.
  */
@@ -19,7 +21,7 @@ import java.util.List;
 public class NotificationDecroService extends IntentService {
     public static void decro(final Context context, final String pkg){
         final Intent intent = new Intent(context, NotificationDecroService.class)
-                .putExtra(Intent.EXTRA_PACKAGE_NAME, pkg);
+                .putExtra(PKG, pkg);
         context.startService(intent);
     }
     
@@ -45,7 +47,7 @@ public class NotificationDecroService extends IntentService {
     }
     
     private static String pkg(final Intent intent){
-        return intent.getStringExtra(Intent.EXTRA_PACKAGE_NAME);
+        return intent.getStringExtra(PKG);
     }
     
 }
