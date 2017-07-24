@@ -42,7 +42,7 @@ public class SettingsActivity extends PreferenceActivity {
     
     private void initSwitchPref(final SwitchPreference preference, final String key, final boolean defaultValue){
         preference.setOnPreferenceChangeListener(mOnPrefChangedListener);
-        preference.setChecked(mAppSettings.get(key, defaultValue));
+        preference.setChecked(mAppSettings.getBoolean(key, defaultValue));
     }
     
     private Preference.OnPreferenceChangeListener mOnPrefChangedListener = new Preference.OnPreferenceChangeListener() {
@@ -60,14 +60,14 @@ public class SettingsActivity extends PreferenceActivity {
     
     private void onWechatOnlyChanged(final Object newValue){
         final boolean checked = (boolean)newValue;
-        mAppSettings.setBoolean(pref_wechat_only_k, checked);
+        mAppSettings.set(pref_wechat_only_k, checked);
         mWechatPref.setChecked(checked);
         mSysAppsPref.setEnabled(!checked);
     }
     
     private void onSysAppsChanged(final Object newValue){
         final boolean checked = (boolean)newValue;
-        mAppSettings.setBoolean(pref_sync_sys_apps_k, checked);
+        mAppSettings.set(pref_sync_sys_apps_k, checked);
         mSysAppsPref.setChecked(checked);
     }
     

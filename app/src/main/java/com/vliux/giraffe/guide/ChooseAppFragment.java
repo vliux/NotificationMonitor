@@ -39,13 +39,13 @@ public class ChooseAppFragment extends AbstractGuideFragment {
     }
     
     private void updateWechatSwitch(){
-        final boolean checked = getSettings().get(getString(R.string.pref_wechat_only_k), DEFAULT_WECHAT_ONLY);
+        final boolean checked = getSettings().getBoolean(getString(R.string.pref_wechat_only_k), DEFAULT_WECHAT_ONLY);
         mSwWechat.setChecked(checked);
         mSwWechat.setText(getString(checked ? R.string.switch_wechat_on : R.string.switch_wechat_off));
     }
     
     private final CompoundButton.OnCheckedChangeListener mOnWechatSwitchChanged = (buttonView, isChecked) -> {
-        getSettings().setBoolean(getString(R.string.pref_wechat_only_k), isChecked);
+        getSettings().set(getString(R.string.pref_wechat_only_k), isChecked);
         updateWechatSwitch();
     };
     

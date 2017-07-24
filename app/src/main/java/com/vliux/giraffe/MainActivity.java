@@ -239,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
                     e.onNext(desc);
                     e.onComplete();
                 }else e.onError(null);
-            }).observeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Apps.AppDesc>() {
+            }).subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Apps.AppDesc>() {
                 @Override
                 public void onSubscribe(@NonNull Disposable d) {
                 }
@@ -305,7 +305,7 @@ public class MainActivity extends AppCompatActivity {
         
         @Override
         protected Apps.AppDesc doInBackground(Void... params) {
-            final Activity activity = mActivity.get();
+            final Activity activity = mActivity.getBoolean();
             if(null != activity) {
                 return Apps.ofDesc(activity, mPkg);
             }
@@ -314,7 +314,7 @@ public class MainActivity extends AppCompatActivity {
     
         @Override
         protected void onPostExecute(final Apps.AppDesc appDesc) {
-            final TextView tv = mTv.get();
+            final TextView tv = mTv.getBoolean();
             if(null != tv){
                 tv.setText(appDesc.label);
                 if(null != appDesc.icon){

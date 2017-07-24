@@ -36,8 +36,8 @@ public class NotificationTracerService extends NotificationListenerService {
         mAppSettings = new AppSettings(this);
         mStorage = new NotificationRecordStorage(this);
         final String keySrvBound = getString(R.string.pref_notif_srv_bound);
-        if(mAppSettings.get(keySrvBound, Settings.NOTIF_SRV_BOUND)) {
-            mAppSettings.setBoolean(keySrvBound, true);
+        if(mAppSettings.getBoolean(keySrvBound, Settings.NOTIF_SRV_BOUND)) {
+            mAppSettings.set(keySrvBound, true);
             for (final StatusBarNotification sbn : getActiveNotifications()) processNotification(sbn);
         }
         TraceServiceNotifier.notifyServiceBound(this);
@@ -98,8 +98,8 @@ public class NotificationTracerService extends NotificationListenerService {
             Log.d(TAG, "ignore notification from myself");
             return false;
         }
-        final boolean wechatOnly = mAppSettings.get(getString(R.string.pref_wechat_only_k), DEFAULT_WECHAT_ONLY);
-        final boolean sysApps = mAppSettings.get(getString(R.string.pref_sync_sys_apps_k), DEFAULT_SYS_APPS);
+        final boolean wechatOnly = mAppSettings.getBoolean(getString(R.string.pref_wechat_only_k), DEFAULT_WECHAT_ONLY);
+        final boolean sysApps = mAppSettings.getBoolean(getString(R.string.pref_sync_sys_apps_k), DEFAULT_SYS_APPS);
         if(wechatOnly && !WECHAT.equals(pkg)){
             Log.w(TAG, "WECHAT_ONLY mode, current pkg is not WeChat: " + pkg);
             return false;

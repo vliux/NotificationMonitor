@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.io.Closeable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by vliux on 2017/7/8.
@@ -25,14 +27,24 @@ public class AppSettings implements Closeable{
        mContext.unregisterReceiver(mUpdateReceiver);
     }
     
-    public void setBoolean(final String key, final boolean b){
+    public void set(final String key, final boolean b){
         mSp.edit().putBoolean(key, b).commit();
         mContext.sendBroadcast(new Intent(ACTION_UPDATED).putExtra(EXTRA_PID, android.os.Process.myPid()));
     }
     
-    public boolean get(final String key, final boolean defaultValue){
+    public boolean getBoolean(final String key, final boolean defaultValue){
         return mSp.getBoolean(key, defaultValue);
     }
+    
+    public void set(final String key, final List<String> stringList){
+        //TODO
+    }
+    
+    public List<String> getStringList(final String key){
+        //TODO
+        return new ArrayList<>(0);
+    }
+    
     
     private final BroadcastReceiver mUpdateReceiver = new BroadcastReceiver() {
         @Override

@@ -23,7 +23,7 @@ class TracerEnsurer {
     static void ensure(final Context context){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             final AppSettings appSettings = new AppSettings(context);
-            if (appSettings.get(context.getString(R.string.pref_notif_srv_bound),
+            if (appSettings.getBoolean(context.getString(R.string.pref_notif_srv_bound),
                     Constants.Settings.NOTIF_SRV_BOUND))
                 try {
                     NotificationListenerService.requestRebind(
