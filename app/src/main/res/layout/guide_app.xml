@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:text="@string/guide_explain_app"
             style="@style/GuideContentText"
+            android:layout_marginTop="@dimen/item_margin_verti_small"
             android:layout_marginBottom="@dimen/item_margin_verti_small"/>
         
         <Switch

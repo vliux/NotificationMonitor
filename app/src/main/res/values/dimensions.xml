@@ -6,7 +6,7 @@
     <dimen name="item_margin_verti_small">6dp</dimen>
 
     <dimen name="guide_out_margin_horiz">24dp</dimen>
-    <dimen name="guide_out_margin_verti">16dp</dimen>
+    <dimen name="guide_out_margin_verti">24dp</dimen>
 
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="item_inter_margin">4dp</dimen>
