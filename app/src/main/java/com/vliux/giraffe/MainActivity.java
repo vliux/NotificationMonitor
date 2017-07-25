@@ -116,9 +116,6 @@ public class MainActivity extends AppCompatActivity {
                 UserGuideManager.showUserGuideIfNeeded(this, true);
                 Analytics.logMenuEvent("action_guide");
                 return true;
-            case R.id.action_setting:
-                Analytics.logMenuEvent("action_setting");
-                return showSettings();
             case R.id.action_about:
                 Analytics.logMenuEvent("action_about");
                 return showAbout();
@@ -155,11 +152,6 @@ public class MainActivity extends AppCompatActivity {
                     .setPositiveButton(R.string.goto_bind, (dialog, which) -> request(MainActivity.this));
             builder.show();
         }else showUnsupported(this);
-        return true;
-    }
-    
-    private boolean showSettings(){
-        startActivity(new Intent(this, SettingsActivity.class));
         return true;
     }
 

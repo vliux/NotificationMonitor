@@ -31,7 +31,7 @@ public class AppSettings implements Closeable{
     
     public void set(@NonNull final String key, final boolean b){
         mSp.edit().putBoolean(key, b).commit();
-        mContext.sendBroadcast(new Intent(ACTION_UPDATED).putExtra(EXTRA_PID, android.os.Process.myPid()));
+        notifiyChanged();
     }
     
     public boolean getBoolean(@NonNull final String key, final boolean defaultValue){
@@ -40,6 +40,7 @@ public class AppSettings implements Closeable{
     
     public void set(@NonNull final String key, @Nullable final Set<String> stringSet){
         mSp.edit().putStringSet(key, stringSet).apply();
+        notifiyChanged();
     }
     
     @NonNull
@@ -52,6 +53,7 @@ public class AppSettings implements Closeable{
         final Set<String> newSet = new HashSet<>(set);
         newSet.add(value);
         mSp.edit().putStringSet(key, newSet).apply();
+        notifiyChanged();
     }
     
     public void removeFromSet(@NonNull final String key, @NonNull final String value){
@@ -60,7 +62,12 @@ public class AppSettings implements Closeable{
             final Set<String> newSet = new HashSet<>(set);
             newSet.remove(value);
             mSp.edit().putStringSet(key, newSet).apply();
+            notifiyChanged();
         }
+    }
+    
+    private void notifiyChanged(){
+        mContext.sendBroadcast(new Intent(ACTION_UPDATED).putExtra(EXTRA_PID, android.os.Process.myPid()));
     }
     
     private final BroadcastReceiver mUpdateReceiver = new BroadcastReceiver() {

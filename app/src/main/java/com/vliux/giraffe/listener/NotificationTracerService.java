@@ -15,11 +15,10 @@ import com.vliux.giraffe.data.NotificationRecordStorage;
 import com.vliux.giraffe.intent.IntentLaunchService;
 import com.vliux.giraffe.util.Analytics;
 import com.vliux.giraffe.util.AppSettings;
-import com.vliux.giraffe.util.Apps;
+
+import java.util.Set;
 
 import static com.vliux.giraffe.Constants.*;
-import static com.vliux.giraffe.Constants.Pkgs.*;
-import static com.vliux.giraffe.Constants.Settings.*;
 
 /**
  * Created by vliux on 17/4/27.
@@ -97,21 +96,19 @@ public class NotificationTracerService extends NotificationListenerService {
         if(getPackageName().equals(pkg)){
             Log.d(TAG, "ignore notification from myself");
             return false;
-        }
-        final boolean wechatOnly = mAppSettings.getBoolean(getString(R.string.pref_wechat_only_k), DEFAULT_WECHAT_ONLY);
-        final boolean sysApps = mAppSettings.getBoolean(getString(R.string.pref_sync_sys_apps_k), DEFAULT_SYS_APPS);
-        if(wechatOnly && !WECHAT.equals(pkg)){
-            Log.w(TAG, "WECHAT_ONLY mode, current pkg is not WeChat: " + pkg);
-            return false;
-        }else if((wechatOnly || !sysApps) && Apps.systemApp(this, pkg)){
-            Log.w(TAG, "pkg is system app, ignored " + pkg);
-            return false;
         }else if(sbn.isOngoing()) {
             Log.d(TAG, "notification is ongoing, ignored: " + pkg);
             return false;
-        }else {
-            Log.d(TAG, "pkg will be processed: " + pkg);
+        }
+        
+        final Set<String> pkgs = mAppSettings.getStringSet(getString(R.string.pref_target_pkgs));
+        if(null == pkgs || pkgs.size() <= 0) {
+            Log.d(TAG, "target_apps is ALL, pkg will be processed: " + pkg);
             return true;
+        }else {
+            final boolean contains = pkgs.contains(pkg);
+            Log.d(TAG, "pkg in target_apps? " + contains);
+            return contains;
         }
     }
     

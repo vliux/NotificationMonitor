@@ -20,11 +20,6 @@
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/action_setting"
-        android:title="@string/settings"
-        app:showAsAction="never"/>
-
-    <item
         android:id="@+id/action_about"
         android:title="@string/about"
         app:showAsAction="never"/>

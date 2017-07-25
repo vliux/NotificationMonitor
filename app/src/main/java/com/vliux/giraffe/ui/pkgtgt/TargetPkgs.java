@@ -22,6 +22,7 @@ import static com.vliux.giraffe.util.Apps.*;
 
 /**
  * Created by vliux on 2017/7/24.
+ * @author vliux
  */
 
 class TargetPkgs {

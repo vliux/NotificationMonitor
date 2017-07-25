@@ -11,8 +11,6 @@ import android.widget.Switch;
 
 import com.vliux.giraffe.R;
 
-import static com.vliux.giraffe.Constants.Settings.DEFAULT_WECHAT_ONLY;
-
 /**
  * Created by vliux on 2017/7/18.
  */
@@ -39,14 +37,14 @@ public class ChooseAppFragment extends AbstractGuideFragment {
     }
     
     private void updateWechatSwitch(){
-        final boolean checked = getSettings().getBoolean(getString(R.string.pref_wechat_only_k), DEFAULT_WECHAT_ONLY);
+        /*final boolean checked = getSettings().getBoolean(getString(R.string.pref_wechat_only_k), DEFAULT_WECHAT_ONLY);
         mSwWechat.setChecked(checked);
-        mSwWechat.setText(getString(checked ? R.string.switch_wechat_on : R.string.switch_wechat_off));
+        mSwWechat.setText(getString(checked ? R.string.switch_wechat_on : R.string.switch_wechat_off));*/
     }
     
     private final CompoundButton.OnCheckedChangeListener mOnWechatSwitchChanged = (buttonView, isChecked) -> {
-        getSettings().set(getString(R.string.pref_wechat_only_k), isChecked);
-        updateWechatSwitch();
+        /*getSettings().set(getString(R.string.pref_wechat_only_k), isChecked);
+        updateWechatSwitch();*/
     };
     
     private Switch mSwWechat;
