@@ -5,10 +5,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.vliux.giraffe.R;
 import com.vliux.giraffe.util.AppSettings;
 import com.vliux.giraffe.util.Apps;
@@ -36,16 +38,24 @@ import static com.vliux.giraffe.util.Apps.*;
  */
 
 public class AppSelectActivity extends AppCompatActivity {
+    private Toolbar mToolbar;
     private AppSettings mAppSettings;
     private TargetPkgs mTargetPkgs;
     private SectionedRecyclerViewAdapter mAdapter;
     private List<AppDesc> mDataSelected, mDataUnselected;
+    private FloatingActionButton mFab;
     
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_select);
+        mToolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle(R.string.app_select_title);
+        getSupportActionBar().setSubtitle(R.string.app_select_subtitle);
         
+        mFab = (FloatingActionButton)findViewById(R.id.fab);
+        mFab.setOnClickListener(v -> finish());
         mAppSettings = new AppSettings(this);
         mTargetPkgs = new TargetPkgs(this, mAppSettings);
         
@@ -92,11 +102,11 @@ public class AppSelectActivity extends AppCompatActivity {
     private void onDataArrived(final Map<TargetPkgs.Type, List<Apps.AppDesc>> data){
         if(data.containsKey(SELECTED)) {
             mDataSelected = new ArrayList<>(data.get(SELECTED));
-            mAdapter.addSection(new Section("Selected", mDataSelected, SELECTED));
+            mAdapter.addSection(new Section(mDataSelected, SELECTED));
         }
         if(data.containsKey(UNSELECTED)) {
             mDataUnselected = new ArrayList<>(data.get(UNSELECTED));
-            mAdapter.addSection(new Section("Unselected", mDataUnselected, UNSELECTED));
+            mAdapter.addSection(new Section(mDataUnselected, UNSELECTED));
         }
         mAdapter.notifyDataSetChanged();
     }
@@ -121,12 +131,11 @@ public class AppSelectActivity extends AppCompatActivity {
         private final List<Apps.AppDesc> mAppDescs;
         private final TargetPkgs.Type mType;
         
-        public Section(final String title, final List<Apps.AppDesc> appDescs, final TargetPkgs.Type type) {
+        public Section(final List<Apps.AppDesc> appDescs, final TargetPkgs.Type type) {
             super(type == SELECTED ? R.layout.header_app_selected : R.layout.header_app_unselected,
                     R.layout.item_app_select);
             mAppDescs = appDescs;
             mType = type;
-            setTitle(title);
         }
     
         @Override

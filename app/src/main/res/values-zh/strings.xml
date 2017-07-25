@@ -26,4 +26,6 @@
     <string name="unselected">未选中</string>
     <string name="fab_bind_srv">赋予权限</string>
     <string name="fab_add_app">设置目标应用</string>
+    <string name="app_select_title">目标应用</string>
+    <string name="app_select_subtitle">选中应用的通知将被同步</string>
 </resources>

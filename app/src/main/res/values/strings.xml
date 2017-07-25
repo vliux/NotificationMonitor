@@ -41,4 +41,6 @@
     <string name="unselected">Unselected</string>
     <string name="fab_bind_srv">Assure permission</string>
     <string name="fab_add_app">Set target app</string>
+    <string name="app_select_title">Target apps</string>
+    <string name="app_select_subtitle">whose notifications will be synchronized</string>
 </resources>
