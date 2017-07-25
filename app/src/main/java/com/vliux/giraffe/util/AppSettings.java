@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.io.Closeable;
@@ -17,7 +19,7 @@ import java.util.List;
 
 public class AppSettings implements Closeable{
     
-    public AppSettings(final Context context) {
+    public AppSettings(@NonNull final Context context) {
         mContext = context;
         mSp = context.getSharedPreferences(NAME, Context.MODE_PRIVATE);
         mContext.registerReceiver(mUpdateReceiver, new IntentFilter(ACTION_UPDATED));
@@ -27,20 +29,20 @@ public class AppSettings implements Closeable{
        mContext.unregisterReceiver(mUpdateReceiver);
     }
     
-    public void set(final String key, final boolean b){
+    public void set(@NonNull final String key, final boolean b){
         mSp.edit().putBoolean(key, b).commit();
         mContext.sendBroadcast(new Intent(ACTION_UPDATED).putExtra(EXTRA_PID, android.os.Process.myPid()));
     }
     
-    public boolean getBoolean(final String key, final boolean defaultValue){
+    public boolean getBoolean(@NonNull final String key, final boolean defaultValue){
         return mSp.getBoolean(key, defaultValue);
     }
     
-    public void set(final String key, final List<String> stringList){
+    public void set(@NonNull final String key, @Nullable final List<String> stringList){
         //TODO
     }
     
-    public List<String> getStringList(final String key){
+    public List<String> getStringList(@NonNull final String key){
         //TODO
         return new ArrayList<>(0);
     }
