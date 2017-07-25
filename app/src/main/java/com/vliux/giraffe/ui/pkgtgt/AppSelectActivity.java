@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.vliux.giraffe.R;
 import com.vliux.giraffe.util.Apps;
+import com.vliux.giraffe.util.TextViews;
 
 import java.util.List;
 import java.util.Map;
@@ -43,7 +44,14 @@ public class AppSelectActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mTargetPkgs = new TargetPkgs(this);
         mAdapter = new SectionedRecyclerViewAdapter();
+        recyclerView.setAdapter(mAdapter);
         updateList();
+    }
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mTargetPkgs.close();
     }
     
     private void updateList(){
@@ -98,12 +106,15 @@ public class AppSelectActivity extends AppCompatActivity {
     
         @Override
         public RecyclerView.ViewHolder getItemViewHolder(View view) {
-            return null;
+            return new SelectViewHolder(view);
         }
     
         @Override
         public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
-        
+            final SelectViewHolder selectViewHolder = (SelectViewHolder)holder ;
+            final Apps.AppDesc appDesc = mAppDescs.get(position);
+            selectViewHolder.mAppTv.setText(appDesc.label);
+            TextViews.setLeftDrawable(selectViewHolder.mAppTv, appDesc);
         }
     }
     

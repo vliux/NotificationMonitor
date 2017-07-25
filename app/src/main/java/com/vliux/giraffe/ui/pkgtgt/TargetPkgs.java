@@ -10,6 +10,7 @@ import com.vliux.giraffe.R;
 import com.vliux.giraffe.util.AppSettings;
 import com.vliux.giraffe.util.Apps;
 
+import java.io.Closeable;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ import static com.vliux.giraffe.util.Apps.*;
  * Created by vliux on 2017/7/24.
  */
 
-class TargetPkgs {
+class TargetPkgs implements Closeable{
     enum Type {
         SELECTED, UNSELECTED
     }
@@ -30,6 +31,11 @@ class TargetPkgs {
     TargetPkgs(final Context context) {
         mContext = context;
         mAppSettings = new AppSettings(context);
+    }
+    
+    @Override
+    public void close() {
+        mAppSettings.close();
     }
     
     Map<Type, List<AppDesc>> get(){

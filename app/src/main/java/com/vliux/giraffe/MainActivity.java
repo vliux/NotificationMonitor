@@ -18,15 +18,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.vliux.giraffe.data.NotificationRecord;
 import com.vliux.giraffe.data.NotificationRecordStorage;
 import com.vliux.giraffe.guide.UserGuideManager;
 import com.vliux.giraffe.listener.TraceServiceNotifier;
+import com.vliux.giraffe.ui.pkgtgt.AppSelectActivity;
 import com.vliux.giraffe.util.Analytics;
 import com.vliux.giraffe.util.Apps;
+import com.vliux.giraffe.util.TextViews;
 import com.vliux.giraffe.view.AboutView;
 
 import java.util.ArrayList;
@@ -167,12 +168,13 @@ public class MainActivity extends AppCompatActivity {
     }
     
     private boolean postNotifDbg(){
-        final NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        startActivity(new Intent(this, AppSelectActivity.class));
+        /*final NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         final Notification.Builder builder = new Notification.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("Debug message")
                 .setContentText("Debug message from Giraffe");
-        nm.notify(0, builder.build());
+        nm.notify(0, builder.build());*/
         return true;
     }
     
@@ -247,19 +249,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onNext(@NonNull final Apps.AppDesc appDesc) {
                     tv.setText(appDesc.label);
-                    if(null != appDesc.icon){
-                        tv.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                            @Override
-                            public void onGlobalLayout() {
-                                tv.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                                appDesc.icon.setBounds(0, 0,
-                                        tv.getMeasuredHeight(),
-                                        tv.getMeasuredHeight());
-                                tv.setCompoundDrawables(appDesc.icon, null, null, null);
-                            }
-                        });
-                        tv.requestLayout();
-                    }
+                    TextViews.setLeftDrawable(tv, appDesc);
                 }
     
                 @Override

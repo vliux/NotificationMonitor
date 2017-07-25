@@ -29,6 +29,7 @@
 
         <activity android:name=".guide.UserGuideActivity" android:theme="@style/UserGuideActivity"/>
         <activity android:name=".SettingsActivity"/>
+        <activity android:name=".ui.pkgtgt.AppSelectActivity" android:theme="@style/MainActivityTheme"></activity>
 
         <service
             android:name=".listener.NotificationTracerService"
