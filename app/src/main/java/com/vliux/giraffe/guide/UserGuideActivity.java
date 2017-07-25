@@ -31,7 +31,6 @@ public class UserGuideActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mAppSettings.close();
     }
     
     public AppSettings getSettings(){

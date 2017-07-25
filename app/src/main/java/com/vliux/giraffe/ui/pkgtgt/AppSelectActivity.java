@@ -70,7 +70,6 @@ public class AppSelectActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mAppSettings.close();
     }
     
     private void updateList(){

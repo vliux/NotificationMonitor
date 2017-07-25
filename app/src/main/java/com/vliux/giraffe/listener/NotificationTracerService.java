@@ -63,7 +63,6 @@ public class NotificationTracerService extends NotificationListenerService {
     public void onListenerDisconnected() {
         super.onListenerDisconnected();
         mStorage.close();
-        mAppSettings.close();
         Analytics.logUnbindService();
     }
     
