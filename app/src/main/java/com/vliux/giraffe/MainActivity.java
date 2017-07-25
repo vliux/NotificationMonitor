@@ -1,7 +1,5 @@
 package com.vliux.giraffe;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -96,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         if(BuildConfig.DEBUG){
-            menu.findItem(R.id.action_post_dbg).setEnabled(true);
+            menu.findItem(R.id.action_dbg).setEnabled(true);
         }
         return super.onCreateOptionsMenu(menu);
     }
@@ -117,8 +115,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_about:
                 Analytics.logMenuEvent("action_about");
                 return showAbout();
-            case R.id.action_post_dbg:
-                return postNotifDbg();
+            case R.id.action_dbg:
+                return debugOp();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -167,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
     
-    private boolean postNotifDbg(){
+    private boolean debugOp(){
         startActivity(new Intent(this, AppSelectActivity.class));
         /*final NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         final Notification.Builder builder = new Notification.Builder(this)

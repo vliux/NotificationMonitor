@@ -9,8 +9,8 @@
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/action_post_dbg"
-        android:title="Post notification"
+        android:id="@+id/action_dbg"
+        android:title="Debug"
         app:showAsAction="never"
         android:enabled="false"/>
 
