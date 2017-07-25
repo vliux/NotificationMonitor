@@ -19,10 +19,12 @@ import static android.content.pm.PackageManager.*;
 
 public class Apps {
     public static class AppDesc {
+        public final String pkg;
         public final Drawable icon;
         public final String label;
     
-        private AppDesc(Drawable icon, String label) {
+        private AppDesc(final String pkg, final Drawable icon, final String label) {
+            this.pkg = pkg;
             this.icon = icon;
             this.label = label;
         }
@@ -36,11 +38,11 @@ public class Apps {
             if(null != pkgInfo.applicationInfo) {
                 final Drawable icon = pkgInfo.applicationInfo.loadIcon(packageManager);
                 final String label = (String) pkgInfo.applicationInfo.loadLabel(packageManager);
-                return new AppDesc(icon, null != label ? label : pkg);
+                return new AppDesc(pkg, icon, null != label ? label : pkg);
             }else return null;
         } catch (final NameNotFoundException e) {
             Log.e(TAG, "NameNotFoundExp " + pkg, e);
-            return new AppDesc(null, pkg);
+            return new AppDesc(pkg, null, pkg);
         }
     }
     

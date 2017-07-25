@@ -10,8 +10,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.io.Closeable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by vliux on 2017/7/8.
@@ -38,15 +38,30 @@ public class AppSettings implements Closeable{
         return mSp.getBoolean(key, defaultValue);
     }
     
-    public void set(@NonNull final String key, @Nullable final List<String> stringList){
-        //TODO
+    public void set(@NonNull final String key, @Nullable final Set<String> stringSet){
+        mSp.edit().putStringSet(key, stringSet).apply();
     }
     
-    public List<String> getStringList(@NonNull final String key){
-        //TODO
-        return new ArrayList<>(0);
+    @NonNull
+    public Set<String> getStringSet(@NonNull final String key){
+        return mSp.getStringSet(key, new HashSet<>());
     }
     
+    public void addToSet(@NonNull final String key, @NonNull final String value){
+        final Set<String> set = getStringSet(key);
+        final Set<String> newSet = new HashSet<>(set);
+        newSet.add(value);
+        mSp.edit().putStringSet(key, newSet).apply();
+    }
+    
+    public void removeFromSet(@NonNull final String key, @NonNull final String value){
+        final Set<String> set = getStringSet(key);
+        if(set.contains(value)){
+            final Set<String> newSet = new HashSet<>(set);
+            newSet.remove(value);
+            mSp.edit().putStringSet(key, newSet).apply();
+        }
+    }
     
     private final BroadcastReceiver mUpdateReceiver = new BroadcastReceiver() {
         @Override

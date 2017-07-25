@@ -10,9 +10,11 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.vliux.giraffe.R;
+import com.vliux.giraffe.util.AppSettings;
 import com.vliux.giraffe.util.Apps;
 import com.vliux.giraffe.util.TextViews;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,22 +29,28 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.vliux.giraffe.ui.pkgtgt.TargetPkgs.Type.*;
+import static com.vliux.giraffe.util.Apps.*;
 
 /**
  * Created by vliux on 2017/7/24.
  */
 
 public class AppSelectActivity extends AppCompatActivity {
+    private AppSettings mAppSettings;
     private TargetPkgs mTargetPkgs;
     private SectionedRecyclerViewAdapter mAdapter;
+    private List<AppDesc> mDataSelected, mDataUnselected;
     
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_select);
+        
+        mAppSettings = new AppSettings(this);
+        mTargetPkgs = new TargetPkgs(this, mAppSettings);
+        
         final RecyclerView recyclerView = (RecyclerView)findViewById(R.id.select_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mTargetPkgs = new TargetPkgs(this);
         mAdapter = new SectionedRecyclerViewAdapter();
         recyclerView.setAdapter(mAdapter);
         updateList();
@@ -51,23 +59,23 @@ public class AppSelectActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mTargetPkgs.close();
+        mAppSettings.close();
     }
     
     private void updateList(){
-        Observable.create((ObservableOnSubscribe<Map<TargetPkgs.Type, List<Apps.AppDesc>>>) e -> {
-            final Map<TargetPkgs.Type, List<Apps.AppDesc>> data = mTargetPkgs.get();
+        Observable.create((ObservableOnSubscribe<Map<TargetPkgs.Type, List<AppDesc>>>) e -> {
+            final Map<TargetPkgs.Type, List<AppDesc>> data = mTargetPkgs.get();
             if(null != data) {
                 e.onNext(data); e.onComplete();
             }else e.onError(null);
         }).subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Map<TargetPkgs.Type, List<Apps.AppDesc>>>() {
+                .subscribe(new Observer<Map<TargetPkgs.Type, List<AppDesc>>>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
                     }
                 
                     @Override
-                    public void onNext(@NonNull Map<TargetPkgs.Type, List<Apps.AppDesc>> typeListMap) {
+                    public void onNext(@NonNull Map<TargetPkgs.Type, List<AppDesc>> typeListMap) {
                         onDataArrived(typeListMap);
                     }
                 
@@ -82,21 +90,43 @@ public class AppSelectActivity extends AppCompatActivity {
     }
     
     private void onDataArrived(final Map<TargetPkgs.Type, List<Apps.AppDesc>> data){
-        if(data.containsKey(SELECTED))
-            mAdapter.addSection(new Section("Selected", data.get(SELECTED)));
-        if(data.containsKey(UNSELECTED))
-            mAdapter.addSection(new Section("Unselected", data.get(UNSELECTED)));
+        if(data.containsKey(SELECTED)) {
+            mDataSelected = new ArrayList<>(data.get(SELECTED));
+            mAdapter.addSection(new Section("Selected", mDataSelected, SELECTED));
+        }
+        if(data.containsKey(UNSELECTED)) {
+            mDataUnselected = new ArrayList<>(data.get(UNSELECTED));
+            mAdapter.addSection(new Section("Unselected", mDataUnselected, UNSELECTED));
+        }
+        mAdapter.notifyDataSetChanged();
+    }
+    
+    private void onSwapItem(final AppDesc appDesc, final TargetPkgs.Type targetType){
+        switch (targetType){
+            case SELECTED:
+                mDataUnselected.remove(appDesc);
+                mDataSelected.add(appDesc);
+                break;
+            case UNSELECTED:
+                mDataSelected.remove(appDesc);
+                mDataUnselected.add(appDesc);
+                break;
+            default:
+                return;
+        }
         mAdapter.notifyDataSetChanged();
     }
     
     class Section extends StatelessSection {
         private final List<Apps.AppDesc> mAppDescs;
-        private final String mTitle;
+        private final TargetPkgs.Type mType;
         
-        public Section(final String title, final List<Apps.AppDesc> appDescs) {
-            super(R.layout.header_app_select, R.layout.item_app_select);
-            mTitle = title;
+        public Section(final String title, final List<Apps.AppDesc> appDescs, final TargetPkgs.Type type) {
+            super(type == SELECTED ? R.layout.header_app_selected : R.layout.header_app_unselected,
+                    R.layout.item_app_select);
             mAppDescs = appDescs;
+            mType = type;
+            setTitle(title);
         }
     
         @Override
@@ -109,12 +139,32 @@ public class AppSelectActivity extends AppCompatActivity {
             return new SelectViewHolder(view);
         }
     
+        private boolean mOnBind = false;
         @Override
         public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
+            mOnBind = true;
             final SelectViewHolder selectViewHolder = (SelectViewHolder)holder ;
-            final Apps.AppDesc appDesc = mAppDescs.get(position);
+            final AppDesc appDesc = mAppDescs.get(position);
             selectViewHolder.mAppTv.setText(appDesc.label);
             TextViews.setLeftDrawable(selectViewHolder.mAppTv, appDesc);
+            
+            selectViewHolder.mCb.setChecked(mType == TargetPkgs.Type.SELECTED);
+            selectViewHolder.mCb.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if(mOnBind) return;
+                switch (mType){
+                    case SELECTED:
+                        mAppSettings.removeFromSet(getString(R.string.pref_target_pkgs), appDesc.pkg);
+                        onSwapItem(appDesc, UNSELECTED);
+                        break;
+                    case UNSELECTED:
+                        mAppSettings.addToSet(getString(R.string.pref_target_pkgs), appDesc.pkg);
+                        onSwapItem(appDesc, SELECTED);
+                        break;
+                    default:
+                        return;
+                }
+            });
+            mOnBind = false;
         }
     }
     

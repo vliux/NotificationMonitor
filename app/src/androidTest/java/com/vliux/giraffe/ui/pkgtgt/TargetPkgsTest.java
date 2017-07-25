@@ -33,7 +33,7 @@ public class TargetPkgsTest {
     @Test
     public void testEmptySelection(){
         final Context context = InstrumentationRegistry.getTargetContext();
-        final TargetPkgs targetPkgs = new TargetPkgs(context);
+        final TargetPkgs targetPkgs = new TargetPkgs(context, new AppSettings(context));
         final Map<TargetPkgs.Type, List<Apps.AppDesc>> result = targetPkgs.get();
         commonAssert(result);
         Assert.assertEquals(result.get(TargetPkgs.Type.SELECTED).size(), 0);

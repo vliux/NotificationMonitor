@@ -37,4 +37,6 @@
     <string name="got_it">Got it</string>
     <string name="dev_not_support">We are sorry but it\'s unable to configure \'Notification access\' on your device, so Flyfish will not work. We will make our best to make it more compatible.</string>
     <string name="quit">Quit</string>
+    <string name="selected">Selected</string>
+    <string name="unselected">Unselected</string>
 </resources>

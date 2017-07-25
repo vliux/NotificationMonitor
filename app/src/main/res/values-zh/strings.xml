@@ -22,4 +22,6 @@
     <string name="got_it">知道了</string>
     <string name="dev_not_support">很抱歉，您的设备似乎无法设置\'通知访问\'，因此飞鱼无法正常工作。我们会让飞鱼尽快兼容更多的设备。</string>
     <string name="quit">退出</string>
+    <string name="selected">已选中</string>
+    <string name="unselected">未选中</string>
 </resources>
