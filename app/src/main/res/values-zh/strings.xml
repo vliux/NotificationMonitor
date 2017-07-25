@@ -28,4 +28,5 @@
     <string name="fab_add_app">设置目标应用</string>
     <string name="app_select_title">目标应用</string>
     <string name="app_select_subtitle">选中应用的通知将被同步</string>
+    <string name="load_installed_apps">扫描已安装应用...</string>
 </resources>

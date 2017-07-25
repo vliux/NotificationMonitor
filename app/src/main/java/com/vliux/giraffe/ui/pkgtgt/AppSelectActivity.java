@@ -1,5 +1,6 @@
 package com.vliux.giraffe.ui.pkgtgt;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -73,6 +74,7 @@ public class AppSelectActivity extends AppCompatActivity {
     }
     
     private void updateList(){
+        final ProgressDialog dlg = showProgressDlg();
         Observable.create((ObservableOnSubscribe<Map<TargetPkgs.Type, List<AppDesc>>>) e -> {
             final Map<TargetPkgs.Type, List<AppDesc>> data = mTargetPkgs.get();
             if(null != data) {
@@ -91,12 +93,22 @@ public class AppSelectActivity extends AppCompatActivity {
                 
                     @Override
                     public void onError(@NonNull Throwable e) {
+                        if(!isDestroyed() && !isFinishing()) dlg.dismiss();
                     }
                 
                     @Override
                     public void onComplete() {
+                        if(!isDestroyed() && !isFinishing()) dlg.dismiss();
                     }
                 });
+    }
+    
+    private ProgressDialog showProgressDlg(){
+        final ProgressDialog dlg = new ProgressDialog(this);
+        dlg.setIndeterminate(true);
+        dlg.setMessage(getString(R.string.load_installed_apps));
+        dlg.show();
+        return dlg;
     }
     
     private void onDataArrived(final Map<TargetPkgs.Type, List<Apps.AppDesc>> data){
