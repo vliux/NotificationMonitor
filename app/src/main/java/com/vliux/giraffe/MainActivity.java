@@ -3,7 +3,6 @@ package com.vliux.giraffe;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.vliux.giraffe.data.NotificationRecord;
 import com.vliux.giraffe.data.NotificationRecordStorage;
 import com.vliux.giraffe.guide.UserGuideManager;
@@ -44,7 +45,8 @@ import static com.vliux.giraffe.util.NotifPermission.*;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
-    private FloatingActionButton mFab;
+    private FloatingActionMenu mFab;
+    private FloatingActionButton mFabBind, mFabAdd;
     private Adapter mAdapter;
     private NotificationRecordStorage mStorage;
     private Toolbar mToolbar;
@@ -68,8 +70,13 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         mStorage = new NotificationRecordStorage(MainActivity.this);
         mRecyclerView = (RecyclerView)findViewById(R.id.rv);
-        mFab = (FloatingActionButton)findViewById(R.id.fab);
-        mFab.setOnClickListener(v -> showBindingDialog());
+        
+        mFab = (FloatingActionMenu) findViewById(R.id.fab);
+        mFabBind = (FloatingActionButton)findViewById(R.id.fab_bind);
+        mFabBind.setOnClickListener(v -> {showBindingDialog(); mFab.close(false);});
+        mFabAdd = (FloatingActionButton)findViewById(R.id.fab_add);
+        mFabAdd.setOnClickListener(v -> {startActivity(new Intent(MainActivity.this, AppSelectActivity.class)); mFab.close(false);});
+        
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new Adapter();
         updateList();

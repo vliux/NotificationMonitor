@@ -39,4 +39,6 @@
     <string name="quit">Quit</string>
     <string name="selected">Selected</string>
     <string name="unselected">Unselected</string>
+    <string name="fab_bind_srv">Assure permission</string>
+    <string name="fab_add_app">Set target app</string>
 </resources>
