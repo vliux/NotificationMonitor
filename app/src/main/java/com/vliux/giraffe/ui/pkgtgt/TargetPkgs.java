@@ -10,6 +10,7 @@ import com.vliux.giraffe.R;
 import com.vliux.giraffe.util.AppSettings;
 import com.vliux.giraffe.util.Apps;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -46,7 +47,7 @@ class TargetPkgs {
     
     private List<AppDesc> ofSelected(final List<PackageInfo> pkgInfos, final Set<String> targetPkgs){
         return FluentIterable.from(pkgInfos)
-                        .filter(input -> targetPkgs.contains(input.packageName))
+                        .filter(input -> filterSelected(input, targetPkgs))
                         .transform(new Function<PackageInfo, AppDesc>() {
                             @Nullable
                             @Override
@@ -55,12 +56,12 @@ class TargetPkgs {
                             }
                         })
                         .filter(input -> null != input)
-                        .toSortedList((o1, o2) -> o1.label.compareTo(o2.label));
+                        .toSortedList(mComparator);
     }
     
     private List<AppDesc> ofUnselected(final List<PackageInfo> pkgInfos, final Set<String> targetPkgs){
         return FluentIterable.from(pkgInfos)
-                .filter(input -> !targetPkgs.contains(input.packageName))
+                .filter(input -> filterUnselected(input, targetPkgs))
                 .transform(new Function<PackageInfo, AppDesc>() {
                     @Nullable
                     @Override
@@ -69,8 +70,25 @@ class TargetPkgs {
                     }
                 })
                 .filter(input -> null != input)
-                .toSortedList((o1, o2) -> o1.label.compareTo(o2.label));
+                .toSortedList(mComparator);
     }
+    
+    private boolean filterSelected(final PackageInfo pkgInfo, final Set<String> targetPkgs){
+        return null != pkgInfo.applicationInfo &&
+                targetPkgs.contains(pkgInfo.packageName);
+    }
+    
+    private boolean filterUnselected(final PackageInfo pkgInfo, final Set<String> targetPkgs){
+        return null != pkgInfo.applicationInfo &&
+                !targetPkgs.contains(pkgInfo.packageName);
+    }
+    
+    private Comparator<AppDesc> mComparator = (o1, o2) -> {
+        final int s1 = o1.sysApp ? 1 : 0;
+        final int s2 = o2.sysApp ? 1 : 0;
+        final int delta = s1 - s2;
+        return 0 != delta ? delta : o1.label.compareTo(o2.label);
+    };
     
     private Context mContext;
     private AppSettings mAppSettings;

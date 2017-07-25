@@ -22,11 +22,13 @@ public class Apps {
         public final String pkg;
         public final Drawable icon;
         public final String label;
+        public final boolean sysApp;
     
-        private AppDesc(final String pkg, final Drawable icon, final String label) {
+        private AppDesc(final String pkg, final Drawable icon, final String label, final boolean sysApp) {
             this.pkg = pkg;
             this.icon = icon;
             this.label = label;
+            this.sysApp = sysApp;
         }
     }
     
@@ -38,12 +40,14 @@ public class Apps {
             if(null != pkgInfo.applicationInfo) {
                 final Drawable icon = pkgInfo.applicationInfo.loadIcon(packageManager);
                 final String label = (String) pkgInfo.applicationInfo.loadLabel(packageManager);
-                return new AppDesc(pkg, icon, null != label ? label : pkg);
-            }else return null;
+                return new AppDesc(pkg, icon,
+                        null != label ? label : pkg,
+                        isSystemApp(pkgInfo));
+            }
         } catch (final NameNotFoundException e) {
             Log.e(TAG, "NameNotFoundExp " + pkg, e);
-            return new AppDesc(pkg, null, pkg);
         }
+        return new AppDesc(pkg, null, pkg, false);
     }
     
     @Nullable
@@ -63,7 +67,7 @@ public class Apps {
         final PackageManager packageManager = context.getPackageManager();
         try {
             final PackageInfo pkgInfo = packageManager.getPackageInfo(pkg, GET_META_DATA);
-            if (null != pkgInfo.applicationInfo) return (pkgInfo.applicationInfo.flags & FLAG_MASK_SYS_APP) != 0;
+            return isSystemApp(pkgInfo);
         }catch (final NameNotFoundException e){
             Log.e(TAG, "NameNotFoundExp " + pkg, e);
         }
@@ -74,6 +78,11 @@ public class Apps {
     public static Intent ofLauncher(@NonNull final Context context, @NonNull final String pkg){
         final PackageManager packageManager = context.getPackageManager();
         return packageManager.getLaunchIntentForPackage(pkg);
+    }
+    
+    private static boolean isSystemApp(final PackageInfo pkgInfo){
+        if (null != pkgInfo.applicationInfo) return (pkgInfo.applicationInfo.flags & FLAG_MASK_SYS_APP) != 0;
+        else return false;
     }
     
     private static final String TAG = "Giraffe";

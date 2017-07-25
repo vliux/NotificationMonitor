@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="item_margin_horiz">8dp</dimen>
+    <dimen name="item_margin_horiz">12dp</dimen>
     <dimen name="item_margin_verti">12dp</dimen>
-    <dimen name="item_margin_horiz_small">4dp</dimen>
-    <dimen name="item_margin_verti_small">6dp</dimen>
+    <dimen name="item_margin_horiz_small">8dp</dimen>
+    <dimen name="item_margin_verti_small">8dp</dimen>
 
     <dimen name="guide_out_margin_horiz">24dp</dimen>
     <dimen name="guide_out_margin_verti">24dp</dimen>
