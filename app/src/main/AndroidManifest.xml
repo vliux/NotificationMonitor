@@ -18,10 +18,10 @@
             android:exported="true"/>
 
         <!-- move Provider of tray into :service process -->
-        <!--<provider android:authorities="com.vliux.giraffe.tray"
+        <provider android:authorities="com.vliux.giraffe.tray"
             android:name="net.grandcentrix.tray.provider.TrayContentProvider"
             android:process=":service"
-            tools:replace="process"/>-->
+            tools:replace="process"/>
 
         <!-- remove firebase provider (in main proc), use manual init in code -->
         <provider
