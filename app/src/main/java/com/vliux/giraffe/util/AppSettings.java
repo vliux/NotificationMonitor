@@ -41,6 +41,10 @@ public class AppSettings {
         return strToSet(mPref.getString(key, null));
     }
     
+    public void setStringSet(@NonNull final String key, @NonNull Set<String> stringSet){
+        mPref.put(key, setToStr(stringSet));
+    }
+    
     public void addToSet(@NonNull final String key, @NonNull final String value){
         final Set<String> set = new HashSet<>(getStringSet(key));
         set.add(value);

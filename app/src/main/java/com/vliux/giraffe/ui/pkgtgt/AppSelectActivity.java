@@ -7,11 +7,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.google.common.base.Function;
+import com.google.common.collect.FluentIterable;
 import com.vliux.giraffe.R;
 import com.vliux.giraffe.util.AppSettings;
 import com.vliux.giraffe.util.Apps;
@@ -20,6 +25,7 @@ import com.vliux.giraffe.util.TextViews;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
@@ -45,10 +51,13 @@ public class AppSelectActivity extends AppCompatActivity {
     private SectionedRecyclerViewAdapter mAdapter;
     private List<AppDesc> mDataSelected, mDataUnselected;
     private FloatingActionButton mFab;
+    private Switch mSwAllApps;
+    private String mKeyTargetApps;
     
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mKeyTargetApps = getString(R.string.pref_target_pkgs);
         setContentView(R.layout.activity_app_select);
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -56,7 +65,10 @@ public class AppSelectActivity extends AppCompatActivity {
         getSupportActionBar().setSubtitle(R.string.app_select_subtitle);
         
         mFab = (FloatingActionButton)findViewById(R.id.fab);
-        mFab.setOnClickListener(v -> finish());
+        mFab.setOnClickListener(v -> {
+            onSubmitChanges();
+            finish();
+        });
         mAppSettings = new AppSettings(this);
         mTargetPkgs = new TargetPkgs(this, mAppSettings);
         
@@ -70,6 +82,42 @@ public class AppSelectActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_app_select, menu);
+        final boolean b = super.onCreateOptionsMenu(menu);
+        initSwitch(menu);
+        return b;
+    }
+    
+    private void onSubmitChanges(){
+        final Set<String> pkgs = FluentIterable.from(mDataSelected).transform(new Function<AppDesc, String>() {
+            @javax.annotation.Nullable
+            @Override
+            public String apply(@javax.annotation.Nullable AppDesc input) {
+                return input.pkg;
+            }
+        }).toSet();
+        mAppSettings.setStringSet(mKeyTargetApps, pkgs);
+    }
+    
+    private void initSwitch(final Menu menu){
+        final MenuItem menuItem = menu.findItem(R.id.menu_all_apps);
+        if(null != menuItem){
+            final String targetAppsKey = getString(R.string.pref_target_pkgs);
+            mSwAllApps = (Switch)menuItem.getActionView().findViewById(R.id.toolbar_sw);
+            final Set<String> pkgs = mAppSettings.getStringSet(targetAppsKey);
+            mSwAllApps.setChecked(null == pkgs || pkgs.size() <= 0);
+            mSwAllApps.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if(isChecked) {
+                    onSwapItems(TargetPkgs.Type.SELECTED);
+                }else {
+                    onSwapItems(TargetPkgs.Type.UNSELECTED);
+                }
+            });
+        }
     }
     
     private void updateList(){
@@ -119,6 +167,7 @@ public class AppSelectActivity extends AppCompatActivity {
             mDataUnselected = new ArrayList<>(data.get(UNSELECTED));
             mAdapter.addSection(new Section(mDataUnselected, UNSELECTED));
         }
+        refreshSwitch();
         mAdapter.notifyDataSetChanged();
     }
     
@@ -135,7 +184,35 @@ public class AppSelectActivity extends AppCompatActivity {
             default:
                 return;
         }
+        refreshSwitch();
         mAdapter.notifyDataSetChanged();
+    }
+    
+    private void onSwapItems(final TargetPkgs.Type targetType){
+        switch (targetType){
+            case SELECTED:
+                mDataSelected.addAll(mDataUnselected);
+                mDataUnselected.clear();
+                break;
+            case UNSELECTED:
+                mDataUnselected.addAll(mDataSelected);
+                mDataSelected.clear();
+                break;
+            default:
+                return;
+        }
+        refreshSwitch();
+        mAdapter.notifyDataSetChanged();
+    }
+    
+    private void refreshSwitch(){
+        if(mDataSelected.size() <= 0) {
+            mSwAllApps.setChecked(false);
+        }else if(mDataUnselected.size() <= 0){
+            mSwAllApps.setChecked(true);
+        }else {
+            mSwAllApps.setChecked(false);
+        }
     }
     
     class Section extends StatelessSection {
@@ -173,11 +250,11 @@ public class AppSelectActivity extends AppCompatActivity {
                 if(mOnBind) return;
                 switch (mType){
                     case SELECTED:
-                        mAppSettings.removeFromSet(getString(R.string.pref_target_pkgs), appDesc.pkg);
+                        //mAppSettings.removeFromSet(getString(R.string.pref_target_pkgs), appDesc.pkg);
                         onSwapItem(appDesc, UNSELECTED);
                         break;
                     case UNSELECTED:
-                        mAppSettings.addToSet(getString(R.string.pref_target_pkgs), appDesc.pkg);
+                        //mAppSettings.addToSet(getString(R.string.pref_target_pkgs), appDesc.pkg);
                         onSwapItem(appDesc, SELECTED);
                         break;
                     default:

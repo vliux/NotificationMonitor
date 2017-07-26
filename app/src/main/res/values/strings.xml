@@ -36,4 +36,5 @@
     <string name="app_select_title">Target apps</string>
     <string name="app_select_subtitle">whose notifications will be synchronized</string>
     <string name="load_installed_apps">Loading installed apps ...</string>
+    <string name="all_apps">All apps</string>
 </resources>
