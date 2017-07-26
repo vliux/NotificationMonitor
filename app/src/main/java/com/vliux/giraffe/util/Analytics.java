@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import static com.google.firebase.analytics.FirebaseAnalytics.Event.APP_OPEN;
@@ -23,7 +25,21 @@ public class Analytics {
     private static FirebaseAnalytics sAnalytics;
     
     public static void init(final Application application){
+        initFirebase(application);
         sAnalytics = FirebaseAnalytics.getInstance(application);
+    }
+    
+    /*
+     * init by code, to avoid have a ContentProvider running in main proc.
+     * https://firebase.googleblog.com/2017/03/take-control-of-your-firebase-init-on.html
+     */
+    private static void initFirebase(final Application application){
+        FirebaseOptions.Builder builder = new FirebaseOptions.Builder()
+                .setApplicationId("1:141615603992:android:fa9b58c2ed2a46c6")
+                .setApiKey("AIzaSyAvpcUWjxs-FIkxyMN6pzNxjW-x7PpiKIw")
+                .setDatabaseUrl("https://giraffe-b3dc1.firebaseio.com")
+                .setStorageBucket("giraffe-b3dc1.appspot.com");
+        FirebaseApp.initializeApp(application, builder.build());
     }
     
     public static void logMenuEvent(final String action){

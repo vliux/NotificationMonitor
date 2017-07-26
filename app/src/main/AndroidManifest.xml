@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
     package="com.vliux.giraffe">
 
     <application
@@ -10,12 +11,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         
-        <provider
-            android:authorities="com.vliux.notification.provider"
+        <provider android:authorities="com.vliux.notification.provider"
             android:name=".provider.NotificationRecordProvider"
             android:process=":service"
             android:multiprocess="false"
             android:exported="true"/>
+
+        <!-- move Provider of tray into :service process -->
+        <!--<provider android:authorities="com.vliux.giraffe.tray"
+            android:name="net.grandcentrix.tray.provider.TrayContentProvider"
+            android:process=":service"
+            tools:replace="process"/>-->
+
+        <!-- remove firebase provider (in main proc), use manual init in code -->
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:authorities="${applicationId}.firebaseinitprovider"
+            tools:node="remove"/>
 
         <activity android:name=".MainActivity"
             android:theme="@style/MainActivityTheme"
@@ -28,7 +40,6 @@
         </activity>
 
         <activity android:name=".guide.UserGuideActivity" android:theme="@style/UserGuideActivity"/>
-        <activity android:name=".SettingsActivity"/>
         <activity android:name=".ui.pkgtgt.AppSelectActivity" android:theme="@style/MainActivityTheme"></activity>
 
         <service
