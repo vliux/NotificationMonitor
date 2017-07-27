@@ -14,9 +14,8 @@ public class Constants {
     }
     
     public static class Settings {
-        public static final boolean NOTIF_SRV_BOUND = false;
-        public static final boolean DEFAULT_WECHAT_ONLY = true;
-        public static final boolean DEFAULT_SYS_APPS = false;
+        public static final boolean DEFAULT_NOTIF_SRV_BOUNDED = false;
+        public static final String TARGET_ALL_PKGS = "ALL_PKGS";
     }
     
     public static class Pkgs {

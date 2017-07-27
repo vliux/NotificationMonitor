@@ -9,16 +9,13 @@ import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.vliux.giraffe.R;
 import com.vliux.giraffe.data.NotificationRecord;
 import com.vliux.giraffe.data.NotificationRecordStorage;
 import com.vliux.giraffe.intent.IntentLaunchService;
 import com.vliux.giraffe.util.Analytics;
-import com.vliux.giraffe.util.AppSettings;
+import com.vliux.giraffe.AppSettings;
 
 import java.util.Set;
-
-import static com.vliux.giraffe.Constants.*;
 
 /**
  * Created by vliux on 17/4/27.
@@ -34,9 +31,8 @@ public class NotificationTracerService extends NotificationListenerService {
         Analytics.logBindService();
         mAppSettings = new AppSettings(this);
         mStorage = new NotificationRecordStorage(this);
-        final String keySrvBound = getString(R.string.pref_notif_srv_bound);
-        if(mAppSettings.getBoolean(keySrvBound, Settings.NOTIF_SRV_BOUND)) {
-            mAppSettings.set(keySrvBound, true);
+        if(mAppSettings.boundedEver()) {
+            mAppSettings.setBoundedEver();
             for (final StatusBarNotification sbn : getActiveNotifications()) processNotification(sbn);
         }
         TraceServiceNotifier.notifyServiceBound(this);
@@ -100,11 +96,11 @@ public class NotificationTracerService extends NotificationListenerService {
             return false;
         }
         
-        final Set<String> pkgs = mAppSettings.getStringSet(getString(R.string.pref_target_pkgs));
-        if(null == pkgs || pkgs.size() <= 0) {
+        final Set<String> pkgs = mAppSettings.getTargetPkgs();
+        if(AppSettings.targetAllPkgs(pkgs)){
             Log.d(TAG, "target_apps is ALL, pkg will be processed: " + pkg);
             return true;
-        }else {
+        } else {
             final boolean contains = pkgs.contains(pkg);
             Log.d(TAG, "pkg in target_apps? " + contains);
             return contains;

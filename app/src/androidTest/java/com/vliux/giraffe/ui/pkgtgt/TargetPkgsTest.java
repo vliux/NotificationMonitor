@@ -4,8 +4,7 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.vliux.giraffe.R;
-import com.vliux.giraffe.util.AppSettings;
+import com.vliux.giraffe.AppSettings;
 import com.vliux.giraffe.util.Apps;
 
 import org.junit.Assert;
@@ -13,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +27,7 @@ public class TargetPkgsTest {
     public void resetEnv(){
         final Context context = InstrumentationRegistry.getTargetContext();
         mAppSettings = new AppSettings(context);
-        mAppSettings.set(context.getString(R.string.pref_target_pkgs), null);
+        mAppSettings.setTargetPkgs(new HashSet<>());
     }
     
     @Test

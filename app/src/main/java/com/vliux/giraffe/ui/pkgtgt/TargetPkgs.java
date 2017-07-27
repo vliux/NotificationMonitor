@@ -6,8 +6,7 @@ import android.util.ArrayMap;
 
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
-import com.vliux.giraffe.R;
-import com.vliux.giraffe.util.AppSettings;
+import com.vliux.giraffe.AppSettings;
 import com.vliux.giraffe.util.Apps;
 
 import java.util.Comparator;
@@ -39,7 +38,7 @@ class TargetPkgs {
         //TODO
         final List<PackageInfo> pkgInfos =
                 mContext.getPackageManager().getInstalledPackages(GET_META_DATA | MATCH_UNINSTALLED_PACKAGES);
-        final Set<String> targetPkgs = mAppSettings.getStringSet(mContext.getString(R.string.pref_target_pkgs));
+        final Set<String> targetPkgs = mAppSettings.getTargetPkgs();
         final Map<Type, List<AppDesc>> result = new ArrayMap<>(2);
         result.put(Type.SELECTED, ofSelected(pkgInfos, targetPkgs));
         result.put(Type.UNSELECTED, ofUnselected(pkgInfos, targetPkgs));

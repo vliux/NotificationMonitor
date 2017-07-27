@@ -18,7 +18,7 @@ import com.github.clans.fab.FloatingActionButton;
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.vliux.giraffe.R;
-import com.vliux.giraffe.util.AppSettings;
+import com.vliux.giraffe.AppSettings;
 import com.vliux.giraffe.util.Apps;
 import com.vliux.giraffe.util.TextViews;
 
@@ -100,15 +100,14 @@ public class AppSelectActivity extends AppCompatActivity {
                 return input.pkg;
             }
         }).toSet();
-        mAppSettings.setStringSet(mKeyTargetApps, pkgs);
+        mAppSettings.setTargetPkgs(pkgs);
     }
     
     private void initSwitch(final Menu menu){
         final MenuItem menuItem = menu.findItem(R.id.menu_all_apps);
         if(null != menuItem){
-            final String targetAppsKey = getString(R.string.pref_target_pkgs);
             mSwAllApps = (Switch)menuItem.getActionView().findViewById(R.id.toolbar_sw);
-            final Set<String> pkgs = mAppSettings.getStringSet(targetAppsKey);
+            final Set<String> pkgs = mAppSettings.getTargetPkgs();
             mSwAllApps.setChecked(null == pkgs || pkgs.size() <= 0);
             mSwAllApps.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if(isChecked) {

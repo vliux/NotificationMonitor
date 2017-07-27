@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 
 import com.vliux.giraffe.R;
 import com.vliux.giraffe.util.Analytics;
-import com.vliux.giraffe.util.AppSettings;
+import com.vliux.giraffe.AppSettings;
 
 /**
  * Created by vliux on 2017/7/8.

@@ -8,7 +8,6 @@ import android.util.Log;
 
 import com.vliux.giraffe.listener.NotificationTracerService;
 import com.vliux.giraffe.util.Analytics;
-import com.vliux.giraffe.util.AppSettings;
 
 /**
  * Created by vliux on 2017/7/21.
@@ -23,8 +22,7 @@ class TracerEnsurer {
     static void ensure(final Context context){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             final AppSettings appSettings = new AppSettings(context);
-            if (appSettings.getBoolean(context.getString(R.string.pref_notif_srv_bound),
-                    Constants.Settings.NOTIF_SRV_BOUND))
+            if (appSettings.boundedEver())
                 try {
                     NotificationListenerService.requestRebind(
                             new ComponentName(context.getPackageName(), NotificationTracerService.class.getName()));

@@ -3,7 +3,6 @@ package com.vliux.giraffe.guide;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -12,9 +11,8 @@ import android.view.ViewGroup;
 
 import com.android.setupwizardlib.SetupWizardLayout;
 import com.android.setupwizardlib.view.NavigationBar;
-import com.vliux.giraffe.MainActivity;
 import com.vliux.giraffe.R;
-import com.vliux.giraffe.util.AppSettings;
+import com.vliux.giraffe.AppSettings;
 
 import static com.vliux.giraffe.guide.UserGuideManager.setUserGuideShown;
 
