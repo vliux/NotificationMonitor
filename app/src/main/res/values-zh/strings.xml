@@ -13,7 +13,7 @@
     <string name="show_guide">用户向导</string>
     <string name="coming_soon">设置页面即将在正式版本中呈现</string>
     <string name="total_msg">共%1$s条消息</string>
-    <string name="guide_explain_app">您可以同步并修饰全部应用，或仅指定应用的通知。</string>
+    <string name="guide_explain_app">默认情况下，飞鱼将同步所有应用的通知。您可以对其进行设置，让飞鱼仅同步指定来自指定应用的通知。</string>
     <string name="finish">完成</string>
     <string name="about">关于</string>
     <string name="blog_link"><a href="http://vliux.me">由vliux.me开发</a></string>
@@ -25,7 +25,7 @@
     <string name="selected">已选中</string>
     <string name="unselected">未选中</string>
     <string name="fab_bind_srv">赋予权限</string>
-    <string name="fab_add_app">设置目标应用</string>
+    <string name="fab_add_app">设置被同步的应用</string>
     <string name="app_select_title">目标应用</string>
     <string name="app_select_subtitle">选中应用的通知将被同步</string>
     <string name="load_installed_apps">扫描已安装应用...</string>

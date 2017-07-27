@@ -15,7 +15,7 @@
     <string name="show_guide">User guide</string>
     <string name="coming_soon">Comming soon in release editions</string>
     <string name="total_msg">%1$s messages total</string>
-    <string name="guide_explain_app">You can sync and decrorate a single app, or all apps.</string>
+    <string name="guide_explain_app">By default, notifications from all apps are synchronized. You can configure it so that Flyfish will only synchronize individual app(s).</string>
     <string name="finish">Finish</string>
 
     <string name="pref_notif_srv_bound" translatable="false">pref_notif_srv_bound</string>
