@@ -31,7 +31,7 @@ public class NotificationTracerService extends NotificationListenerService {
         Analytics.logBindService();
         mAppSettings = new AppSettings(this);
         mStorage = new NotificationRecordStorage(this);
-        if(mAppSettings.boundedEver()) {
+        if(!mAppSettings.boundedEver()) {
             mAppSettings.setBoundedEver();
             for (final StatusBarNotification sbn : getActiveNotifications()) processNotification(sbn);
         }
