@@ -28,7 +28,8 @@
         app:menu_colorPressed="@color/colorPrimaryDark"
         app:elevation="6dp"
         app:layout_anchorGravity="bottom|right|end"
-        app:menu_openDirection="up">
+        app:menu_openDirection="up"
+        app:layout_behavior="com.vliux.giraffe.util.SnackBarBehavior">
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_bind"
