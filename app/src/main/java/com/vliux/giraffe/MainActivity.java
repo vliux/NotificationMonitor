@@ -82,7 +82,9 @@ public class MainActivity extends AppCompatActivity {
         updateList();
         mRecyclerView.setAdapter(mAdapter);
         TraceServiceNotifier.registerNotificationUpdated(this, mNotifChangedReceiver);
-        TracerEnsurer.ensure(this);
+        
+        TracerEnsurer.tryEnsure(this);
+        TracerEnsurer.checkAsync(this, findViewById(R.id.parent));
     }
     
     @Override
@@ -166,12 +168,6 @@ public class MainActivity extends AppCompatActivity {
     
     private boolean debugOp(){
         startActivity(new Intent(this, AppSelectActivity.class));
-        /*final NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-        final Notification.Builder builder = new Notification.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Debug message")
-                .setContentText("Debug message from Giraffe");
-        nm.notify(0, builder.build());*/
         return true;
     }
     
