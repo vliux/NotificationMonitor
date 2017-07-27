@@ -29,11 +29,11 @@ import com.vliux.giraffe.listener.TraceServiceNotifier;
 import com.vliux.giraffe.ui.pkgtgt.AppSelectActivity;
 import com.vliux.giraffe.util.Analytics;
 import com.vliux.giraffe.util.Apps;
+import com.vliux.giraffe.util.DateUtil;
 import com.vliux.giraffe.util.TextViews;
 import com.vliux.giraffe.view.AboutView;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
             final NotificationRecord record = mRecords.get(position);
             holder.mTvTitle.setText(record.getTitle());
             holder.mTvContent.setText(record.getText());
-            holder.mTvTime.setText(new Date(record.getTime()).toString());
+            DateUtil.setDate(MainActivity.this, holder.mTvTime, record.getTime());
             loadIconAsync(record.getPkg(), holder.mTvApp);
     
             final Intent intent = Apps.ofLauncher(MainActivity.this, record.getPkg());
