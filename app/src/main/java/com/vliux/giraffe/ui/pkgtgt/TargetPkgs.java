@@ -46,8 +46,9 @@ class TargetPkgs {
     }
     
     private List<AppDesc> ofSelected(final List<PackageInfo> pkgInfos, final Set<String> targetPkgs){
+        final boolean targetAll = AppSettings.targetAllPkgs(targetPkgs);
         return FluentIterable.from(pkgInfos)
-                        .filter(input -> filterSelected(input, targetPkgs))
+                        .filter(input -> targetAll || filterSelected(input, targetPkgs))
                         .transform(new Function<PackageInfo, AppDesc>() {
                             @Nullable
                             @Override
@@ -60,8 +61,9 @@ class TargetPkgs {
     }
     
     private List<AppDesc> ofUnselected(final List<PackageInfo> pkgInfos, final Set<String> targetPkgs){
+        final boolean targetAll = AppSettings.targetAllPkgs(targetPkgs);
         return FluentIterable.from(pkgInfos)
-                .filter(input -> filterUnselected(input, targetPkgs))
+                .filter(input -> !targetAll && filterUnselected(input, targetPkgs))
                 .transform(new Function<PackageInfo, AppDesc>() {
                     @Nullable
                     @Override

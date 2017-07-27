@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -52,12 +53,11 @@ public class AppSelectActivity extends AppCompatActivity {
     private List<AppDesc> mDataSelected, mDataUnselected;
     private FloatingActionButton mFab;
     private Switch mSwAllApps;
-    private String mKeyTargetApps;
+    private boolean mOnBind = false;
     
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mKeyTargetApps = getString(R.string.pref_target_pkgs);
         setContentView(R.layout.activity_app_select);
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -108,14 +108,8 @@ public class AppSelectActivity extends AppCompatActivity {
         if(null != menuItem){
             mSwAllApps = (Switch)menuItem.getActionView().findViewById(R.id.toolbar_sw);
             final Set<String> pkgs = mAppSettings.getTargetPkgs();
-            mSwAllApps.setChecked(null == pkgs || pkgs.size() <= 0);
-            mSwAllApps.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if(isChecked) {
-                    onSwapItems(TargetPkgs.Type.SELECTED);
-                }else {
-                    onSwapItems(TargetPkgs.Type.UNSELECTED);
-                }
-            });
+            mSwAllApps.setChecked(AppSettings.targetAllPkgs(pkgs));
+            mSwAllApps.setOnCheckedChangeListener(mAllAppsSwitchListener);
         }
     }
     
@@ -200,17 +194,16 @@ public class AppSelectActivity extends AppCompatActivity {
             default:
                 return;
         }
-        refreshSwitch();
         mAdapter.notifyDataSetChanged();
     }
     
     private void refreshSwitch(){
         if(mDataSelected.size() <= 0) {
-            mSwAllApps.setChecked(false);
+            setCheckedWithoutListener(mSwAllApps, false, mAllAppsSwitchListener);
         }else if(mDataUnselected.size() <= 0){
-            mSwAllApps.setChecked(true);
+            setCheckedWithoutListener(mSwAllApps, true, mAllAppsSwitchListener);
         }else {
-            mSwAllApps.setChecked(false);
+            setCheckedWithoutListener(mSwAllApps, false, mAllAppsSwitchListener);
         }
     }
     
@@ -234,8 +227,7 @@ public class AppSelectActivity extends AppCompatActivity {
         public RecyclerView.ViewHolder getItemViewHolder(View view) {
             return new SelectViewHolder(view);
         }
-    
-        private boolean mOnBind = false;
+        
         @Override
         public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
             mOnBind = true;
@@ -244,22 +236,9 @@ public class AppSelectActivity extends AppCompatActivity {
             selectViewHolder.mAppTv.setText(appDesc.label);
             TextViews.setLeftDrawable(selectViewHolder.mAppTv, appDesc);
             
-            selectViewHolder.mCb.setChecked(mType == TargetPkgs.Type.SELECTED);
-            selectViewHolder.mCb.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if(mOnBind) return;
-                switch (mType){
-                    case SELECTED:
-                        //mAppSettings.removeFromSet(getString(R.string.pref_target_pkgs), appDesc.pkg);
-                        onSwapItem(appDesc, UNSELECTED);
-                        break;
-                    case UNSELECTED:
-                        //mAppSettings.addToSet(getString(R.string.pref_target_pkgs), appDesc.pkg);
-                        onSwapItem(appDesc, SELECTED);
-                        break;
-                    default:
-                        return;
-                }
-            });
+            selectViewHolder.mCb.setTag(R.id.appdesc, appDesc);
+            setCheckedWithoutListener(selectViewHolder.mCb, mType == TargetPkgs.Type.SELECTED, mItemCheckedListener);
+            selectViewHolder.mCb.setOnCheckedChangeListener(mItemCheckedListener);
             mOnBind = false;
         }
     }
@@ -273,5 +252,31 @@ public class AppSelectActivity extends AppCompatActivity {
             mAppTv = (TextView)itemView.findViewById(R.id.select_tv);
             mCb = (CheckBox)itemView.findViewById(R.id.select_cb);
         }
+    }
+    
+    private final CompoundButton.OnCheckedChangeListener mAllAppsSwitchListener = (buttonView, isChecked) -> {
+        if(isChecked) {
+            onSwapItems(TargetPkgs.Type.SELECTED);
+        }else {
+            onSwapItems(TargetPkgs.Type.UNSELECTED);
+        }
+    };
+    
+    private final CompoundButton.OnCheckedChangeListener mItemCheckedListener = (buttonView, isChecked) -> {
+        if(mOnBind) return;
+        final AppDesc appDesc = (AppDesc)buttonView.getTag(R.id.appdesc);
+        if(null != appDesc) {
+            if (isChecked) {
+                onSwapItem(appDesc, TargetPkgs.Type.SELECTED);
+            } else {
+                onSwapItem(appDesc, TargetPkgs.Type.UNSELECTED);
+            }
+        }
+    };
+    
+    private static void setCheckedWithoutListener(final CompoundButton cb, final boolean checked, final CompoundButton.OnCheckedChangeListener listener){
+        cb.setOnCheckedChangeListener(null);
+        cb.setChecked(checked);
+        cb.setOnCheckedChangeListener(listener);
     }
 }

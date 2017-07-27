@@ -44,15 +44,23 @@ public class AppSettings {
     }
     
     public void setTargetAllPkgs(){
+        setStringSet(mKeyTargetPkgs, new HashSet<>(0));
+    }
+    
+    public void setTargetNoPkgs(){
         final Set<String> set = new HashSet<>(1);
-        set.add(Constants.Settings.TARGET_ALL_PKGS);
-        setStringSet(mKeyTargetPkgs, set);
+        set.add(Constants.Settings.TARGET_NO_PKG);
+        setTargetPkgs(set);
     }
     
     public static boolean targetAllPkgs(final Set<String> pkgs){
+        return null == pkgs || pkgs.size() <= 0;
+    }
+    
+    public static boolean targetNoPkg(final Set<String> pkgs){
         if(null == pkgs || pkgs.size() != 1) return false;
         else for(final String p : pkgs){
-            return Constants.Settings.TARGET_ALL_PKGS.equals(p);
+            return Constants.Settings.TARGET_NO_PKG.equals(p);
         }
         return false;
     }
