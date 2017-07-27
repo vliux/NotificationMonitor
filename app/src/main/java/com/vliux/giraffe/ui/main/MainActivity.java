@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private List<NotificationRecord> mRecords = new ArrayList<>();
     private boolean mShowAsMerged = true;
+    private View mEmptyView; //if not null, empty view is showing
     
     public static void start(final Context context, final boolean newTask){
         final Intent intent = new Intent(context, MainActivity.class);
@@ -136,6 +138,15 @@ public class MainActivity extends AppCompatActivity {
         }else {
             final List<NotificationRecord> records = mStorage.getRaw();
             mAdapter.setRecords(records.size(), records);
+        }
+        // set empty view if needed
+        if (mAdapter.getItemCount() <= 0) {
+            if(null == mEmptyView) {
+                final ViewStub stub = (ViewStub) findViewById(R.id.stub_empty);
+                mEmptyView = stub.inflate();
+            }
+        } else if (null != mEmptyView) {
+            mEmptyView.setVisibility(View.GONE);
         }
     }
     

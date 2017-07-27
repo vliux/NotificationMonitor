@@ -46,6 +46,12 @@
             android:src="@drawable/ic_add"
             app:fab_size="mini"
             app:fab_label="@string/fab_add_app" />
-        </com.github.clans.fab.FloatingActionMenu>
+    </com.github.clans.fab.FloatingActionMenu>
+
+    <ViewStub
+        android:id="@+id/stub_empty"
+        android:layout="@layout/view_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </android.support.design.widget.CoordinatorLayout>
