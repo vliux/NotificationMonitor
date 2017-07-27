@@ -93,14 +93,18 @@ public class AppSelectActivity extends AppCompatActivity {
     }
     
     private void onSubmitChanges(){
-        final Set<String> pkgs = FluentIterable.from(mDataSelected).transform(new Function<AppDesc, String>() {
-            @javax.annotation.Nullable
-            @Override
-            public String apply(@javax.annotation.Nullable AppDesc input) {
-                return input.pkg;
-            }
-        }).toSet();
-        mAppSettings.setTargetPkgs(pkgs);
+        if(mDataSelected.size() > 0 && mDataUnselected.size() <= 0) mAppSettings.setTargetAllPkgs();
+        else if(mDataSelected.size() <= 0 && mDataUnselected.size() > 0) mAppSettings.setTargetNoPkg();
+        else {
+            final Set<String> pkgs = FluentIterable.from(mDataSelected).transform(new Function<AppDesc, String>() {
+                @javax.annotation.Nullable
+                @Override
+                public String apply(@javax.annotation.Nullable AppDesc input) {
+                    return input.pkg;
+                }
+            }).toSet();
+            mAppSettings.setTargetPkgs(pkgs);
+        }
     }
     
     private void initSwitch(final Menu menu){

@@ -40,17 +40,19 @@ public class AppSettings {
     }
     
     public void setTargetPkgs(@NonNull final Set<String> pkgs){
-        setStringSet(mKeyTargetPkgs, pkgs);
+        if(targetAllPkgs(pkgs)) setTargetAllPkgs();
+        else if(targetNoPkg(pkgs)) setTargetNoPkg();
+        else setStringSet(mKeyTargetPkgs, pkgs);
     }
     
     public void setTargetAllPkgs(){
         setStringSet(mKeyTargetPkgs, new HashSet<>(0));
     }
     
-    public void setTargetNoPkgs(){
+    public void setTargetNoPkg(){
         final Set<String> set = new HashSet<>(1);
         set.add(Constants.Settings.TARGET_NO_PKG);
-        setTargetPkgs(set);
+        setStringSet(mKeyTargetPkgs, set);
     }
     
     public static boolean targetAllPkgs(final Set<String> pkgs){

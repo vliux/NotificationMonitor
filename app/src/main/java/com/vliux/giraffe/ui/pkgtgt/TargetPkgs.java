@@ -35,7 +35,6 @@ class TargetPkgs {
     }
     
     Map<Type, List<AppDesc>> get(){
-        //TODO
         final List<PackageInfo> pkgInfos =
                 mContext.getPackageManager().getInstalledPackages(GET_META_DATA | MATCH_UNINSTALLED_PACKAGES);
         final Set<String> targetPkgs = mAppSettings.getTargetPkgs();
