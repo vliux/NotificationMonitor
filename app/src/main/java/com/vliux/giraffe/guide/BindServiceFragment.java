@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.vliux.giraffe.MainActivity;
+import com.vliux.giraffe.ui.main.MainActivity;
 import com.vliux.giraffe.R;
 
 import static com.vliux.giraffe.guide.UserGuideManager.setUserGuideShown;

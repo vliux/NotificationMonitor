@@ -29,7 +29,7 @@
             android:authorities="${applicationId}.firebaseinitprovider"
             tools:node="remove"/>
 
-        <activity android:name=".MainActivity"
+        <activity android:name=".ui.main.MainActivity"
             android:theme="@style/MainActivityTheme"
             android:launchMode="singleTop">
             <intent-filter>

@@ -1,4 +1,4 @@
-package com.vliux.giraffe;
+package com.vliux.giraffe.ui.main;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -9,6 +9,8 @@ import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 
+import com.vliux.giraffe.AppSettings;
+import com.vliux.giraffe.R;
 import com.vliux.giraffe.listener.NotificationTracerService;
 import com.vliux.giraffe.util.Analytics;
 import com.vliux.giraffe.util.NotifPermission;

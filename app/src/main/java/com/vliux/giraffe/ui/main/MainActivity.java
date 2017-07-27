@@ -1,4 +1,4 @@
-package com.vliux.giraffe;
+package com.vliux.giraffe.ui.main;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.vliux.giraffe.BuildConfig;
+import com.vliux.giraffe.R;
 import com.vliux.giraffe.data.NotificationRecord;
 import com.vliux.giraffe.data.NotificationRecordStorage;
 import com.vliux.giraffe.guide.UserGuideManager;
@@ -84,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
         TraceServiceNotifier.registerNotificationUpdated(this, mNotifChangedReceiver);
         
         TracerEnsurer.tryEnsure(this);
-        TracerEnsurer.checkAsync(this, findViewById(R.id.parent));
     }
     
     @Override
@@ -97,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         updateList();
+        TracerEnsurer.checkAsync(this, findViewById(R.id.parent));
     }
     
     @Override
