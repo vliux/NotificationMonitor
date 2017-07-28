@@ -1,8 +1,11 @@
 package com.vliux.giraffe.listener;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationManagerCompat;
@@ -41,6 +44,15 @@ public class TracerEnsurer {
             pm.setComponentEnabledSetting(cn, COMPONENT_ENABLED_STATE_DISABLED, DONT_KILL_APP);
             pm.setComponentEnabledSetting(cn, COMPONENT_ENABLED_STATE_ENABLED, DONT_KILL_APP);
         }
+    }
+    
+    public static void scheduleEnsureRunning(final Context context){
+        final PendingIntent pendingIntent =
+                PendingIntent.getService(context, 0,
+                        new Intent(context, TracerEnsurerService.class),
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+        final AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        am.setRepeating(AlarmManager.RTC, System.currentTimeMillis() + ENSURE_INTERVAL, ENSURE_INTERVAL, pendingIntent);
     }
     
     /*static void tryEnsure(final Context context){
@@ -97,4 +109,5 @@ public class TracerEnsurer {
         else return false;
     }
     
+    private static final long ENSURE_INTERVAL = 30_000L/*60_000L * 240*/;
 }

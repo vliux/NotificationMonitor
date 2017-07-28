@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         TraceServiceNotifier.registerNotificationUpdated(this, mNotifChangedReceiver);
         
         TracerEnsurer.ensureServiceRunning(this);
+        TracerEnsurer.scheduleEnsureRunning(this);
     }
     
     @Override

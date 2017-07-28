@@ -43,6 +43,7 @@ import static com.vliux.giraffe.util.Apps.*;
 
 /**
  * Created by vliux on 2017/7/24.
+ * @author vliux
  */
 
 public class AppSelectActivity extends AppCompatActivity {
@@ -111,7 +112,7 @@ public class AppSelectActivity extends AppCompatActivity {
                 @javax.annotation.Nullable
                 @Override
                 public String apply(@javax.annotation.Nullable AppDesc input) {
-                    return input.pkg;
+                    return null != input ? input.pkg : null;
                 }
             }).toSet();
             mAppSettings.setTargetPkgs(pkgs);

@@ -115,6 +115,6 @@ public class NotificationTracerService extends NotificationListenerService {
     
     private NotificationRecordStorage mStorage;
     private AppSettings mAppSettings;
-    private static final String TAG = NotificationTracerService.class.getSimpleName();
+    private static final String TAG = "NotifTracer";
     
 }

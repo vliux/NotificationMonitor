@@ -57,6 +57,10 @@
 
         <service android:name=".intent.IntentLaunchService"
             android:process=":service" />
+
+        <service android:name=".listener.TracerEnsurerService"
+                 android:process=":service" />
+
     </application>
 
 </manifest>
