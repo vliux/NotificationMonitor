@@ -26,6 +26,7 @@ import com.vliux.giraffe.data.NotificationRecord;
 import com.vliux.giraffe.data.NotificationRecordStorage;
 import com.vliux.giraffe.guide.UserGuideManager;
 import com.vliux.giraffe.listener.TraceServiceNotifier;
+import com.vliux.giraffe.listener.TracerEnsurer;
 import com.vliux.giraffe.ui.pkgtgt.AppSelectActivity;
 import com.vliux.giraffe.util.Analytics;
 import com.vliux.giraffe.util.Apps;
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
         TraceServiceNotifier.registerNotificationUpdated(this, mNotifChangedReceiver);
         
-        TracerEnsurer.tryEnsure(this);
+        TracerEnsurer.ensureServiceRunning(this);
     }
     
     @Override
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         updateList();
-        TracerEnsurer.checkAsync(this, findViewById(R.id.parent));
+        TracerEnsurer.checkPermissionAsync(this, findViewById(R.id.parent));
     }
     
     @Override

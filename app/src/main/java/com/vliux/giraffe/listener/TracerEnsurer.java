@@ -1,20 +1,17 @@
-package com.vliux.giraffe.ui.main;
+package com.vliux.giraffe.listener;
 
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
-import android.os.Build;
-import android.service.notification.NotificationListenerService;
+import android.content.pm.PackageManager;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
+import android.support.v4.app.NotificationManagerCompat;
 import android.view.View;
 
-import com.vliux.giraffe.AppSettings;
 import com.vliux.giraffe.R;
-import com.vliux.giraffe.listener.NotificationTracerService;
-import com.vliux.giraffe.util.Analytics;
 import com.vliux.giraffe.util.NotifPermission;
-import com.vliux.giraffe.util.Services;
+
+import java.util.Set;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
@@ -24,17 +21,29 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+import static android.content.pm.PackageManager.*;
+
 /**
  * Created by vliux on 2017/7/21.
  * @author vliux
  */
 
-class TracerEnsurer {
+public class TracerEnsurer {
+    
     /**
-     * Ensure that the NotificationTracerListener is bound to system notification service,
-     * if it has been assigned the permission.
+     * Try to ensure that the notification listener service is running, if permission has been granted.
+     * @param context
      */
-    static void tryEnsure(final Context context){
+    public static void ensureServiceRunning(final Context context){
+        if(isPermissionGranted(context)) {
+            final PackageManager pm = context.getPackageManager();
+            final ComponentName cn = new ComponentName(context, NotificationTracerService.class);
+            pm.setComponentEnabledSetting(cn, COMPONENT_ENABLED_STATE_DISABLED, DONT_KILL_APP);
+            pm.setComponentEnabledSetting(cn, COMPONENT_ENABLED_STATE_ENABLED, DONT_KILL_APP);
+        }
+    }
+    
+    /*static void tryEnsure(final Context context){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             final AppSettings appSettings = new AppSettings(context);
             if (appSettings.boundedEver())
@@ -46,11 +55,12 @@ class TracerEnsurer {
                     Analytics.logError(e);
                 }
         }
-    }
+    }*/
     
-    static void checkAsync(final Activity activity, final View snackbarParent){
+    public static void checkPermissionAsync(final Activity activity, final View snackbarParent){
         Observable.create((ObservableOnSubscribe<Boolean>) e -> {
-            e.onNext(Services.isServiceRunning(activity, NotificationTracerService.class));
+            e.onNext(isPermissionGranted(activity));
+            //e.onNext(Services.isServiceRunning(activity, NotificationTracerService.class));
             e.onComplete();
         }).subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -76,6 +86,15 @@ class TracerEnsurer {
             public void onComplete() {
             }
         });
+    }
+    
+    /**
+     * Check whether the notification listening permission has been granted.
+     */
+    private static boolean isPermissionGranted(final Context context){
+        final Set<String> pkgs = NotificationManagerCompat.getEnabledListenerPackages(context);
+        if(null != pkgs && pkgs.contains(context.getPackageName())) return true;
+        else return false;
     }
     
 }
