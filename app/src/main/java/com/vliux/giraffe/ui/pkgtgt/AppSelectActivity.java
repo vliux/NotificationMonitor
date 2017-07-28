@@ -63,6 +63,7 @@ public class AppSelectActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle(R.string.app_select_title);
         getSupportActionBar().setSubtitle(R.string.app_select_subtitle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         
         mFab = (FloatingActionButton)findViewById(R.id.fab);
         mFab.setOnClickListener(v -> {
@@ -90,6 +91,16 @@ public class AppSelectActivity extends AppCompatActivity {
         final boolean b = super.onCreateOptionsMenu(menu);
         initSwitch(menu);
         return b;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
     
     private void onSubmitChanges(){

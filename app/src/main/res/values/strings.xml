@@ -33,8 +33,8 @@
     <string name="unselected">Unselected</string>
     <string name="fab_bind_srv">Assure permission</string>
     <string name="fab_add_app">Set target app</string>
-    <string name="app_select_title">Target apps</string>
-    <string name="app_select_subtitle">whose notifications will be synchronized</string>
+    <string name="app_select_title">Choose</string>
+    <string name="app_select_subtitle">synchronized apps</string>
     <string name="load_installed_apps">Loading installed apps ...</string>
     <string name="all_apps">All apps</string>
     <string name="empty_notification">You have synchronized no notification yet ...</string>
