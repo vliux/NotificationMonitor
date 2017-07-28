@@ -32,20 +32,20 @@
         app:layout_behavior="com.vliux.giraffe.util.SnackBarBehavior">
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_bind"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_power"
-            app:fab_size="mini"
-            app:fab_label="@string/fab_bind_srv" />
-
-        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_edit"
             app:fab_size="mini"
             app:fab_label="@string/fab_add_app" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_bind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_power"
+            app:fab_size="mini"
+            app:fab_label="@string/fab_bind_srv" />
     </com.github.clans.fab.FloatingActionMenu>
 
     <ViewStub

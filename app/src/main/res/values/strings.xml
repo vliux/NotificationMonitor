@@ -31,8 +31,8 @@
     <string name="quit">Quit</string>
     <string name="selected">Selected</string>
     <string name="unselected">Unselected</string>
-    <string name="fab_bind_srv">Assure permission</string>
-    <string name="fab_add_app">Set target app</string>
+    <string name="fab_bind_srv">Grant notification permission</string>
+    <string name="fab_add_app">Choose target apps</string>
     <string name="app_select_title">Choose</string>
     <string name="app_select_subtitle">synchronized apps</string>
     <string name="load_installed_apps">Loading installed apps ...</string>

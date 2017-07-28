@@ -24,11 +24,11 @@
     <string name="quit">退出</string>
     <string name="selected">已选中</string>
     <string name="unselected">未选中</string>
-    <string name="fab_bind_srv">赋予权限</string>
-    <string name="fab_add_app">设置被同步的应用</string>
+    <string name="fab_bind_srv">赋予通知权限</string>
+    <string name="fab_add_app">选择被同步的应用</string>
     <string name="app_select_title">选择</string>
     <string name="app_select_subtitle">被同步的应用</string>
-    <string name="load_installed_apps">扫描已安装应用...</string>
+    <string name="load_installed_apps">正在获取已安装的应用...</string>
     <string name="all_apps">所有应用</string>
     <string name="empty_notification">您目前还没有同步到通知...</string>
 </resources>
