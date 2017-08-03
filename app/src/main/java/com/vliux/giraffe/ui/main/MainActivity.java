@@ -81,11 +81,13 @@ public class MainActivity extends AppCompatActivity {
         mFabBind.setOnClickListener(v -> {showBindingDialog(); mFab.close(false);});
         mFabAdd = (FloatingActionButton)findViewById(R.id.fab_add);
         mFabAdd.setOnClickListener(v -> {startActivity(new Intent(MainActivity.this, AppSelectActivity.class)); mFab.close(false);});
-        
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    
+        final LinearLayoutManager lm = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(lm);
         mAdapter = new Adapter();
-        updateList();
         mRecyclerView.setAdapter(mAdapter);
+        new IncrementalLoader(mRecyclerView, mAdapter, lm).setup();
+        updateList();
         TraceServiceNotifier.registerNotificationUpdated(this, mNotifChangedReceiver);
         
         TracerEnsurer.ensureServiceRunning(this);
@@ -197,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
         mToolbar.setSubtitle(String.format(getString(R.string.main_subtitle), recordNum));
     }
     
-    private class Adapter extends RecyclerView.Adapter<ViewHolder> {
+    class Adapter extends RecyclerView.Adapter<ViewHolder> {
         private List<NotificationRecord> mRecords;
     
         public Adapter() {
