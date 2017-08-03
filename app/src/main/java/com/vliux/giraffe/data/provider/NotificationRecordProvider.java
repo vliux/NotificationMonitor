@@ -1,4 +1,4 @@
-package com.vliux.giraffe.provider;
+package com.vliux.giraffe.data.provider;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;

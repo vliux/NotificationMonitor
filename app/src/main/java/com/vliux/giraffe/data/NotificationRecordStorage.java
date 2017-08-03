@@ -11,13 +11,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.vliux.giraffe.provider.NotificationRecordProvider;
+import com.vliux.giraffe.data.provider.NotificationRecordProvider;
 
 import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.vliux.giraffe.provider.NotificationRecordProvider.RECORD_CONTENT_URI;
+import static com.vliux.giraffe.data.provider.NotificationRecordProvider.RECORD_CONTENT_URI;
 
 /**
  * Created by vliux on 17/7/5.

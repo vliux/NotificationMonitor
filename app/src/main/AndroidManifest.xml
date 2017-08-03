@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme">
         
         <provider android:authorities="com.vliux.notification.provider"
-            android:name=".provider.NotificationRecordProvider"
+            android:name=".data.provider.NotificationRecordProvider"
             android:process=":service"
             android:multiprocess="false"
             android:exported="true"/>
