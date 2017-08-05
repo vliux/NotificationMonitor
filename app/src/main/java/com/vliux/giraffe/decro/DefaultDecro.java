@@ -18,6 +18,7 @@ import android.widget.RemoteViews;
 import com.vliux.giraffe.R;
 import com.vliux.giraffe.data.NotificationRecord;
 import com.vliux.giraffe.data.NotificationRecordStorage;
+import com.vliux.giraffe.intent.IntentDeleteService;
 import com.vliux.giraffe.intent.IntentLaunchService;
 import com.vliux.giraffe.util.Apps;
 
@@ -42,8 +43,9 @@ class DefaultDecro implements IDecro {
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setContentTitle(appDesc.label)
                 .setContentText(context.getString(R.string.total_msg, String.valueOf(records.size())))
-                .setSmallIcon(R.mipmap.ic_launcher);
-
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setDeleteIntent(IntentDeleteService.get(context, pkg));
+    
         final NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
         int i = 0;
         for (final NotificationRecord record : records) {
@@ -69,7 +71,7 @@ class DefaultDecro implements IDecro {
         inboxStyle.addLine(new SpannableStringBuilder(ss).append(record.getText()));
     }
 
-    static boolean setInboxItem(final Context context, RemoteViews rvs, final int index,
+    private static boolean setInboxItem(final Context context, RemoteViews rvs, final int index,
                                 final NotificationRecord record){
         if (rvs == null) return false;
         final String itemResId = "inbox_text" + index;
@@ -88,4 +90,5 @@ class DefaultDecro implements IDecro {
         }
 
     }
+    
 }

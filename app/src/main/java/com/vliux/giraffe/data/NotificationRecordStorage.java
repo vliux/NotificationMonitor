@@ -86,7 +86,7 @@ public class NotificationRecordStorage implements Closeable {
     }
     
     @Nullable
-    public List<NotificationRecord> get(final String pkg){
+    public List<NotificationRecord> get(@NonNull final String pkg){
         final Cursor cursor = mContext.getContentResolver()
                 .query(Uri.withAppendedPath(RECORD_CONTENT_URI, pkg),
                 null, null, null, null);
@@ -124,6 +124,11 @@ public class NotificationRecordStorage implements Closeable {
         return null;
     }
 
+    public void delete(@NonNull final String pkg){
+        //// TODO: 2017/8/4  
+        throw new UnsupportedOperationException();
+    }
+    
     public static Uri get(final int id){
         return Uri.withAppendedPath(RECORD_CONTENT_URI, String.valueOf(id));
     }

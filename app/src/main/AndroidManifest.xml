@@ -61,6 +61,9 @@
         <service android:name=".listener.TracerEnsurerService"
                  android:process=":service" />
 
+        <service android:name=".intent.IntentDeleteService"
+                 android:process=":service" />
+
     </application>
 
 </manifest>
