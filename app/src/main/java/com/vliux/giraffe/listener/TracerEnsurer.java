@@ -103,7 +103,7 @@ public class TracerEnsurer {
     /**
      * Check whether the notification listening permission has been granted.
      */
-    private static boolean isPermissionGranted(final Context context){
+    public static boolean isPermissionGranted(final Context context){
         final Set<String> pkgs = NotificationManagerCompat.getEnabledListenerPackages(context);
         if(null != pkgs && pkgs.contains(context.getPackageName())) return true;
         else return false;
