@@ -15,7 +15,7 @@
             android:name=".data.provider.NotificationRecordProvider"
             android:process=":service"
             android:multiprocess="false"
-            android:exported="true"/>
+            android:exported="false"/>
 
         <!-- move Provider of tray into :service process -->
         <provider android:authorities="com.vliux.giraffe.tray"

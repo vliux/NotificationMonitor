@@ -32,7 +32,7 @@ public class IntentDeleteService extends IntentService {
     
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        Log.d("vliux", "IntentDeleteService.onHandleIntent() ");
+        Log.d(TAG, "IntentDeleteService.onHandleIntent() ");
         if(null == intent) return;
         final Uri data = intent.getData();
         if(null == data) return;

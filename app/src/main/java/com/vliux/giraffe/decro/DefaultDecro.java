@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -41,10 +42,12 @@ class DefaultDecro implements IDecro {
                               @NonNull Apps.AppDesc appDesc,
                               @NonNull List<NotificationRecord> records) {
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
-                .setContentTitle(appDesc.label)
                 .setContentText(context.getString(R.string.total_msg, String.valueOf(records.size())))
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setDeleteIntent(IntentDeleteService.get(context, pkg));
+                .setDeleteIntent(IntentDeleteService.get(context, pkg))
+                .setColor(context.getResources().getColor(R.color.colorAccent));
+        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) builder.setContentTitle(appDesc.label);
+        else builder.setSubText(appDesc.label);
     
         final NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
         int i = 0;
@@ -68,7 +71,7 @@ class DefaultDecro implements IDecro {
                                       final NotificationRecord record) {
         final SpannableString ss = SpannableString.valueOf(record.getTitle());
         ss.setSpan(new StyleSpan(Typeface.BOLD), 0, record.getTitle().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        inboxStyle.addLine(new SpannableStringBuilder(ss).append(record.getText()));
+        inboxStyle.addLine(new SpannableStringBuilder(ss).append(' ').append(record.getText()));
     }
 
     private static boolean setInboxItem(final Context context, RemoteViews rvs, final int index,
