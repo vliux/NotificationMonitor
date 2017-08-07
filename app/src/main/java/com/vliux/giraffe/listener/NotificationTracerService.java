@@ -11,7 +11,7 @@ import android.util.Log;
 
 import com.vliux.giraffe.data.NotificationRecord;
 import com.vliux.giraffe.data.NotificationRecordStorage;
-import com.vliux.giraffe.intent.IntentLaunchService;
+import com.vliux.giraffe.intent.IntentCaches;
 import com.vliux.giraffe.util.Analytics;
 import com.vliux.giraffe.AppSettings;
 
@@ -74,16 +74,16 @@ public class NotificationTracerService extends NotificationListenerService {
         if(!TextUtils.isEmpty(title) && !TextUtils.isEmpty(text)) {
             final Uri uri = mStorage.add(NotificationRecord.fromListener(pkg, title, text, time));
             Log.d(TAG, "   added to storage: " + uri);
-            cachePendingIntent(uri, notification);
+            cachePendingIntent(pkg, uri, notification);
             TraceServiceNotifier.notifyNotificationUpdated(this, pkg);
             cancelNotification(sbn);
         }
     }
 
-    private void cachePendingIntent(final Uri uri, final Notification notification){
+    private void cachePendingIntent(final String pkg, final Uri uri, final Notification notification){
         final PendingIntent pendingIntent =
                 null != notification.contentIntent ? notification.contentIntent : notification.fullScreenIntent;
-        if (null != pendingIntent) IntentLaunchService.cache(uri, pendingIntent);
+        if (null != pendingIntent) IntentCaches.get().add(pkg, uri, pendingIntent);
     }
 
     private boolean intercept(final StatusBarNotification sbn){

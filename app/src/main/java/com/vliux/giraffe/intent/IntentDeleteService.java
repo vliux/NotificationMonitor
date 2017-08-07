@@ -38,6 +38,11 @@ public class IntentDeleteService extends IntentService {
         if(null == data) return;
         final String pkg = pkg(data);
         if(null == pkg || pkg.length() <= 0) return;
+        onNotificationRemoved(pkg);
+    }
+    
+    private void onNotificationRemoved(final String pkg){
+        IntentCaches.get().remove(pkg);
         final NotificationRecordStorage storage = new NotificationRecordStorage(this);
         storage.delete(pkg);
         storage.close();

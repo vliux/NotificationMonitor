@@ -22,17 +22,12 @@ import static com.vliux.giraffe.Constants.TAG;
  */
 
 public class IntentLaunchService extends IntentService {
-    private static final IntentCaches sCache = new IntentCaches();
 
     @Nullable
     public static PendingIntent getForNotification(@NonNull final Context context, @NonNull final String pkg, @NonNull final Uri uri){
         return PendingIntent.getService(context, 0,
                 new Intent(context, IntentLaunchService.class).setData(uri).putExtra(PKG, pkg),
                 FLAG_UPDATE_CURRENT);
-    }
-    
-    public static void cache(@NonNull final Uri uri, @NonNull final PendingIntent pendingIntent){
-        sCache.add(uri, pendingIntent);
     }
 
     public IntentLaunchService() {
@@ -43,23 +38,25 @@ public class IntentLaunchService extends IntentService {
     protected void onHandleIntent(@Nullable Intent intent) {
         if(null == intent) return;
         final Uri uri = intent.getData();
-        if(null != uri){
-            final PendingIntent pendingIntent = sCache.get(uri);
-            if(null != pendingIntent) try {
-                pendingIntent.send();
+        if(null == uri) return;
+        final String pkg = intent.getStringExtra(PKG);
+        if(null == pkg || pkg.length() <= 0) return;
+        onLaunch(pkg, uri);
+    }
+    
+    private void onLaunch(final String pkg, final Uri uri){
+        final PendingIntent pendingIntent = IntentCaches.get().getAndRemove(pkg, uri);
+        if(null != pendingIntent) try {
+            pendingIntent.send();
+            Notifications.collapseNotificationBar(this);
+        } catch (final PendingIntent.CanceledException e) {
+            Log.e(TAG, "failed to launch from PendingIntent for " + uri.toString(), e);
+        } else {
+            final Intent launcherIntent = Apps.ofLauncher(this, pkg);
+            if (null != launcherIntent) {
+                launcherIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(launcherIntent);
                 Notifications.collapseNotificationBar(this);
-            } catch (final PendingIntent.CanceledException e) {
-                Log.e(TAG, "failed to launch from PendingIntent for " + uri.toString(), e);
-            } else {
-                final String pkg = intent.getStringExtra(PKG);
-                if(null != pkg){
-                    final Intent launcherIntent = Apps.ofLauncher(this, pkg);
-                    if(null != launcherIntent) {
-                        launcherIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(launcherIntent);
-                        Notifications.collapseNotificationBar(this);
-                    }
-                }
             }
         }
     }

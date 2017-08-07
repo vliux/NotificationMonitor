@@ -7,7 +7,11 @@ package com.vliux.giraffe;
 
 public class Constants {
     public static final String TAG = "giraffe";
-    public static final int INTENT_CACHE_SIZE = 30;
+    
+    public static class IntentCache {
+        public static final int PKG_NUM = 20;
+        public static final int SUB_ITEM_NUM = 7;
+    }
 
     public static class Item {
         public static final String DOT = "•";
