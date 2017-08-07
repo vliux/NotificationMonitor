@@ -88,7 +88,7 @@ public class NotificationRecordStorage implements Closeable {
     @Nullable
     public List<NotificationRecord> get(@NonNull final String pkg){
         final Cursor cursor = mContext.getContentResolver()
-                .query(Uri.withAppendedPath(RECORD_CONTENT_URI, pkg),
+                .query(NotificationRecordProvider.fromPkg(pkg),
                 null, null, null, null);
         if(null != cursor){
             final List<NotificationRecord> records = new ArrayList<>(cursor.getCount());
@@ -124,9 +124,15 @@ public class NotificationRecordStorage implements Closeable {
         return null;
     }
 
-    public void delete(@NonNull final String pkg){
-        //// TODO: 2017/8/4  
-        throw new UnsupportedOperationException();
+    public int delete(@NonNull final String pkg){
+        if(null != mClient){
+            try {
+                return mClient.delete(NotificationRecordProvider.fromPkg(pkg), null, null);
+            } catch (final RemoteException e) {
+                Log.e(TAG, "unable to delete records of pkg: " + pkg, e);
+                return 0;
+            }
+        }else return mContext.getContentResolver().delete(NotificationRecordProvider.fromPkg(pkg), null, null);
     }
     
     public static Uri get(final int id){

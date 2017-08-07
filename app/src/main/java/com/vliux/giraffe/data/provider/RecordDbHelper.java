@@ -11,14 +11,15 @@ import static com.vliux.giraffe.data.NotificationRecord.*;
 
 /**
  * Created by vliux on 17/7/6.
+ * @author vliux
  */
 
-public class RecordDbHelper extends SQLiteOpenHelper {
+class RecordDbHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "notif_records";
     private static final int VERSION = 1;
     private static final String[] COLOLUMS = new String[]{COL_ID, COL_PKG, COL_TITLE, COL_TEXT, COL_TIME};
     
-    public RecordDbHelper(final Context context){
+    RecordDbHelper(final Context context){
         super(context, DB_NAME, null, VERSION);
     }
     
@@ -37,7 +38,7 @@ public class RecordDbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
     
-    public Cursor queryRecords(){
+    Cursor queryRecords(){
         return getReadableDatabase().query(DB_TABLE, COLOLUMS,
                 null, null,
                 null,
@@ -45,7 +46,7 @@ public class RecordDbHelper extends SQLiteOpenHelper {
                 COL_TIME + " desc");
     }
     
-    public Cursor queryRecord(@NonNull final String pkg){
+    Cursor queryRecord(@NonNull final String pkg){
         return getReadableDatabase().query(DB_TABLE, COLOLUMS,
                 COL_PKG + "=?", new String[]{pkg},
                 null,
@@ -53,7 +54,11 @@ public class RecordDbHelper extends SQLiteOpenHelper {
                 COL_TIME + " desc");
     }
     
-    public long insertRecord(@NonNull final ContentValues cv){
+    long insertRecord(@NonNull final ContentValues cv){
         return getWritableDatabase().insert(DB_TABLE, null, cv);
+    }
+    
+    int deleteRecord(@NonNull final String pkg){
+        return getWritableDatabase().delete(DB_TABLE, COL_PKG + "=?", new String[]{pkg});
     }
 }

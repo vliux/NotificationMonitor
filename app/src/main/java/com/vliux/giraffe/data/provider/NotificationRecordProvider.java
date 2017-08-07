@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Created by vliux on 17/7/6.
+ * @author vliux
  */
 
 public class NotificationRecordProvider extends ContentProvider {
@@ -43,16 +44,20 @@ public class NotificationRecordProvider extends ContentProvider {
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
-        switch (getType(uri)){
-            case TYPE_RECORDS:
-                return mDbHelper.queryRecords();
-            case TYPE_SINGLE_RECORD:
-                final String pkg = toPkg(uri);
-                if(null != pkg) return mDbHelper.queryRecord(pkg);
-                else return null;
-            default:
-                return null;
+        final String type = getType(uri);
+        if(null != type) {
+            switch (type) {
+                case TYPE_RECORDS:
+                    return mDbHelper.queryRecords();
+                case TYPE_SINGLE_RECORD:
+                    final String pkg = toPkg(uri);
+                    if (null != pkg) return mDbHelper.queryRecord(pkg);
+                    else return null;
+                default:
+                    return null;
+            }
         }
+        return null;
     }
     
     @Nullable
@@ -72,15 +77,19 @@ public class NotificationRecordProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-        final long id = mDbHelper.insertRecord(values);
-        if(id >= 0L){
-            return Uri.withAppendedPath(RECORD_CONTENT_URI, String.valueOf(id));
+        if(null != values) {
+            final long id = mDbHelper.insertRecord(values);
+            if (id >= 0L) {
+                return Uri.withAppendedPath(RECORD_CONTENT_URI, String.valueOf(id));
+            } else return null;
         }else return null;
     }
     
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+        final String pkg = toPkg(uri);
+        if(null != pkg) return mDbHelper.deleteRecord(pkg);
+        else return 0;
     }
     
     @Override
@@ -95,5 +104,7 @@ public class NotificationRecordProvider extends ContentProvider {
         else return null;
     }
     
-    private static final String TAG = "NotifRecords";
+    public static Uri fromPkg(final String pkg){
+        return Uri.withAppendedPath(RECORD_CONTENT_URI, pkg);
+    }
 }
