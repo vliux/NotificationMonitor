@@ -83,6 +83,7 @@ public class NotificationRecordStorage implements Closeable {
                 }else {
                     lastRecord = NotificationRecord.fromStorage(id, pkg, title, text, time);
                     records.add(lastRecord);
+                    mergedNum = 0;
                 }
             }
         }
