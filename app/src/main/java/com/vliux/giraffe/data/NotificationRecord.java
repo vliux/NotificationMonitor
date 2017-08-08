@@ -1,5 +1,8 @@
 package com.vliux.giraffe.data;
 
+import com.google.common.base.Optional;
+import com.vliux.giraffe.Constants;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +23,7 @@ public class NotificationRecord {
     private final String title;
     private String text;
     private final long time;
-    private List<NotificationRecord> mMerged;
+    private Optional<List<NotificationRecord>> mMerged = Optional.absent();
 
     private NotificationRecord(final int id, final String pkg, final String title, final String text, final long time) {
         this.id = id;
@@ -39,8 +42,8 @@ public class NotificationRecord {
     }
     
     public void mergeWith(final NotificationRecord record){
-        if(null == mMerged) mMerged = new ArrayList<>();
-        mMerged.add(record);
+        if(! mMerged.isPresent()) mMerged = Optional.of(new ArrayList<>(Constants.ITEM_EXTRA_SUBITEMS));
+        mMerged.get().add(record);
     }
     
     public String getPkg() {
@@ -61,5 +64,9 @@ public class NotificationRecord {
 
     public int getId() {
         return id;
+    }
+    
+    public Optional<List<NotificationRecord>> getmMerged() {
+        return mMerged;
     }
 }

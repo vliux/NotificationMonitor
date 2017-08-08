@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.vliux.giraffe.Constants;
 import com.vliux.giraffe.data.provider.NotificationRecordProvider;
 
 import java.io.Closeable;
@@ -65,6 +66,7 @@ public class NotificationRecordStorage implements Closeable {
         final Cursor cursor = mContext.getContentResolver().query(RECORD_CONTENT_URI, null, null, null, null);
         if(null != cursor){
             NotificationRecord lastRecord = null;
+            int mergedNum = 0;
             n = cursor.getCount();
             for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
                 final int id = cursor.getInt(cursor.getColumnIndex(NotificationRecord.COL_ID));
@@ -73,9 +75,11 @@ public class NotificationRecordStorage implements Closeable {
                 final String text = cursor.getString(cursor.getColumnIndex(NotificationRecord.COL_TEXT));
                 final long time = cursor.getLong(cursor.getColumnIndex(NotificationRecord.COL_TIME));
                 if(null != lastRecord
+                        && mergedNum < Constants.ITEM_EXTRA_SUBITEMS
                         && lastRecord.getPkg().equals(pkg)
                         && lastRecord.getTitle().equals(title)) {
                     lastRecord.mergeWith(NotificationRecord.fromStorage(id, pkg, title, text, time));
+                    mergedNum++;
                 }else {
                     lastRecord = NotificationRecord.fromStorage(id, pkg, title, text, time);
                     records.add(lastRecord);

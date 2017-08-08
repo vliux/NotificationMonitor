@@ -4,7 +4,7 @@
                                     xmlns:tools="http://schemas.android.com/tools"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    app:cardElevation="2dp"
+                                    app:cardElevation="1dp"
                                     android:foreground="?android:attr/selectableItemBackground"
                                     android:clickable="true"
                                     app:cardUseCompatPadding="true">
@@ -47,19 +47,49 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/item_inter_margin"
-            android:fontFamily="sans-serif"
-            android:maxHeight="120dp"
-            android:maxLines="6"
-            android:textColor="@color/hint_text_light"
-            android:textSize="@dimen/txt_normal"
+            style="@style/ItemNotifContentLine"
             tools:text="Enim consequat enim pariatur id anim Ut Excepteur dolor in laborum incididunt veniam quis proident. in consequat aliquip in minim adipisicing exercitation sunt sed qui pariatur consequat commodo ea do."
             android:clickable="false"/>
 
-        <!--<View
+        <TextView
+            android:id="@+id/tv_content_2"
             android:layout_width="match_parent"
-            android:layout_height="1px"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/item_inter_margin"
-            android:background="@color/divider_light"/> -->
+            style="@style/ItemNotifContentLine"
+            tools:text="Enim consequat enim pariatur id anim Ut Excepteur dolor in laborum incididunt veniam quis proident. in consequat aliquip in minim adipisicing exercitation sunt sed qui pariatur consequat commodo ea do."
+            android:clickable="false"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_content_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/item_inter_margin"
+            style="@style/ItemNotifContentLine"
+            tools:text="Enim consequat enim pariatur id anim Ut Excepteur dolor in laborum incididunt veniam quis proident. in consequat aliquip in minim adipisicing exercitation sunt sed qui pariatur consequat commodo ea do."
+            android:clickable="false"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_content_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/item_inter_margin"
+            style="@style/ItemNotifContentLine"
+            tools:text="Enim consequat enim pariatur id anim Ut Excepteur dolor in laborum incididunt veniam quis proident. in consequat aliquip in minim adipisicing exercitation sunt sed qui pariatur consequat commodo ea do."
+            android:clickable="false"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_content_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/item_inter_margin"
+            style="@style/ItemNotifContentLine"
+            tools:text="Enim consequat enim pariatur id anim Ut Excepteur dolor in laborum incididunt veniam quis proident. in consequat aliquip in minim adipisicing exercitation sunt sed qui pariatur consequat commodo ea do."
+            android:clickable="false"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_app"

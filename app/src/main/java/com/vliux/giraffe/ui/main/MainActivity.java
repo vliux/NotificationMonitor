@@ -45,6 +45,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.vliux.giraffe.Constants.*;
 import static com.vliux.giraffe.util.NotifPermission.*;
 
 public class MainActivity extends AppCompatActivity {
@@ -226,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
             holder.mTvTitle.setText(record.getTitle());
             holder.mTvContent.setText(record.getText());
             DateUtil.setDate(MainActivity.this, holder.mTvTime, record.getTime());
+            processSubItems(holder, record);
             loadIconAsync(record.getPkg(), holder.mTvApp);
     
             final Intent intent = Apps.ofLauncher(MainActivity.this, record.getPkg());
@@ -237,7 +239,26 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         }
-    
+        
+        private void processSubItems(final ViewHolder holder, final NotificationRecord record){
+            if(record.getmMerged().isPresent()){
+                final List<NotificationRecord> merged = record.getmMerged().get();
+                final int min = merged.size() > ITEM_EXTRA_SUBITEMS? ITEM_EXTRA_SUBITEMS : merged.size();
+                final int max = merged.size() > ITEM_EXTRA_SUBITEMS ? merged.size() : ITEM_EXTRA_SUBITEMS;
+                for(int i = 0; i < max; i++){
+                    if(i < min){
+                        final NotificationRecord r = record.getmMerged().get().get(i);
+                        TextViews.visible(holder.mTvContentExtras[i], r.getText());
+                    }else if(i < ITEM_EXTRA_SUBITEMS){
+                        TextViews.gone(holder.mTvContentExtras[i]);
+                    }
+                }
+            }else{
+                for(final TextView tv : holder.mTvContentExtras)
+                    TextViews.gone(tv);
+            }
+        }
+        
         @Override
         public int getItemCount() {
             return null != mRecords ? mRecords.size() : 0;
@@ -282,6 +303,8 @@ public class MainActivity extends AppCompatActivity {
         private TextView mTvApp;
         private TextView mTvTime;
         
+        private TextView[] mTvContentExtras = new TextView[ITEM_EXTRA_SUBITEMS];
+        
         public ViewHolder(View itemView) {
             super(itemView);
             mContainer = itemView;
@@ -289,6 +312,11 @@ public class MainActivity extends AppCompatActivity {
             mTvContent = (TextView)itemView.findViewById(R.id.tv_content);
             mTvApp = (TextView)itemView.findViewById(R.id.tv_app);
             mTvTime = (TextView)itemView.findViewById(R.id.tv_time);
+            
+            mTvContentExtras[0] = (TextView)itemView.findViewById(R.id.tv_content_2);
+            mTvContentExtras[1] = (TextView)itemView.findViewById(R.id.tv_content_3);
+            mTvContentExtras[2] = (TextView)itemView.findViewById(R.id.tv_content_4);
+            mTvContentExtras[3] = (TextView)itemView.findViewById(R.id.tv_content_5);
         }
     }
     

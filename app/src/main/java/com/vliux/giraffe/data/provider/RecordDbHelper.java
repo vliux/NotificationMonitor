@@ -43,7 +43,7 @@ class RecordDbHelper extends SQLiteOpenHelper {
                 null, null,
                 null,
                 null,
-                COL_TIME + " desc");
+                COL_ID + " desc");
     }
     
     Cursor queryRecord(@NonNull final String pkg){
@@ -51,7 +51,7 @@ class RecordDbHelper extends SQLiteOpenHelper {
                 COL_PKG + "=?", new String[]{pkg},
                 null,
                 null,
-                COL_TIME + " desc");
+                COL_ID + " desc");
     }
     
     long insertRecord(@NonNull final ContentValues cv){

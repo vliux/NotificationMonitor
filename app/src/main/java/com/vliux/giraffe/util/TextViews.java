@@ -1,6 +1,7 @@
 package com.vliux.giraffe.util;
 
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
@@ -24,5 +25,14 @@ public class TextViews {
             });
             tv.requestLayout();
         }
+    }
+    
+    public static void visible(final TextView tv, final CharSequence text){
+        tv.setText(text);
+        tv.setVisibility(View.VISIBLE);
+    }
+    
+    public static void gone(final TextView tv){
+        tv.setVisibility(View.GONE);
     }
 }

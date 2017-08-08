@@ -7,6 +7,7 @@ package com.vliux.giraffe;
 
 public class Constants {
     public static final String TAG = "giraffe";
+    public static final int ITEM_EXTRA_SUBITEMS = 4;
     
     public static class IntentCache {
         public static final int PKG_NUM = 20;
